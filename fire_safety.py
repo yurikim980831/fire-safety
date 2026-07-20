@@ -13,20 +13,34 @@ st.set_page_config(page_title="사내 소방안전관리 대시보드", layout="
 st.title("🚒 사내 소방안전관리 대시보드")
 st.markdown("---")
 
-BASE_DIR = os.path.dirname(__file__) if "__file__" in locals() else "."
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else "."
 
-@st.cache_data
+@st.cache_data(ttl=60) # 캐시를 1분으로 설정하여 업데이트 반영이 빠르게 되도록 수정
 def get_roster_data():
-    excel_path = os.path.join(BASE_DIR, "자위소방대_명단.xlsx")
-    if os.path.exists(excel_path):
+    # 파일 탐색 시 여러 경로를 모두 확인
+    possible_paths = [
+        os.path.join(BASE_DIR, "자위소방대_명단.xlsx"),
+        "자위소방대_명단.xlsx",
+        os.path.join(os.getcwd(), "자위소방대_명단.xlsx")
+    ]
+    
+    excel_path = None
+    for path in possible_paths:
+        if os.path.exists(path):
+            excel_path = path
+            break
+
+    if excel_path:
         try:
             df = pd.read_excel(excel_path)
+            # 공백 제거 처리
+            df["이름"] = df["이름"].astype(str).str.strip()
             return df
         except Exception as e:
-            st.error(f"엑셀 파일을 읽는 중 오류가 발생했습니다: {e}")
+            st.error(f"엑셀 파일 읽기 오류: {e}")
             return pd.DataFrame()
     else:
-        st.warning("⚠️ '자위소방대_명단.xlsx' 파일을 찾을 수 없습니다. 깃허브에 엑셀 파일을 올려주세요.")
+        st.error("⚠️ '자위소방대_명단.xlsx' 파일을 찾을 수 없습니다. 깃허브에 올린 파일명이 정확한지 확인해 주세요.")
         return pd.DataFrame()
 
 @st.cache_data(ttl=600)
@@ -57,14 +71,15 @@ col_left, col_right = st.columns([3, 2])
 
 with col_left:
     st.subheader("🔍 나의 자위소방대 임무 찾기")
-    search_name = st.text_input("본인 이름을 입력하고 Enter를 누르세요.", placeholder="예: 전태현, 이경진")
+    search_name = st.text_input("본인 이름을 입력하고 Enter를 누르세요.", placeholder="예: 김유리, 전태현")
     
     df_roster = get_roster_data()
     
     if search_name.strip():
         if not df_roster.empty and "이름" in df_roster.columns:
-            # 이름 검색 (띄어쓰기 오차 포함 부분 검색)
-            result = df_roster[df_roster["이름"].astype(str).str.contains(search_name.strip(), na=False)]
+            clean_search = search_name.strip()
+            result = df_roster[df_roster["이름"].str.contains(clean_search, na=False)]
+            
             if not result.empty:
                 for _, row in result.iterrows():
                     with st.container(border=True):
@@ -79,7 +94,7 @@ with col_left:
             else:
                 st.warning(f"'{search_name}' 이름으로 등록된 자위소방대원이 없습니다. 이름을 다시 확인해 주세요.")
         else:
-            st.error("명단 데이터가 비어있거나 올바르지 않습니다.")
+            st.warning("현재 명단 데이터를 불러오는 중이거나 데이터가 없습니다.")
             
     st.markdown("---")
     st.subheader("📋 2025년도 소방훈련 시나리오")

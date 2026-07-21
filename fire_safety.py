@@ -98,54 +98,54 @@ with col_left:
     
     with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=True):
         # 최상위: 대장
-        st.markdown("<div style='text-align: center; font-weight: bold; background-color: #f0f2f6; padding: 8px; border-radius: 5px; border: 1px solid #dcdcdc;'>👑 대장: CSO (안전보건총괄책임자)</div>", unsafe_allowed_html=True)
-        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allowed_html=True)
+        st.markdown("<div style='text-align: center; font-weight: bold; background-color: #f0f2f6; padding: 8px; border-radius: 5px; border: 1px solid #dcdcdc; color: #111;'>👑 대장: CSO (안전보건총괄책임자)</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allow_html=True)
         
         # 중간: 부대장 3인
         c_sub1, c_sub2, c_sub3 = st.columns(3)
         with c_sub1:
-            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #e17055; color: white;'><b>소방지휘 본부대장</b><br><small>기술본부장</small></div>", unsafe_allowed_html=True)
+            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #e17055; color: white;'><b>소방지휘 본부대장</b><br><small>기술본부장</small></div>", unsafe_allow_html=True)
         with c_sub2:
-            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #0984e3; color: white;'><b>상황 통제본부대장</b><br><small>관리본부장</small></div>", unsafe_allowed_html=True)
+            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #0984e3; color: white;'><b>상황 통제본부대장</b><br><small>관리본부장</small></div>", unsafe_allow_html=True)
         with c_sub3:
-            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #00b894; color: white;'><b>의료구호본부대장</b><br><small>사업본부장</small></div>", unsafe_allowed_html=True)
+            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #00b894; color: white;'><b>의료구호본부대장</b><br><small>사업본부장</small></div>", unsafe_allow_html=True)
             
-        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allowed_html=True)
+        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allow_html=True)
         
         # 하부: 반별 세부 조직
         b1, b2, b3, b4, b5, b6, b7, b8 = st.columns(8)
         
         with b1:
             st.caption("**지휘반**")
-            st.markdown("<small>안전환경팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>안전환경팀</small>", unsafe_allow_html=True)
         with b2:
             st.caption("**훈련/소화반**")
-            st.markdown("<small>기계팀,<br>운영팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>기계팀,<br>운영팀</small>", unsafe_allow_html=True)
         with b3:
             st.caption("**피난유도반**")
-            st.markdown("<small>계전팀,<br>네트워크팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>계전팀,<br>네트워크팀</small>", unsafe_allow_html=True)
         with b4:
             st.caption("**비상연락반**")
-            st.markdown("<small>경영기획팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>경영기획팀</small>", unsafe_allow_html=True)
         with b5:
             st.caption("**경계반**")
-            st.markdown("<small>기획재무팀,<br>DX혁신팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>기획재무팀,<br>DX혁신팀</small>", unsafe_allow_html=True)
         with b6:
             st.caption("**의료반**")
-            st.markdown("<small>ESG추진팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>ESG추진팀</small>", unsafe_allow_html=True)
         with b7:
             st.caption("**후송반**")
-            st.markdown("<small>대외협력팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>대외협력팀</small>", unsafe_allow_html=True)
         with b8:
             st.caption("**방호/복구반**")
-            st.markdown("<small>고객지원팀</small>", unsafe_allowed_html=True)
+            st.markdown("<small>고객지원팀</small>", unsafe_allow_html=True)
             
         st.markdown("---")
         st.markdown("##### 🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)")
         st.caption("※ 교대근무자 5명 + 경비원 1명")
         
-        st.markdown("<div style='text-align: center; font-weight: bold; background-color: #dfe6e9; padding: 6px; border-radius: 5px;'>임시소방대장 : 운영그룹장 (1명)</div>", unsafe_allowed_html=True)
-        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allowed_html=True)
+        st.markdown("<div style='text-align: center; font-weight: bold; background-color: #dfe6e9; padding: 6px; border-radius: 5px; color: #111;'>임시소방대장 : 운영그룹장 (1명)</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allow_html=True)
         
         n1, n2, n3 = st.columns(3)
         with n1:
@@ -291,7 +291,6 @@ with col_left:
     
     df_contacts = pd.DataFrame(contact_data)
     
-    # 구분별로 빠르게 검색/필터링할 수 있는 옵션 제공
     selected_category = st.selectbox("📂 구분별 필터 보기", ["전체 보기", "정부", "한국에너지공단", "유관기관", "인근사업장", "협력업체"])
     
     if selected_category != "전체 보기":

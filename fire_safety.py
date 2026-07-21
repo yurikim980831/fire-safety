@@ -15,32 +15,30 @@ st.markdown("---")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else "."
 
-@st.cache_data(ttl=60) # 캐시를 1분으로 설정하여 업데이트 반영이 빠르게 되도록 수정
+# 캐시 방지를 위해 cache_data 비활성화하여 즉시 파일 읽기 진행
 def get_roster_data():
-    # 파일 탐색 시 여러 경로를 모두 확인
-    possible_paths = [
-        os.path.join(BASE_DIR, "자위소방대_명단.xlsx"),
-        "자위소방대_명단.xlsx",
-        os.path.join(os.getcwd(), "자위소방대_명단.xlsx")
-    ]
+    # 현재 폴더 및 하위 폴더의 모든 xlsx 파일 검색
+    files_in_dir = [f for f in os.listdir(BASE_DIR) if f.endswith('.xlsx')]
     
-    excel_path = None
-    for path in possible_paths:
-        if os.path.exists(path):
-            excel_path = path
-            break
-
-    if excel_path:
-        try:
-            df = pd.read_excel(excel_path)
-            # 공백 제거 처리
-            df["이름"] = df["이름"].astype(str).str.strip()
-            return df
-        except Exception as e:
-            st.error(f"엑셀 파일 읽기 오류: {e}")
+    excel_path = os.path.join(BASE_DIR, "자위소방대_명단.xlsx")
+    
+    if not os.path.exists(excel_path):
+        # 대안: 한글 파일명 인식 문제 대비 첫 번째 xlsx 파일 읽기
+        if files_in_dir:
+            excel_path = os.path.join(BASE_DIR, files_in_dir[0])
+        else:
+            st.error(f"🚨 [파일 읽기 실패] 현재 폴더에서 `.xlsx` 엑셀 파일을 찾을 수 없습니다. (현재 폴더 파일 목록: {os.listdir(BASE_DIR)})")
             return pd.DataFrame()
-    else:
-        st.error("⚠️ '자위소방대_명단.xlsx' 파일을 찾을 수 없습니다. 깃허브에 올린 파일명이 정확한지 확인해 주세요.")
+
+    try:
+        df = pd.read_excel(excel_path, engine='openpyxl')
+        # 열 이름 전처리
+        df.columns = [str(c).strip() for c in df.columns]
+        if "이름" in df.columns:
+            df["이름"] = df["이름"].astype(str).str.strip()
+        return df
+    except Exception as e:
+        st.error(f"🚨 [엑셀 파일 오류] 파일을 읽는 중 에러 발생: {e}")
         return pd.DataFrame()
 
 @st.cache_data(ttl=600)
@@ -92,9 +90,9 @@ with col_left:
                         st.markdown(f"**📋 개인별 역할:**")
                         st.info(role_text)
             else:
-                st.warning(f"'{search_name}' 이름으로 등록된 자위소방대원이 없습니다. 이름을 다시 확인해 주세요.")
+                st.warning(f"'{search_name}' 이름으로 등록된 자위소방대원이 없습니다. 명단을 다시 확인해 주세요.")
         else:
-            st.warning("현재 명단 데이터를 불러오는 중이거나 데이터가 없습니다.")
+            st.warning("⚠️ 명단 파일이 비어있거나 올바르게 로드되지 않았습니다.")
             
     st.markdown("---")
     st.subheader("📋 2025년도 소방훈련 시나리오")

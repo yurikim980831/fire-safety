@@ -46,20 +46,15 @@ def get_roster_data():
         return pd.DataFrame()
 
 # -------------------------------------------------------------
-# 소방/안전 최신 보도자료 수집 함수 (RSS 방식 - 100% 동작 보장)
+# 소방/안전 최신 보도자료 수집 함수 (RSS 방식)
 # -------------------------------------------------------------
 @st.cache_data(ttl=600)
 def fetch_safety_news():
-    # 대한민국 정책브리핑 / 안전 보도자료 RSS 피드
-    rss_url = "https://www.korea.kr/rss/dept_nfa.xml" # 소방청 RSS 또는 정책브리핑 RSS
-    
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
-    
     articles = []
     
-    # 1차 시도: 소방청/정부 공식 RSS 피드
     try:
         r = requests.get("https://www.korea.kr/rss/policy.xml", headers=headers, timeout=8, verify=False)
         if r.status_code == 200:
@@ -70,12 +65,10 @@ def fetch_safety_news():
                 pub_date = item.findtext("pubDate", default="-")
                 description = item.findtext("description", default="내용 없음").strip()
                 
-                # HTML 태그 제거
                 if description:
                     soup = BeautifulSoup(description, "html.parser")
                     description = soup.get_text(strip=True)
                 
-                # 날짜 포맷 정리
                 if len(pub_date) > 16:
                     pub_date = pub_date[:16]
 
@@ -90,40 +83,83 @@ def fetch_safety_news():
     except Exception:
         pass
 
-    # 2차 시도 (대체 백업 크롤링): 소방청 직접 요청
-    if not articles:
-        try:
-            url = "https://www.nfa.go.kr/nfa/news/pressrelease/press/"
-            r = requests.get(url, headers=headers, verify=False, timeout=8)
-            if r.status_code == 200:
-                soup = BeautifulSoup(r.text, "html.parser")
-                rows = soup.select("table tbody tr")
-                for row in rows:
-                    a_tag = row.select_one("a")
-                    date_td = row.select_one("td.date")
-                    if a_tag:
-                        title = a_tag.get_text(strip=True)
-                        href = a_tag.get("href", "")
-                        link = f"https://www.nfa.go.kr{href}" if not href.startswith("http") else href
-                        date_str = date_td.get_text(strip=True) if date_td else "-"
-                        articles.append({
-                            "title": title,
-                            "link": link,
-                            "date": date_str,
-                            "content": "상세 내용은 원문 링크를 통해 확인해 주세요."
-                        })
-                        if len(articles) >= 5: break
-        except Exception:
-            pass
-
     return articles
 
 # -------------------------------------------------------------
-# 메인 레이아웃 (좌측: 검색 및 시나리오 / 우측: 대피소 및 소식)
+# 메인 레이아웃 (좌측: 조직도, 검색, 시나리오, 연락망 / 우측: 대피소 및 소식)
 # -------------------------------------------------------------
 col_left, col_right = st.columns([3, 2])
 
 with col_left:
+    # -------------------------------------------------------------
+    # 1. 비상대응 조직표 (도식화 모형 구현)
+    # -------------------------------------------------------------
+    st.subheader("🏢 비상대응 조직표")
+    
+    with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=True):
+        # 최상위: 대장
+        st.markdown("<div style='text-align: center; font-weight: bold; background-color: #f0f2f6; padding: 8px; border-radius: 5px; border: 1px solid #dcdcdc;'>👑 대장: CSO (안전보건총괄책임자)</div>", unsafe_allowed_html=True)
+        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allowed_html=True)
+        
+        # 중간: 부대장 3인
+        c_sub1, c_sub2, c_sub3 = st.columns(3)
+        with c_sub1:
+            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #e17055; color: white;'><b>소방지휘 본부대장</b><br><small>기술본부장</small></div>", unsafe_allowed_html=True)
+        with c_sub2:
+            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #0984e3; color: white;'><b>상황 통제본부대장</b><br><small>관리본부장</small></div>", unsafe_allowed_html=True)
+        with c_sub3:
+            st.markdown("<div style='text-align: center; border: 1px solid #b2bec3; padding: 6px; border-radius: 5px; background-color: #00b894; color: white;'><b>의료구호본부대장</b><br><small>사업본부장</small></div>", unsafe_allowed_html=True)
+            
+        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allowed_html=True)
+        
+        # 하부: 반별 세부 조직
+        b1, b2, b3, b4, b5, b6, b7, b8 = st.columns(8)
+        
+        with b1:
+            st.caption("**지휘반**")
+            st.markdown("<small>안전환경팀</small>", unsafe_allowed_html=True)
+        with b2:
+            st.caption("**훈련/소화반**")
+            st.markdown("<small>기계팀,<br>운영팀</small>", unsafe_allowed_html=True)
+        with b3:
+            st.caption("**피난유도반**")
+            st.markdown("<small>계전팀,<br>네트워크팀</small>", unsafe_allowed_html=True)
+        with b4:
+            st.caption("**비상연락반**")
+            st.markdown("<small>경영기획팀</small>", unsafe_allowed_html=True)
+        with b5:
+            st.caption("**경계반**")
+            st.markdown("<small>기획재무팀,<br>DX혁신팀</small>", unsafe_allowed_html=True)
+        with b6:
+            st.caption("**의료반**")
+            st.markdown("<small>ESG추진팀</small>", unsafe_allowed_html=True)
+        with b7:
+            st.caption("**후송반**")
+            st.markdown("<small>대외협력팀</small>", unsafe_allowed_html=True)
+        with b8:
+            st.caption("**방호/복구반**")
+            st.markdown("<small>고객지원팀</small>", unsafe_allowed_html=True)
+            
+        st.markdown("---")
+        st.markdown("##### 🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)")
+        st.caption("※ 교대근무자 5명 + 경비원 1명")
+        
+        st.markdown("<div style='text-align: center; font-weight: bold; background-color: #dfe6e9; padding: 6px; border-radius: 5px;'>임시소방대장 : 운영그룹장 (1명)</div>", unsafe_allowed_html=True)
+        st.markdown("<div style='text-align: center; color: #888;'>│</div>", unsafe_allowed_html=True)
+        
+        n1, n2, n3 = st.columns(3)
+        with n1:
+            st.info("**비상연락반**\n\nCCR근무자 (2명)")
+        with n2:
+            st.warning("**소화반**\n\n현장근무자 (2명)")
+        with n3:
+            st.success("**소방대유도반**\n\n경비원 (1명)")
+
+    st.markdown("---")
+
+    # -------------------------------------------------------------
+    # 2. 나의 자위소방대 임무 찾기
+    # -------------------------------------------------------------
     st.subheader("🔍 나의 자위소방대 임무 찾기")
     search_name = st.text_input("본인 이름을 입력하고 Enter를 누르세요.", placeholder="예: 홍길동")
     
@@ -153,7 +189,7 @@ with col_left:
     st.markdown("---")
     
     # -------------------------------------------------------------
-    # 25년 하반기 소방훈련 세부 시나리오 (4개 탭)
+    # 3. 25년 하반기 소방훈련 세부 시나리오 (4개 탭)
     # -------------------------------------------------------------
     st.subheader("📋 25년 하반기 소방훈련 세부 시나리오")
     st.caption("🚨 **상황:** 정문 주차장 급속충전 중인 전기차량('코나') 화재 발생")
@@ -220,6 +256,52 @@ with col_left:
                 st.warning(f"📷 `{file_candidates[0]}` 이미지 파일이 올라오면 이곳에 **[{caption}]** 이미지가 표시됩니다.")
 
     st.markdown("---")
+    
+    # -------------------------------------------------------------
+    # 4. 사고대응 유관기관 비상연락체계 (신규 섹션)
+    # -------------------------------------------------------------
+    st.subheader("📞 사고대응 유관기관 비상연락체계")
+    
+    contact_data = [
+        {"구분": "정부", "명칭(담당자)": "신산업 분산에너지과", "전화번호": "044-203-3927", "비고": "산업통상자원부"},
+        {"구분": "정부", "명칭(담당자)": "중부지방고용노동청", "전화번호": "032-460-6248", "비고": "고용노동부"},
+        {"구분": "정부", "명칭(담당자)": "중대산업사고예방센터", "전화번호": "031-364-7508", "비고": "고용노동부"},
+        {"구분": "정부", "명칭(담당자)": "시흥화학재난합동방재센터", "전화번호": "031-470-2454", "비고": ""},
+        {"구분": "한국에너지공단", "명칭(담당자)": "분산에너지실", "전화번호": "010-5589-3342", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "산업안전보건공단 인천광역본부", "전화번호": "032-510-0500", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "인천광역시 안전상황실", "전화번호": "032-440-1881", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "연수구청 재난안전본부", "전화번호": "080-040-3650", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "송도 119안전센터", "전화번호": "032-810-6683", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "경찰민원 콜센터", "전화번호": "182", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "송도국제도시 지구대", "전화번호": "032-822-1112", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "한국가스공사 인천지역본부", "전화번호": "주간) 032-453-6637\n야간) 032-453-6555", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "한국가스안전공사 인천본부", "전화번호": "032-435-1525", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "한국전기안전공사 인천본부", "전화번호": "032-290-7000", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "한국전력 송도변전소", "전화번호": "031-363-5356", "비고": ""},
+        {"구분": "유관기관", "명칭(담당자)": "삼천리 종합상황실", "전화번호": "080-3002-118", "비고": ""},
+        {"구분": "인근사업장", "명칭(담당자)": "셀트리온", "전화번호": "032-850-5119", "비고": ""},
+        {"구분": "인근사업장", "명칭(담당자)": "공영차고지", "전화번호": "032-814-0900", "비고": ""},
+        {"구분": "인근사업장", "명칭(담당자)": "송도하수처리장", "전화번호": "032-899-4658", "비고": ""},
+        {"구분": "인근사업장", "명칭(담당자)": "KD Corporation", "전화번호": "031-499-0815", "비고": ""},
+        {"구분": "협력업체", "명칭(담당자)": "이우현 소장", "전화번호": "010-2310-9417", "비고": "소장"},
+        {"구분": "협력업체", "명칭(담당자)": "신재을 팀장", "전화번호": "010-6220-0913", "비고": "기계 관리감독자"},
+        {"구분": "협력업체", "명칭(담당자)": "신명규 팀장", "전화번호": "010-8501-4325", "비고": "전기 관리감독자"},
+        {"구분": "협력업체", "명칭(담당자)": "김요한 팀장", "전화번호": "010-4109-5114", "비고": "계전 관리감독자"},
+    ]
+    
+    df_contacts = pd.DataFrame(contact_data)
+    
+    # 구분별로 빠르게 검색/필터링할 수 있는 옵션 제공
+    selected_category = st.selectbox("📂 구분별 필터 보기", ["전체 보기", "정부", "한국에너지공단", "유관기관", "인근사업장", "협력업체"])
+    
+    if selected_category != "전체 보기":
+        filtered_df = df_contacts[df_contacts["구분"] == selected_category]
+    else:
+        filtered_df = df_contacts
+
+    st.dataframe(filtered_df, use_container_width=True, hide_index=True)
+
+    st.markdown("---")
     st.subheader("🧯 올바른 소화기 사용법 (P.A.S.S.)")
     st.markdown("1. **P (Pull the pin):** 안전핀을 뽑습니다.\n2. **A (Aim at the base):** 불이 난 곳을 향해 조준합니다.\n3. **S (Squeeze the lever):** 손잡이를 힘껏 움켜쥡니다.\n4. **S (Sweep side to side):** 좌우로 골고루 분사합니다.")
 
@@ -230,7 +312,7 @@ with col_right:
         st.markdown("**관리동 1층 정문 (훈련 집결지)**\n* 건물에서 빠져나와 즉시 집결하여 팀별 인원 파악을 실시하는 장소입니다.")
         
         img1_path = os.path.join(BASE_DIR, "shelter1_1.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter1_1.jpg")) else os.path.join(BASE_DIR, "shelter1_1.jpg.jpg")
-        img2_path = os.path.join(BASE_DIR, "shelter2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter1_2.jpg")) else os.path.join(BASE_DIR, "shelter1_2.jpg.jpg")
+        img2_path = os.path.join(BASE_DIR, "shelter1_2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter1_2.jpg")) else os.path.join(BASE_DIR, "shelter1_2.jpg.jpg")
         
         if os.path.exists(img1_path): st.image(img1_path, caption="1차 대피소 현장 위치 및 전경", use_container_width=True)
         if os.path.exists(img2_path): st.image(img2_path, caption="1차 대피소 비상 피난 동선 도면", use_container_width=True)
@@ -245,7 +327,7 @@ with col_right:
     st.markdown("---")
     
     # -------------------------------------------------------------
-    # 대시보드 내에서 바로 내용(본문 요약)을 볼 수 있는 보도자료
+    # 보도자료 수집
     # -------------------------------------------------------------
     st.subheader("📰 최신 소방/안전 보도자료")
     releases = fetch_safety_news()

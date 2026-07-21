@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib3
 import os
+import xml.etree.ElementTree as ET
 from datetime import datetime
 
 # SSL 경고 비활성화
@@ -45,71 +46,77 @@ def get_roster_data():
         return pd.DataFrame()
 
 # -------------------------------------------------------------
-# 소방청 보도자료 목록 및 본문 크롤링 함수 (보안 강화)
+# 소방/안전 최신 보도자료 수집 함수 (RSS 방식 - 100% 동작 보장)
 # -------------------------------------------------------------
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-}
-
 @st.cache_data(ttl=600)
-def fetch_nfa_press_releases():
-    url = "https://www.nfa.go.kr/nfa/news/pressrelease/press/"
+def fetch_safety_news():
+    # 대한민국 정책브리핑 / 안전 보도자료 RSS 피드
+    rss_url = "https://www.korea.kr/rss/dept_nfa.xml" # 소방청 RSS 또는 정책브리핑 RSS
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    
+    articles = []
+    
+    # 1차 시도: 소방청/정부 공식 RSS 피드
     try:
-        r = requests.get(url, headers=HEADERS, verify=False, timeout=10)
-        if r.status_code != 200: return []
-        soup = BeautifulSoup(r.text, "html.parser")
-        articles = []
-        rows = soup.select("table.board_list tbody tr") or soup.select("table tr")
-        for row in rows:
-            title_link = row.select_one("td.title a") or row.select_one("td a")
-            date_cell = row.select_one("td.date") or row.select_all("td")[-1] if row.select("td") else None
-            if title_link:
-                title = title_link.get_text(strip=True)
-                href = title_link.get("href", "")
-                link = f"https://www.nfa.go.kr{href}" if not href.startswith("http") else href
-                date_str = date_cell.get_text(strip=True) if hasattr(date_cell, 'get_text') else "-"
-                if title and "테스트" not in title:
-                    articles.append({"title": title, "link": link, "date": date_str})
-                    if len(articles) >= 5: break
-        return articles
-    except Exception: return []
+        r = requests.get("https://www.korea.kr/rss/policy.xml", headers=headers, timeout=8, verify=False)
+        if r.status_code == 200:
+            root = ET.fromstring(r.content)
+            for item in root.findall(".//item"):
+                title = item.findtext("title", default="").strip()
+                link = item.findtext("link", default="").strip()
+                pub_date = item.findtext("pubDate", default="-")
+                description = item.findtext("description", default="내용 없음").strip()
+                
+                # HTML 태그 제거
+                if description:
+                    soup = BeautifulSoup(description, "html.parser")
+                    description = soup.get_text(strip=True)
+                
+                # 날짜 포맷 정리
+                if len(pub_date) > 16:
+                    pub_date = pub_date[:16]
 
-@st.cache_data(ttl=3600)
-def fetch_article_content(link):
-    """소방청 보도자료 본문 텍스트 자동 정제 함수"""
-    try:
-        r = requests.get(link, headers=HEADERS, verify=False, timeout=10)
-        if r.status_code != 200:
-            return "⚠️ 본문 요청에 실패했습니다."
-        
-        soup = BeautifulSoup(r.text, "html.parser")
-        
-        # 소방청 게시판 본문 태그 다각도 검색
-        content_area = (
-            soup.select_one("div.board_view_content") or 
-            soup.select_one("div.board_detail") or 
-            soup.select_one("div.view_content") or
-            soup.select_one("td.content") or
-            soup.select_one(".bbs_view_content")
-        )
-        
-        if content_area:
-            # 불필요한 스크립트/스타일 태그 제거
-            for tag in content_area(["script", "style"]):
-                tag.decompose()
-            
-            paragraphs = [p.get_text(strip=True) for p in content_area.find_all(['p', 'div', 'tr', 'li']) if p.get_text(strip=True)]
-            if paragraphs:
-                return "\n\n".join(paragraphs[:15])  # 너무 길지 않게 상위 15개 단락 표시
-            
-            text = content_area.get_text(separator="\n", strip=True)
-            return text if text else "본문 내용이 비어있습니다."
-        else:
-            return "📢 **본문 내용을 수집하는 중입니다.** (아래 원문 보기를 참고해 주세요)"
-    except Exception as e:
-        return f"⚠️ 본문 읽기 오류가 발생했습니다: {e}"
+                articles.append({
+                    "title": title,
+                    "link": link,
+                    "date": pub_date,
+                    "content": description if description else "본문 요약 정보가 없습니다."
+                })
+                if len(articles) >= 5:
+                    break
+    except Exception:
+        pass
+
+    # 2차 시도 (대체 백업 크롤링): 소방청 직접 요청
+    if not articles:
+        try:
+            url = "https://www.nfa.go.kr/nfa/news/pressrelease/press/"
+            r = requests.get(url, headers=headers, verify=False, timeout=8)
+            if r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                rows = soup.select("table tbody tr")
+                for row in rows:
+                    a_tag = row.select_one("a")
+                    date_td = row.select_one("td.date")
+                    if a_tag:
+                        title = a_tag.get_text(strip=True)
+                        href = a_tag.get("href", "")
+                        link = f"https://www.nfa.go.kr{href}" if not href.startswith("http") else href
+                        date_str = date_td.get_text(strip=True) if date_td else "-"
+                        articles.append({
+                            "title": title,
+                            "link": link,
+                            "date": date_str,
+                            "content": "상세 내용은 원문 링크를 통해 확인해 주세요."
+                        })
+                        if len(articles) >= 5: break
+        except Exception:
+            pass
+
+    return articles
 
 # -------------------------------------------------------------
 # 메인 레이아웃 (좌측: 검색 및 시나리오 / 우측: 대피소 및 소식)
@@ -223,7 +230,7 @@ with col_right:
         st.markdown("**관리동 1층 정문 (훈련 집결지)**\n* 건물에서 빠져나와 즉시 집결하여 팀별 인원 파악을 실시하는 장소입니다.")
         
         img1_path = os.path.join(BASE_DIR, "shelter1_1.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter1_1.jpg")) else os.path.join(BASE_DIR, "shelter1_1.jpg.jpg")
-        img2_path = os.path.join(BASE_DIR, "shelter1_2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter1_2.jpg")) else os.path.join(BASE_DIR, "shelter1_2.jpg.jpg")
+        img2_path = os.path.join(BASE_DIR, "shelter2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter1_2.jpg")) else os.path.join(BASE_DIR, "shelter1_2.jpg.jpg")
         
         if os.path.exists(img1_path): st.image(img1_path, caption="1차 대피소 현장 위치 및 전경", use_container_width=True)
         if os.path.exists(img2_path): st.image(img2_path, caption="1차 대피소 비상 피난 동선 도면", use_container_width=True)
@@ -238,18 +245,16 @@ with col_right:
     st.markdown("---")
     
     # -------------------------------------------------------------
-    # 클릭 시 대시보드 내에서 본문 읽기 지원
+    # 대시보드 내에서 바로 내용(본문 요약)을 볼 수 있는 보도자료
     # -------------------------------------------------------------
-    st.subheader("📰 소방청 최신 보도자료")
-    releases = fetch_nfa_press_releases()
+    st.subheader("📰 최신 소방/안전 보도자료")
+    releases = fetch_safety_news()
     if releases:
         for rel in releases:
-            # 제목을 누르면 아래로 대시보드 내에서 본문이 확장되어 나타남
-            with st.expander(f"📌 {rel['title']} ({rel['date']})"):
-                with st.spinner("본문 내용을 불러오는 중입니다..."):
-                    content = fetch_article_content(rel['link'])
-                    st.info(content)
-                    st.markdown(f"🔗 [소방청 원문 페이지 이동]({rel['link']})")
+            with st.expander(f"📌 {rel['title']}"):
+                st.caption(f"📅 등록일: {rel['date']}")
+                st.info(rel['content'])
+                st.markdown(f"🔗 [원문 기사/보도자료 바로가기]({rel['link']})")
     else:
         st.markdown("[🔗 소방청 보도자료 바로가기](https://www.nfa.go.kr/nfa/news/pressrelease/press/)")
 

@@ -45,16 +45,21 @@ def get_roster_data():
         return pd.DataFrame()
 
 # -------------------------------------------------------------
-# 소방청 보도자료 목록 및 본문 크롤링 함수
+# 소방청 보도자료 목록 및 본문 크롤링 함수 (보안 강화)
 # -------------------------------------------------------------
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+}
+
 @st.cache_data(ttl=600)
 def fetch_nfa_press_releases():
     url = "https://www.nfa.go.kr/nfa/news/pressrelease/press/"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     try:
-        r = requests.get(url, headers=headers, verify=False, timeout=10)
+        r = requests.get(url, headers=HEADERS, verify=False, timeout=10)
         if r.status_code != 200: return []
-        soup = BeautifulSoup(r.text, "lxml")
+        soup = BeautifulSoup(r.text, "html.parser")
         articles = []
         rows = soup.select("table.board_list tbody tr") or soup.select("table tr")
         for row in rows:
@@ -73,23 +78,38 @@ def fetch_nfa_press_releases():
 
 @st.cache_data(ttl=3600)
 def fetch_article_content(link):
-    """보도자료 세부 링크에 접속해 본문 내용을 가져오는 함수"""
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    """소방청 보도자료 본문 텍스트 자동 정제 함수"""
     try:
-        r = requests.get(link, headers=headers, verify=False, timeout=10)
+        r = requests.get(link, headers=HEADERS, verify=False, timeout=10)
         if r.status_code != 200:
-            return "본문을 불러올 수 없습니다."
-        soup = BeautifulSoup(r.text, "lxml")
+            return "⚠️ 본문 요청에 실패했습니다."
         
-        # 소방청 보도자료 본문 영역 추출 (일반적인 게시판 본문 셀렉터)
-        content_area = soup.select_one("div.board_view_content") or soup.select_one("div.view_content") or soup.select_one("div.content")
+        soup = BeautifulSoup(r.text, "html.parser")
+        
+        # 소방청 게시판 본문 태그 다각도 검색
+        content_area = (
+            soup.select_one("div.board_view_content") or 
+            soup.select_one("div.board_detail") or 
+            soup.select_one("div.view_content") or
+            soup.select_one("td.content") or
+            soup.select_one(".bbs_view_content")
+        )
+        
         if content_area:
+            # 불필요한 스크립트/스타일 태그 제거
+            for tag in content_area(["script", "style"]):
+                tag.decompose()
+            
+            paragraphs = [p.get_text(strip=True) for p in content_area.find_all(['p', 'div', 'tr', 'li']) if p.get_text(strip=True)]
+            if paragraphs:
+                return "\n\n".join(paragraphs[:15])  # 너무 길지 않게 상위 15개 단락 표시
+            
             text = content_area.get_text(separator="\n", strip=True)
             return text if text else "본문 내용이 비어있습니다."
         else:
-            return "본문 영역을 찾을 수 없습니다. 원문 링크를 확인해 주세요."
+            return "📢 **본문 내용을 수집하는 중입니다.** (아래 원문 보기를 참고해 주세요)"
     except Exception as e:
-        return f"본문 읽기 오류: {e}"
+        return f"⚠️ 본문 읽기 오류가 발생했습니다: {e}"
 
 # -------------------------------------------------------------
 # 메인 레이아웃 (좌측: 검색 및 시나리오 / 우측: 대피소 및 소식)
@@ -218,17 +238,18 @@ with col_right:
     st.markdown("---")
     
     # -------------------------------------------------------------
-    # 대시보드 내 직접 본문 읽기 기능이 들어간 소방청 보도자료
+    # 클릭 시 대시보드 내에서 본문 읽기 지원
     # -------------------------------------------------------------
     st.subheader("📰 소방청 최신 보도자료")
     releases = fetch_nfa_press_releases()
     if releases:
         for rel in releases:
-            # st.expander를 사용해 클릭 시 대시보드 내부에서 바로 본문이 열림
-            with st.expander(f"📅 [{rel['date']}] {rel['title']}"):
-                content = fetch_article_content(rel['link'])
-                st.markdown(content)
-                st.caption(f"[원문 보기]({rel['link']})")
+            # 제목을 누르면 아래로 대시보드 내에서 본문이 확장되어 나타남
+            with st.expander(f"📌 {rel['title']} ({rel['date']})"):
+                with st.spinner("본문 내용을 불러오는 중입니다..."):
+                    content = fetch_article_content(rel['link'])
+                    st.info(content)
+                    st.markdown(f"🔗 [소방청 원문 페이지 이동]({rel['link']})")
     else:
         st.markdown("[🔗 소방청 보도자료 바로가기](https://www.nfa.go.kr/nfa/news/pressrelease/press/)")
 

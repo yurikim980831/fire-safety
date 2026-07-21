@@ -15,30 +15,24 @@ st.markdown("---")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else "."
 
-# 캐시 방지를 위해 cache_data 비활성화하여 즉시 파일 읽기 진행
 def get_roster_data():
-    # 현재 폴더 및 하위 폴더의 모든 xlsx 파일 검색
-    files_in_dir = [f for f in os.listdir(BASE_DIR) if f.endswith('.xlsx')]
-    
-    excel_path = os.path.join(BASE_DIR, "자위소방대_명단.xlsx")
-    
+    # 영문 파일명(roster.xlsx) 우선 조회, 없으면 한글 파일명 조회
+    excel_path = os.path.join(BASE_DIR, "roster.xlsx")
     if not os.path.exists(excel_path):
-        # 대안: 한글 파일명 인식 문제 대비 첫 번째 xlsx 파일 읽기
-        if files_in_dir:
-            excel_path = os.path.join(BASE_DIR, files_in_dir[0])
-        else:
-            st.error(f"🚨 [파일 읽기 실패] 현재 폴더에서 `.xlsx` 엑셀 파일을 찾을 수 없습니다. (현재 폴더 파일 목록: {os.listdir(BASE_DIR)})")
+        excel_path = os.path.join(BASE_DIR, "자위소방대_명단.xlsx")
+    
+    if os.path.exists(excel_path):
+        try:
+            df = pd.read_excel(excel_path, engine='openpyxl')
+            df.columns = [str(c).strip() for c in df.columns]
+            if "이름" in df.columns:
+                df["이름"] = df["이름"].astype(str).str.strip()
+            return df
+        except Exception as e:
+            st.error(f"🚨 [엑셀 파일 오류] {e}")
             return pd.DataFrame()
-
-    try:
-        df = pd.read_excel(excel_path, engine='openpyxl')
-        # 열 이름 전처리
-        df.columns = [str(c).strip() for c in df.columns]
-        if "이름" in df.columns:
-            df["이름"] = df["이름"].astype(str).str.strip()
-        return df
-    except Exception as e:
-        st.error(f"🚨 [엑셀 파일 오류] 파일을 읽는 중 에러 발생: {e}")
+    else:
+        st.error(f"🚨 엑셀 파일(roster.xlsx)을 찾을 수 없습니다. (현재 폴더 파일: {os.listdir(BASE_DIR)})")
         return pd.DataFrame()
 
 @st.cache_data(ttl=600)

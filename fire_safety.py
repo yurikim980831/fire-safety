@@ -28,7 +28,7 @@ def get_roster_data():
         elif os.path.exists(kr_path):
             df = pd.read_excel(kr_path, engine='openpyxl')
         else:
-            st.error("🚨 명단 파일(roster.csv)을 찾을 수 없습니다. 깃허브에 파일이 올라갔는지 확인해 주세요.")
+            st.error("🚨 명단 파일을 찾을 수 없습니다. roster.csv 또는 roster.xlsx 파일이 존재하는지 확인해 주세요.")
             return pd.DataFrame()
 
         df.columns = [str(c).strip() for c in df.columns]
@@ -67,7 +67,8 @@ col_left, col_right = st.columns([3, 2])
 
 with col_left:
     st.subheader("🔍 나의 자위소방대 임무 찾기")
-    search_name = st.text_input("본인 이름을 입력하고 Enter를 누르세요.", placeholder="예: 김유리, 전태현")
+    # 예시 이름을 '홍길동'으로 변경하였습니다.
+    search_name = st.text_input("본인 이름을 입력하고 Enter를 누르세요.", placeholder="예: 홍길동")
     
     df_roster = get_roster_data()
     

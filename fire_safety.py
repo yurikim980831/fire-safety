@@ -47,7 +47,7 @@ def get_roster_data():
         return pd.DataFrame()
 
 # -------------------------------------------------------------
-# 소방/안전 최신 보도자료 수집 함수 (안정성 보완)
+# 소방/안전 최신 보도자료 수집 함수
 # -------------------------------------------------------------
 @st.cache_data(ttl=300)
 def fetch_safety_news():
@@ -56,7 +56,6 @@ def fetch_safety_news():
     }
     articles = []
     
-    # 시도할 RSS 피드 목록 (우선순위 순)
     target_urls = [
         "https://www.korea.kr/rss/policy.xml",
         "https://www.korea.kr/rss/dept_nfa.xml",
@@ -98,121 +97,7 @@ def fetch_safety_news():
     return articles
 
 # =============================================================
-# [섹션 1] 비상대응 조직표 (깔끔한 카드형 리디자인)
-# =============================================================
-st.subheader("🏢 비상대응 조직표")
-
-with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 접기/펼치기)", expanded=True):
-    # CSS 스타일 지정 (깔끔하고 신뢰감 주는 디자인)
-    st.markdown("""
-        <style>
-        .org-box {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 10px;
-        }
-        .org-header {
-            font-weight: bold;
-            font-size: 14px;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 4px;
-            margin-bottom: 6px;
-        }
-        .org-sub {
-            font-size: 12px;
-            color: #666;
-        }
-        .org-top {
-            background-color: #f8f9fa;
-            border-top: 4px solid #2c3e50;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # 1. 최상위: 대장
-    st.markdown("""
-        <div class="org-box org-top" style="max-width: 500px; margin: 0 auto 15px auto;">
-            <div style="font-size: 16px; font-weight: bold; color: #1e293b;">👑 대장 : CSO (안전보건총괄책임자)</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # 2. 부대장 3인
-    c_sub1, c_sub2, c_sub3 = st.columns(3)
-    with c_sub1:
-        st.markdown("""
-            <div class="org-box" style="border-top: 3px solid #e74c3c;">
-                <div class="org-header" style="border-bottom-color: #e74c3c;">소방지휘 본부대장</div>
-                <div class="org-sub">기술본부장</div>
-            </div>
-        """, unsafe_allow_html=True)
-    with c_sub2:
-        st.markdown("""
-            <div class="org-box" style="border-top: 3px solid #2980b9;">
-                <div class="org-header" style="border-bottom-color: #2980b9;">상황 통제본부대장</div>
-                <div class="org-sub">관리본부장</div>
-            </div>
-        """, unsafe_allow_html=True)
-    with c_sub3:
-        st.markdown("""
-            <div class="org-box" style="border-top: 3px solid #27ae60;">
-                <div class="org-header" style="border-bottom-color: #27ae60;">의료구호 본부대장</div>
-                <div class="org-sub">사업본부장</div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
-
-    # 3. 하부 반별 세부 조직 (8개 반)
-    teams = [
-        ("지휘반", "안전환경팀"),
-        ("훈련 및 소화반", "기계팀, 운영팀"),
-        ("피난유도반", "계전팀, 네트워크팀"),
-        ("비상연락반", "조직문화팀"),  # 경영기획팀 -> 조직문화팀 반영
-        ("경계반", "기획재무팀, DX혁신팀"),
-        ("의료반", "ESG추진팀"),
-        ("후송반", "대외협력팀"),
-        ("방호 및 복구반", "고객지원팀")
-    ]
-    
-    cols = st.columns(4)
-    for idx, (title, dept) in enumerate(teams):
-        with cols[idx % 4]:
-            st.markdown(f"""
-                <div class="org-box">
-                    <div class="org-header">{title}</div>
-                    <div class="org-sub">{dept}</div>
-                </div>
-            """, unsafe_allow_html=True)
-
-    st.markdown("---")
-    
-    # 4. 야간 및 공휴일 비상대응 조직
-    st.markdown("##### 🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)")
-    st.caption("※ 교대근무자 5명 + 경비원 1명")
-    
-    st.markdown("""
-        <div class="org-box" style="max-width: 400px; margin: 0 auto 10px auto; background-color: #f1f5f9;">
-            <div style="font-weight: bold; color: #334155;">임시소방대장 : 운영그룹장 (1명)</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    n1, n2, n3 = st.columns(3)
-    with n1:
-        st.info("**비상연락반**\n\nCCR근무자 (2명)")
-    with n2:
-        st.warning("**소화반**\n\n현장근무자 (2명)")
-    with n3:
-        st.success("**소방대유도반**\n\n경비원 (1명)")
-
-st.markdown("---")
-
-# =============================================================
-# [섹션 2] 나의 자위소방대 임무 찾기
+# [섹션 1] 나의 자위소방대 임무 찾기 (최상단 배치)
 # =============================================================
 st.subheader("🔍 나의 자위소방대 임무 찾기")
 search_name = st.text_input("본인 이름을 입력하고 Enter를 누르세요.", placeholder="예: 홍길동")
@@ -239,6 +124,167 @@ if search_name.strip():
             st.warning(f"'{search_name}' 이름으로 등록된 자위소방대원이 없습니다. 명단을 다시 확인해 주세요.")
     else:
         st.warning("⚠️ 명단 파일이 비어있거나 올바르게 로드되지 않았습니다.")
+
+st.markdown("---")
+
+# =============================================================
+# [섹션 2] 비상대응 조직표 (초기 접힘 / 깔끔한 계층 선 디자인)
+# =============================================================
+st.subheader("🏢 비상대응 조직표")
+
+with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=False):
+    # 깔끔한 계층선 및 조직도 스타일링 CSS
+    st.markdown("""
+        <style>
+        .tree-top {
+            border: 2px solid #1e293b;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #0f172a;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .v-line {
+            width: 2px;
+            background-color: #cbd5e1;
+            height: 20px;
+            margin: 0 auto;
+        }
+        .h-line {
+            border-top: 2px solid #cbd5e1;
+            width: 70%;
+            margin: 0 auto;
+        }
+        .dept-card {
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+        }
+        .dept-head {
+            font-weight: bold;
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .sub-box {
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+        .sub-title {
+            font-weight: bold;
+            color: #334155;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        .sub-team {
+            color: #64748b;
+            font-size: 12px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # 1. 대장
+    st.markdown('<div class="tree-top">대장 : CSO (안전보건총괄책임자)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="h-line"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
+
+    # 2. 부대장 3인 및 하부 속한 반 구조화
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.markdown("""
+            <div class="dept-card" style="border-top: 3px solid #ef4444;">
+                <div class="dept-head" style="background-color: #ef4444;">
+                    소방지휘 본부대장<br><span style="font-size: 12px; font-weight: normal;">(기술본부장)</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 지휘반:</span>
+                    <span class="sub-team">안전환경팀</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 훈련/소화반:</span>
+                    <span class="sub-team">기계팀, 운영팀</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 피난유도반:</span>
+                    <span class="sub-team">계전팀, 네트워크팀</span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with c2:
+        st.markdown("""
+            <div class="dept-card" style="border-top: 3px solid #3b82f6;">
+                <div class="dept-head" style="background-color: #3b82f6;">
+                    상황 통제본부대장<br><span style="font-size: 12px; font-weight: normal;">(경영기획본부장)</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 비상연락반:</span>
+                    <span class="sub-team">조직문화팀</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 경계반:</span>
+                    <span class="sub-team">기획재무팀, DX혁신팀</span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with c3:
+        st.markdown("""
+            <div class="dept-card" style="border-top: 3px solid #10b981;">
+                <div class="dept-head" style="background-color: #10b981;">
+                    의료구호 본부대장<br><span style="font-size: 12px; font-weight: normal;">(사업본부장)</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 의료반:</span>
+                    <span class="sub-team">ESG추진팀</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 후송반:</span>
+                    <span class="sub-team">대외협력팀</span>
+                </div>
+                <div class="sub-box">
+                    <span class="sub-title">▪ 방호/복구반:</span>
+                    <span class="sub-team">고객지원팀</span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
+
+    # 3. 야간 및 공휴일 비상대응 조직
+    st.markdown("##### 🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)")
+    st.caption("※ 교대근무자 5명 + 경비원 1명")
+
+    st.markdown("""
+        <div style="border: 1px solid #cbd5e1; background-color: #f1f5f9; border-radius: 6px; padding: 8px; text-align: center; max-width: 380px; margin: 0 auto; font-weight: bold; color: #1e293b;">
+            임시소방대장 : 운영그룹장 (1명)
+        </div>
+        <div class="v-line"></div>
+    """, unsafe_allow_html=True)
+
+    n1, n2, n3 = st.columns(3)
+    with n1:
+        st.info("**비상연락반**\n\nCCR근무자 (2명)")
+    with n2:
+        st.warning("**소화반**\n\n현장근무자 (2명)")
+    with n3:
+        st.success("**소방대유도반**\n\n경비원 (1명)")
 
 st.markdown("---")
 
@@ -283,7 +329,6 @@ if selected_category != "전체 보기":
 else:
     filtered_df = df_contacts
 
-# 가운데 정렬 스타일 적용한 데이터프레임 노출
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
@@ -299,7 +344,7 @@ st.dataframe(
 st.markdown("---")
 
 # =============================================================
-# [섹션 4] 25년 하반기 소방훈련 세부 시나리오 (폰트 크기 축소)
+# [섹션 4] 25년 하반기 소방훈련 세부 시나리오
 # =============================================================
 st.subheader("📋 25년 하반기 소방훈련 세부 시나리오")
 st.caption("🚨 **상황:** 정문 주차장 급속충전 중인 전기차량('코나') 화재 발생")
@@ -404,7 +449,7 @@ with c_shelter2:
 st.markdown("---")
 
 # =============================================================
-# [섹션 6] 소방/안전 보도자료 (리스트 복원 보완)
+# [섹션 6] 소방/안전 보도자료
 # =============================================================
 st.subheader("📰 최신 소방/안전 보도자료")
 

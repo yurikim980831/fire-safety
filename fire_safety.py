@@ -95,12 +95,17 @@ with col_left:
     st.markdown("---")
     
     # -------------------------------------------------------------
-    # 25년 하반기 소방훈련 세부 시나리오 반영
+    # 25년 하반기 소방훈련 세부 시나리오 (4개 탭 구성)
     # -------------------------------------------------------------
     st.subheader("📋 25년 하반기 소방훈련 세부 시나리오")
     st.caption("🚨 **상황:** 정문 주차장 급속충전 중인 전기차량('코나') 화재 발생")
     
-    tab1, tab2, tab3 = st.tabs(["1단계: 화재발생 & 신고", "2단계: 초기소화 & 대피", "3단계: 소방차 유도 & 강평"])
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "1단계: 화재발생 & 신고", 
+        "2단계: 초기소화 & 대피", 
+        "3단계: 소방차 유도 & 강평",
+        "🖼️ 참고: 이미지로 확인하기"
+    ])
     
     with tab1:
         st.markdown("##### 📢 상황 인지 및 소내 전파 (14:00 ~ 14:04)")
@@ -130,6 +135,25 @@ with col_left:
             {"시간": "14:11~14:15", "담당자": "자위소방대장 / 119안전센터", "조치내용": "훈련 실시 완료 보고 및 신송119안전센터 최종 훈련 강평", "비고": "피드백 차후 적용"},
         ]
         st.table(pd.DataFrame(scenario_data_3))
+
+    with tab4:
+        st.markdown("##### 📄 원본 세부 시나리오 문서 이미지")
+        
+        images_info = [
+            ("fire_drill_1.jpg", "1페이지: 화재발생 인지 및 신고 / 소내 전파"),
+            ("fire_drill_2.jpg", "2페이지: 대피방송, 피난유도 & 현장위치(소화전, 모의차량)"),
+            ("fire_drill_3.jpg", "3페이지: 비상대피 현장 & 질식소화포 보관함 위치"),
+            ("fire_drill_4.jpg", "4페이지: 모의 소방차 대기장소 및 유도자 위치"),
+            ("fire_drill_5.jpg", "5페이지: 훈련 종료 및 강평 문서")
+        ]
+        
+        for img_name, caption in images_info:
+            img_path = os.path.join(BASE_DIR, img_name)
+            if os.path.exists(img_path):
+                st.image(img_path, caption=caption, use_container_width=True)
+                st.markdown("---")
+            else:
+                st.info(f"📁 `{img_name}` 이미지 파일이 올라오면 이곳에 **[{caption}]** 이미지가 표시됩니다.")
 
     st.markdown("---")
     st.subheader("🧯 올바른 소화기 사용법 (P.A.S.S.)")

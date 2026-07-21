@@ -7,14 +7,19 @@ import urllib3
 import os
 from datetime import datetime
 
+# SSL 경고 비활성화
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+# 페이지 기본 설정
 st.set_page_config(page_title="사내 소방안전관리 대시보드", layout="wide", page_icon="🚒")
 st.title("🚒 사내 소방안전관리 대시보드")
 st.markdown("---")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else "."
 
+# -------------------------------------------------------------
+# 자위소방대 명단 불러오기 함수
+# -------------------------------------------------------------
 def get_roster_data():
     csv_path = os.path.join(BASE_DIR, "roster.csv")
     xlsx_path = os.path.join(BASE_DIR, "roster.xlsx")
@@ -39,6 +44,9 @@ def get_roster_data():
         st.error(f"🚨 [파일 읽기 오류] {e}")
         return pd.DataFrame()
 
+# -------------------------------------------------------------
+# 소방청 보도자료 크롤링 함수
+# -------------------------------------------------------------
 @st.cache_data(ttl=600)
 def fetch_nfa_press_releases():
     url = "https://www.nfa.go.kr/nfa/news/pressrelease/press/"
@@ -63,6 +71,9 @@ def fetch_nfa_press_releases():
         return articles
     except Exception: return []
 
+# -------------------------------------------------------------
+# 메인 레이아웃 (좌측: 검색 및 시나리오 / 우측: 대피소 및 소식)
+# -------------------------------------------------------------
 col_left, col_right = st.columns([3, 2])
 
 with col_left:
@@ -95,7 +106,7 @@ with col_left:
     st.markdown("---")
     
     # -------------------------------------------------------------
-    # 25년 하반기 소방훈련 세부 시나리오 (4개 탭 구성)
+    # 25년 하반기 소방훈련 세부 시나리오 (4개 탭)
     # -------------------------------------------------------------
     st.subheader("📋 25년 하반기 소방훈련 세부 시나리오")
     st.caption("🚨 **상황:** 정문 주차장 급속충전 중인 전기차량('코나') 화재 발생")
@@ -149,11 +160,12 @@ with col_left:
         
         for img_name, caption in images_info:
             img_path = os.path.join(BASE_DIR, img_name)
+            
             if os.path.exists(img_path):
                 st.image(img_path, caption=caption, use_container_width=True)
                 st.markdown("---")
             else:
-                st.info(f"📁 `{img_name}` 이미지 파일이 올라오면 이곳에 **[{caption}]** 이미지가 표시됩니다.")
+                st.warning(f"📷 `{img_name}` 이미지 파일이 올라오면 이곳에 **[{caption}]** 이미지가 표시됩니다.")
 
     st.markdown("---")
     st.subheader("🧯 올바른 소화기 사용법 (P.A.S.S.)")

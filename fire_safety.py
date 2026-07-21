@@ -45,7 +45,7 @@ def get_roster_data():
         return pd.DataFrame()
 
 # -------------------------------------------------------------
-# 소방청 보도자료 크롤링 함수
+# 소방청 보도자료 목록 및 본문 크롤링 함수
 # -------------------------------------------------------------
 @st.cache_data(ttl=600)
 def fetch_nfa_press_releases():
@@ -70,6 +70,26 @@ def fetch_nfa_press_releases():
                     if len(articles) >= 5: break
         return articles
     except Exception: return []
+
+@st.cache_data(ttl=3600)
+def fetch_article_content(link):
+    """보도자료 세부 링크에 접속해 본문 내용을 가져오는 함수"""
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    try:
+        r = requests.get(link, headers=headers, verify=False, timeout=10)
+        if r.status_code != 200:
+            return "본문을 불러올 수 없습니다."
+        soup = BeautifulSoup(r.text, "lxml")
+        
+        # 소방청 보도자료 본문 영역 추출 (일반적인 게시판 본문 셀렉터)
+        content_area = soup.select_one("div.board_view_content") or soup.select_one("div.view_content") or soup.select_one("div.content")
+        if content_area:
+            text = content_area.get_text(separator="\n", strip=True)
+            return text if text else "본문 내용이 비어있습니다."
+        else:
+            return "본문 영역을 찾을 수 없습니다. 원문 링크를 확인해 주세요."
+    except Exception as e:
+        return f"본문 읽기 오류: {e}"
 
 # -------------------------------------------------------------
 # 메인 레이아웃 (좌측: 검색 및 시나리오 / 우측: 대피소 및 소식)
@@ -150,7 +170,6 @@ with col_left:
     with tab4:
         st.markdown("##### 📄 원본 세부 시나리오 문서 이미지")
         
-        # 띄어쓰기 파일명('fire drill_1.jpg')과 언더바 파일명('fire_drill_1.jpg') 둘 다 자동 검색
         images_info = [
             (["fire drill_1.jpg", "fire_drill_1.jpg"], "1페이지: 화재발생 인지 및 신고 / 소내 전파"),
             (["fire drill_2.jpg", "fire_drill_2.jpg"], "2페이지: 대피방송, 피난유도 & 현장위치(소화전, 모의차량)"),
@@ -197,12 +216,19 @@ with col_right:
         if os.path.exists(img3_path): st.image(img3_path, caption="2차 대피소(셀트리온 정문) 및 피해 예상 반경", use_container_width=True)
 
     st.markdown("---")
+    
+    # -------------------------------------------------------------
+    # 대시보드 내 직접 본문 읽기 기능이 들어간 소방청 보도자료
+    # -------------------------------------------------------------
     st.subheader("📰 소방청 최신 보도자료")
     releases = fetch_nfa_press_releases()
     if releases:
         for rel in releases:
-            with st.container(border=True):
-                st.markdown(f"📅 **{rel['date']}**\n**[{rel['title']}]({rel['link']})**")
+            # st.expander를 사용해 클릭 시 대시보드 내부에서 바로 본문이 열림
+            with st.expander(f"📅 [{rel['date']}] {rel['title']}"):
+                content = fetch_article_content(rel['link'])
+                st.markdown(content)
+                st.caption(f"[원문 보기]({rel['link']})")
     else:
         st.markdown("[🔗 소방청 보도자료 바로가기](https://www.nfa.go.kr/nfa/news/pressrelease/press/)")
 

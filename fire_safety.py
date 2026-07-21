@@ -16,23 +16,27 @@ st.markdown("---")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else "."
 
 def get_roster_data():
-    # 영문 파일명(roster.xlsx) 우선 조회, 없으면 한글 파일명 조회
-    excel_path = os.path.join(BASE_DIR, "roster.xlsx")
-    if not os.path.exists(excel_path):
-        excel_path = os.path.join(BASE_DIR, "자위소방대_명단.xlsx")
+    csv_path = os.path.join(BASE_DIR, "roster.csv")
+    xlsx_path = os.path.join(BASE_DIR, "roster.xlsx")
+    kr_path = os.path.join(BASE_DIR, "자위소방대_명단.xlsx")
     
-    if os.path.exists(excel_path):
-        try:
-            df = pd.read_excel(excel_path, engine='openpyxl')
-            df.columns = [str(c).strip() for c in df.columns]
-            if "이름" in df.columns:
-                df["이름"] = df["이름"].astype(str).str.strip()
-            return df
-        except Exception as e:
-            st.error(f"🚨 [엑셀 파일 오류] {e}")
+    try:
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path, encoding='utf-8-sig')
+        elif os.path.exists(xlsx_path):
+            df = pd.read_excel(xlsx_path, engine='openpyxl')
+        elif os.path.exists(kr_path):
+            df = pd.read_excel(kr_path, engine='openpyxl')
+        else:
+            st.error("🚨 명단 파일(roster.csv)을 찾을 수 없습니다. 깃허브에 파일이 올라갔는지 확인해 주세요.")
             return pd.DataFrame()
-    else:
-        st.error(f"🚨 엑셀 파일(roster.xlsx)을 찾을 수 없습니다. (현재 폴더 파일: {os.listdir(BASE_DIR)})")
+
+        df.columns = [str(c).strip() for c in df.columns]
+        if "이름" in df.columns:
+            df["이름"] = df["이름"].astype(str).str.strip()
+        return df
+    except Exception as e:
+        st.error(f"🚨 [파일 읽기 오류] {e}")
         return pd.DataFrame()
 
 @st.cache_data(ttl=600)

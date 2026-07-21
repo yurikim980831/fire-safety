@@ -150,22 +150,28 @@ with col_left:
     with tab4:
         st.markdown("##### 📄 원본 세부 시나리오 문서 이미지")
         
+        # 띄어쓰기 파일명('fire drill_1.jpg')과 언더바 파일명('fire_drill_1.jpg') 둘 다 자동 검색
         images_info = [
-            ("fire_drill_1.jpg", "1페이지: 화재발생 인지 및 신고 / 소내 전파"),
-            ("fire_drill_2.jpg", "2페이지: 대피방송, 피난유도 & 현장위치(소화전, 모의차량)"),
-            ("fire_drill_3.jpg", "3페이지: 비상대피 현장 & 질식소화포 보관함 위치"),
-            ("fire_drill_4.jpg", "4페이지: 모의 소방차 대기장소 및 유도자 위치"),
-            ("fire_drill_5.jpg", "5페이지: 훈련 종료 및 강평 문서")
+            (["fire drill_1.jpg", "fire_drill_1.jpg"], "1페이지: 화재발생 인지 및 신고 / 소내 전파"),
+            (["fire drill_2.jpg", "fire_drill_2.jpg"], "2페이지: 대피방송, 피난유도 & 현장위치(소화전, 모의차량)"),
+            (["fire drill_3.jpg", "fire_drill_3.jpg"], "3페이지: 비상대피 현장 & 질식소화포 보관함 위치"),
+            (["fire drill_4.jpg", "fire_drill_4.jpg"], "4페이지: 모의 소방차 대기장소 및 유도자 위치"),
+            (["fire drill_5.jpg", "fire_drill_5.jpg"], "5페이지: 훈련 종료 및 강평 문서")
         ]
         
-        for img_name, caption in images_info:
-            img_path = os.path.join(BASE_DIR, img_name)
+        for file_candidates, caption in images_info:
+            found_path = None
+            for fname in file_candidates:
+                path = os.path.join(BASE_DIR, fname)
+                if os.path.exists(path):
+                    found_path = path
+                    break
             
-            if os.path.exists(img_path):
-                st.image(img_path, caption=caption, use_container_width=True)
+            if found_path:
+                st.image(found_path, caption=caption, use_container_width=True)
                 st.markdown("---")
             else:
-                st.warning(f"📷 `{img_name}` 이미지 파일이 올라오면 이곳에 **[{caption}]** 이미지가 표시됩니다.")
+                st.warning(f"📷 `{file_candidates[0]}` 이미지 파일이 올라오면 이곳에 **[{caption}]** 이미지가 표시됩니다.")
 
     st.markdown("---")
     st.subheader("🧯 올바른 소화기 사용법 (P.A.S.S.)")

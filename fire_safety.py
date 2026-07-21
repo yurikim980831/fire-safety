@@ -177,7 +177,7 @@ def fetch_safety_news():
     return articles
 
 # =============================================================
-# [NEW 섹션] 소방안전관리 연간 일정 (타임라인)
+# [섹션] 소방안전관리 연간 일정 (타임라인)
 # =============================================================
 st.subheader("📅 연간 소방안전관리 일정")
 
@@ -269,6 +269,49 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.info("※ 금년도 화재예방안전진단 수검으로 인한 교육·훈련 면제로 11월 합동 교육·훈련이 아닌 자체 실시로 약소화 진행 예정")
+
+st.markdown("---")
+
+# =============================================================
+# [NEW 섹션] 주요 소방시설 (수신반 & 상수도) 위치 안내
+# =============================================================
+st.subheader("💧 주요 소방시설 (수신반 & 상수도) 위치")
+
+col_rec, col_water = st.columns(2)
+
+with col_rec:
+    with st.container(border=True):
+        st.error("🟥 **소방 수신반 (수신기) 위치**")
+        st.markdown("""
+        * **설치 장소:** **주제어동 3층 CCR**
+        * **주요 역할:** 
+          - 사업장 내 화재 감지기/발신기 작동 구역 즉시 확인
+          - 소내 비상방송 연동 및 주경종/지구경종 상태 수시 제어
+        """)
+
+with col_water:
+    with st.container(border=True):
+        st.info("🟦 **상수도 (소화용수) 위치**")
+        st.markdown("""
+        * **설치 장소:** **스팀터빈동 주출입구 앞**
+        * **주요 역할:** 
+          - 화재 발생 시 소방차 급수 지원 및 소화용수 보충
+          - 초기 및 대형 화재 대응 시 주 용수 공급원 역할
+        """)
+
+# 도면 이미지 펼치기
+with st.expander("📍 **소방 수신반 및 상수도 위치 도면 보기 (클릭하여 펼치기)**", expanded=False):
+    fp_img_path = None
+    for fp_fname in ["firepump.jpg", "firepump.png", "FIREPUMP.JPG", "FIREPUMP.PNG"]:
+        t_path = os.path.join(BASE_DIR, fp_fname)
+        if os.path.exists(t_path):
+            fp_img_path = t_path
+            break
+            
+    if fp_img_path:
+        st.image(fp_img_path, caption="사업장 내 수신반(주제어동 3층 CCR) 및 상수도(스팀터빈동 주출입구 앞) 배치 도면", use_container_width=True)
+    else:
+        st.warning("⚠️ 소방시설 도면 이미지(firepump.jpg)가 폴더에 없습니다. 이미지 파일명을 확인해 주세요.")
 
 st.markdown("---")
 
@@ -627,7 +670,7 @@ with c_shelter2:
 st.markdown("---")
 
 # =============================================================
-# [NEW 섹션 6] 응급처치 (CPR 방법 및 AED 사용법 & 비치 위치)
+# [섹션 6] 응급처치 (CPR 방법 및 AED 사용법 & 비치 위치)
 # =============================================================
 st.subheader("💚 응급처치 가이드 (CPR 및 AED 사용법)")
 

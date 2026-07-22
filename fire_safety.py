@@ -38,8 +38,8 @@ st.markdown("""
             padding-top: 1rem !important;
         }
         
-        /* 폰트 크기 및 제목 가독성 개선 */
-        h1 { font-size: 1.5rem !important; }
+        /* 폰트 크기 및 제목 가독성 개선 (메인 타이틀 글자 크기 키움) */
+        h1 { font-size: 1.8rem !important; word-break: keep-all; }
         h2, .stSubheader { font-size: 1.25rem !important; }
         h3 { font-size: 1.1rem !important; }
         p, div, span { font-size: 0.92rem !important; }

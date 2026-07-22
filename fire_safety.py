@@ -736,100 +736,108 @@ with tab4:
 st.markdown("---")
 
 # =============================================================
-# [섹션 8] 소방안전관리 연간 일정
+# [섹션 8] 연간 소방안전관리 일정 (이전 원본 디자인으로 복원 + 12월 항목 추가)
 # =============================================================
 st.subheader("📅 연간 소방안전관리 일정")
 
 st.markdown("""
     <style>
+    .timeline-wrapper {
+        position: relative;
+        padding: 10px 0;
+        margin: 20px 0;
+    }
+    .timeline-line {
+        position: absolute;
+        top: 50%;
+        left: 4%;
+        right: 4%;
+        height: 3px;
+        background-color: #dbebe6;
+        z-index: 1;
+        transform: translateY(-50%);
+    }
     .timeline-container {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        position: relative;
-        margin: 20px 0;
-        padding: 10px 0;
-    }
-    .timeline-container::before {
-        content: '';
-        position: absolute;
-        top: 28px;
-        left: 5%;
-        right: 5%;
-        height: 4px;
-        background: #e2e8f0;
-        z-index: 1;
-    }
-    .timeline-item {
+        align-items: center;
         position: relative;
         z-index: 2;
+    }
+    .timeline-box {
         background: #ffffff;
-        border: 2px solid #cbd5e1;
+        border: 2px solid #dbe2ea;
         border-radius: 12px;
-        padding: 12px 8px;
-        width: 15%;
+        padding: 18px 10px;
+        width: 18.5%;
         text-align: center;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
-    .timeline-item.active {
-        border-color: #ef4444;
-        background-color: #fef2f2;
+    .timeline-box.highlight {
+        border-color: #c93b3b;
+        background-color: #fdf5f5;
     }
-    .timeline-month {
-        font-weight: bold;
+    .timeline-title {
         font-size: 16px;
-        color: #1e293b;
-        margin-bottom: 4px;
+        font-weight: 800;
+        color: #1a202c;
+        margin-bottom: 6px;
     }
-    .timeline-event {
-        font-size: 13px;
-        color: #475569;
-        font-weight: 600;
+    .timeline-box.highlight .timeline-title {
+        color: #c93b3b;
     }
-    .timeline-tag {
+    .timeline-subtitle {
+        font-size: 13.5px;
+        font-weight: bold;
+        color: #4a5568;
+        margin-bottom: 12px;
+    }
+    .timeline-box.highlight .timeline-subtitle {
+        color: #c93b3b;
+    }
+    .timeline-badge {
         display: inline-block;
-        font-size: 11px;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-top: 6px;
-        background-color: #f1f5f9;
-        color: #64748b;
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 6px;
+        background-color: #e8f0fe;
+        color: #3b82f6;
     }
-    .timeline-item.active .timeline-tag {
-        background-color: #fecaca;
-        color: #991b1b;
+    .timeline-box.highlight .timeline-badge {
+        background-color: #fce8e8;
+        color: #d93838;
     }
     </style>
-    <div class="timeline-container">
-        <div class="timeline-item">
-            <div class="timeline-month">1월</div>
-            <div class="timeline-event">상반기 작동점검</div>
-            <div class="timeline-tag">소방시설 전문업체</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-month">5월</div>
-            <div class="timeline-event">소방 합동훈련</div>
-            <div class="timeline-tag">송도119안전센터</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-month">7월</div>
-            <div class="timeline-event">하반기 종합점검</div>
-            <div class="timeline-tag">소방시설 전문업체</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-month">10월</div>
-            <div class="timeline-event">자체 소방훈련</div>
-            <div class="timeline-tag">전직원 참여</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-month">11월</div>
-            <div class="timeline-event">소방안전교육</div>
-            <div class="timeline-tag">법정 의무교육</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-month">12월</div>
-            <div class="timeline-event">동절기 화재점검</div>
-            <div class="timeline-tag">안전환경팀</div>
+
+    <div class="timeline-wrapper">
+        <div class="timeline-line"></div>
+        <div class="timeline-container">
+            <div class="timeline-box">
+                <div class="timeline-title">1월~4월</div>
+                <div class="timeline-subtitle">상시점검</div>
+                <div class="timeline-badge">소방시설 유지</div>
+            </div>
+            <div class="timeline-box highlight">
+                <div class="timeline-title">5월</div>
+                <div class="timeline-subtitle">작동점검</div>
+                <div class="timeline-badge">소방시설 작동점검</div>
+            </div>
+            <div class="timeline-box">
+                <div class="timeline-title">6월~10월</div>
+                <div class="timeline-subtitle">상시점검</div>
+                <div class="timeline-badge">일상 안전관리</div>
+            </div>
+            <div class="timeline-box highlight">
+                <div class="timeline-title">11월</div>
+                <div class="timeline-subtitle">종합점검 및 교육·훈련</div>
+                <div class="timeline-badge">종합점검 / 자체훈련</div>
+            </div>
+            <div class="timeline-box">
+                <div class="timeline-title">12월</div>
+                <div class="timeline-subtitle">결과보고 & 동절기 화재안전점검</div>
+                <div class="timeline-badge">연간 실적 정리</div>
+            </div>
         </div>
     </div>
 """, unsafe_allow_html=True)

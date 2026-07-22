@@ -736,7 +736,7 @@ with tab4:
 st.markdown("---")
 
 # =============================================================
-# [섹션 8] 연간 소방안전관리 일정 (이전 원본 디자인으로 복원 + 12월 항목 추가)
+# [섹션 8] 연간 소방안전관리 일정
 # =============================================================
 st.subheader("📅 연간 소방안전관리 일정")
 
@@ -745,7 +745,7 @@ st.markdown("""
     .timeline-wrapper {
         position: relative;
         padding: 10px 0;
-        margin: 20px 0;
+        margin: 20px 0 10px 0;
     }
     .timeline-line {
         position: absolute;
@@ -830,17 +830,20 @@ st.markdown("""
             </div>
             <div class="timeline-box highlight">
                 <div class="timeline-title">11월</div>
-                <div class="timeline-subtitle">종합점검 및 교육·훈련</div>
+                <div class="timeline-subtitle">종합점검 및 자체훈련</div>
                 <div class="timeline-badge">종합점검 / 자체훈련</div>
             </div>
             <div class="timeline-box">
                 <div class="timeline-title">12월</div>
-                <div class="timeline-subtitle">결과보고 & 동절기 화재안전점검</div>
+                <div class="timeline-subtitle">결과보고 및 동절기 화재안전점검</div>
                 <div class="timeline-badge">연간 실적 정리</div>
             </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
+
+# 하단 안내 멘트
+st.caption("※ 금년도 화재예방안전진단 수검으로 인한 교육·훈련 면제로 11월 합동 교육·훈련이 아닌 자체 실시를 통해 약소화 진행 예정")
 
 st.markdown("---")
 

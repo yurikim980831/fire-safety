@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
 
 # =============================================================
-# [반응형 CSS] PC 스타일 유지 + 모바일 전용 가독성 최적화
+# [반응형 CSS] PC 스타일 유지 + 모바일 전용 가독성 및 메인 타이틀 대폭 강조
 # =============================================================
 st.markdown("""
     <style>
@@ -38,11 +38,22 @@ st.markdown("""
             padding-top: 1rem !important;
         }
         
-        /* 메인 타이틀(h1) 글자 크기를 확실하게 확 늘림 */
-        h1 { font-size: 2.3rem !important; font-weight: 800 !important; word-break: keep-all; line-height: 1.3 !important; }
-        h2, .stSubheader { font-size: 1.3rem !important; }
-        h3 { font-size: 1.15rem !important; }
-        p, div, span { font-size: 0.92rem !important; }
+        /* 🚨 메인 타이틀(st.title) 모바일 폰트 크기 강력 확대 */
+        div[data-testid="stTitle"] h1,
+        .stTitle > div > h1,
+        h1 { 
+            font-size: 3.2rem !important; 
+            font-weight: 900 !important; 
+            line-height: 1.25 !important;
+            word-break: keep-all !important;
+            color: #0f172a !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* 서브 타이틀 및 본문 글자 크기 정돈 */
+        h2, .stSubheader, [data-testid="stSubheader"] h2 { font-size: 1.4rem !important; font-weight: 700 !important; }
+        h3 { font-size: 1.2rem !important; }
+        p, div, span { font-size: 0.95rem !important; }
 
         /* 타임라인 모바일 세로/줄바꿈 배치 */
         .timeline-container {

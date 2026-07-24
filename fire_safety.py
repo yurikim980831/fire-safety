@@ -913,7 +913,7 @@ st.markdown("""
             </div>
             <div class="timeline-box">
                 <div class="timeline-title">12월</div>
-                <div class="timeline-subtitle">동절기 화재점검 및 27년 소방계획서 작성</div>
+                <div class="timeline-subtitle">동절기 점검 및 '27 소방계획서 작성</div>
                 <div class="timeline-badge">연간 실적 정리</div>
             </div>
         </div>

@@ -908,8 +908,8 @@ st.markdown("""
             </div>
             <div class="timeline-box highlight">
                 <div class="timeline-title">11월</div>
-                <div class="timeline-subtitle">종합점검 및 자체훈련</div>
-                <div class="timeline-badge">종합점검 / 자체훈련</div>
+                <div class="timeline-subtitle">종합점검</div>
+                <div class="timeline-badge">종합점검</div>
             </div>
             <div class="timeline-box">
                 <div class="timeline-title">12월</div>

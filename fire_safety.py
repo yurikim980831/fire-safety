@@ -909,11 +909,11 @@ st.markdown("""
             <div class="timeline-box highlight">
                 <div class="timeline-title">11월</div>
                 <div class="timeline-subtitle">종합점검</div>
-                <div class="timeline-badge">종합점검</div>
+                <div class="timeline-badge">소방시설 종합점검</div>
             </div>
             <div class="timeline-box">
                 <div class="timeline-title">12월</div>
-                <div class="timeline-subtitle">결과보고 및 동절기 화재안전점검</div>
+                <div class="timeline-subtitle">동절기 화재점검 및 27년 소방계획서 작성</div>
                 <div class="timeline-badge">연간 실적 정리</div>
             </div>
         </div>

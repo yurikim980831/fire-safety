@@ -473,9 +473,9 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
 
     # -------------------------------------------------------------
-    # [본부별 통합 줄글 형태] 각 반별 세부 임무
+    # [본부별 통합 줄글 형태] 각 반별 세부 임무 (접힌 상태로 설정)
     # -------------------------------------------------------------
-    with st.expander("📋 **각 본부 및 반별 세부 임무 상세 보기 (클릭하여 펼치기)**", expanded=True):
+    with st.expander("📋 **각 본부 및 반별 세부 임무 상세 보기 (클릭하여 펼치기)**", expanded=False):
         st.markdown("""
             <div class="task-card">
                 <div class="task-card-header" style="color: #ef4444; border-color: #ef4444;">

@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
 
 # =============================================================
-# [반응형 CSS] PC 스타일 유지 + 모바일 메인 타이틀 크기 조정
+# [반응형 CSS] PC 스타일 유지 + 모바일 메인 타이틀 크기 강력 적용
 # =============================================================
 st.markdown("""
     <style>
@@ -37,23 +37,28 @@ st.markdown("""
             padding-top: 1rem !important;
         }
         
-        /* 메인 타이틀 (h1) : '나의 자위소방대 임무 찾기'(h2)보다 확연히 살짝 크게 지정 */
+        /* 1. 메인 타이틀 강력 선택자 (나의 자위소방대 임무찾기보다 확실히 큼) */
+        div[data-testid="stHeadingWithTitle"] h1,
         div[data-testid="stTitle"] h1,
-        .stTitle > div > h1,
+        .stTitle h1,
+        h1#df576aef, /* Streamlit 내부 ID 방어 */
         h1 { 
-            font-size: 2.2rem !important; 
+            font-size: 2.5rem !important; 
             font-weight: 900 !important; 
-            line-height: 1.3 !important;
+            line-height: 1.25 !important;
             word-break: keep-all !important;
             color: #0f172a !important;
             margin-bottom: 0.5rem !important;
         }
 
-        /* 섹션 제목 (h2 - 예: 나의 자위소방대 임무 찾기) */
-        h2, .stSubheader, [data-testid="stSubheader"] h2 { 
+        /* 2. 섹션 제목 (h2 - 예: 나의 자위소방대 임무 찾기) */
+        div[data-testid="stHeadingWithTitle"] h2,
+        div[data-testid="stSubheader"] h2,
+        h2, .stSubheader { 
             font-size: 1.4rem !important; 
             font-weight: 700 !important; 
         }
+
         h3 { font-size: 1.2rem !important; }
         p, div, span { font-size: 0.95rem !important; }
 

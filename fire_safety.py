@@ -15,51 +15,40 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
 
 # =============================================================
-# [반응형 CSS] PC 스타일 유지 + 모바일 메인 타이틀 크기 강력 적용
+# [강력 반응형 CSS] st.title 우회 및 최신 Streamlit DOM 타겟팅
 # =============================================================
 st.markdown("""
     <style>
-    /* 기본 공통 및 PC 스타일 */
-    .main .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+    /* 여백 조정 */
+    .main .block-container, 
+    div[data-testid="stAppViewBlockContainer"] {
+        padding-top: 1.5rem !important;
+        padding-bottom: 2rem !important;
     }
+
     img {
         max-width: 100% !important;
         height: auto !important;
     }
     
-    /* 모바일 전용 반응형 스타일 (화면 너비 768px 이하) */
+    /* 모바일 전용 스타일 (화면 너비 768px 이하) */
     @media (max-width: 768px) {
-        .main .block-container {
+        .main .block-container,
+        div[data-testid="stAppViewBlockContainer"] {
             padding-left: 0.8rem !important;
             padding-right: 0.8rem !important;
             padding-top: 1rem !important;
         }
-        
-        /* 1. 메인 타이틀 강력 선택자 (나의 자위소방대 임무찾기보다 확실히 큼) */
-        div[data-testid="stHeadingWithTitle"] h1,
-        div[data-testid="stTitle"] h1,
-        .stTitle h1,
-        h1#df576aef, /* Streamlit 내부 ID 방어 */
-        h1 { 
-            font-size: 2.5rem !important; 
-            font-weight: 900 !important; 
-            line-height: 1.25 !important;
-            word-break: keep-all !important;
-            color: #0f172a !important;
-            margin-bottom: 0.5rem !important;
-        }
 
-        /* 2. 섹션 제목 (h2 - 예: 나의 자위소방대 임무 찾기) */
-        div[data-testid="stHeadingWithTitle"] h2,
+        /* st.subheader 및 일반 h2 강제 적용 */
+        div[data-testid="stHeading"] h2,
         div[data-testid="stSubheader"] h2,
-        h2, .stSubheader { 
-            font-size: 1.4rem !important; 
+        h2 { 
+            font-size: 1.35rem !important; 
             font-weight: 700 !important; 
         }
 
-        h3 { font-size: 1.2rem !important; }
+        h3 { font-size: 1.15rem !important; }
         p, div, span { font-size: 0.95rem !important; }
 
         .timeline-container {
@@ -109,8 +98,23 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 상단 제목
-st.title("🚒 사내 소방안전관리 정보 Dashboard")
+# =============================================================
+# 상단 메인 타이틀 (HTML 직접 주입 - clamp 함수 적용으로 모바일/PC 크기 자동 조정)
+# =============================================================
+st.markdown("""
+    <h1 style='
+        font-size: clamp(1.8rem, 6vw, 2.7rem) !important; 
+        font-weight: 900 !important; 
+        line-height: 1.25 !important; 
+        color: #0f172a !important; 
+        margin-top: 0px !important;
+        margin-bottom: 0.4rem !important;
+        word-break: keep-all !important;
+    '>
+        🚒 사내 소방안전관리 정보 Dashboard
+    </h1>
+""", unsafe_allow_html=True)
+
 st.caption(f"안전환경팀 | 최종 업데이트: {datetime.now().strftime('%Y-%m-%d')}")
 st.markdown("---")
 

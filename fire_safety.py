@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
 
 # =============================================================
-# [반응형 CSS] PC 스타일 유지 + 모바일 전용 가독성 및 메인 타이틀 대폭 강조
+# [반응형 CSS] PC 스타일 유지 + 모바일 메인 타이틀 크기 조정
 # =============================================================
 st.markdown("""
     <style>
@@ -37,18 +37,23 @@ st.markdown("""
             padding-top: 1rem !important;
         }
         
+        /* 메인 타이틀 (h1) : '나의 자위소방대 임무 찾기'(h2)보다 확연히 살짝 크게 지정 */
         div[data-testid="stTitle"] h1,
         .stTitle > div > h1,
         h1 { 
-            font-size: 3.2rem !important; 
+            font-size: 2.2rem !important; 
             font-weight: 900 !important; 
-            line-height: 1.25 !important;
+            line-height: 1.3 !important;
             word-break: keep-all !important;
             color: #0f172a !important;
             margin-bottom: 0.5rem !important;
         }
 
-        h2, .stSubheader, [data-testid="stSubheader"] h2 { font-size: 1.4rem !important; font-weight: 700 !important; }
+        /* 섹션 제목 (h2 - 예: 나의 자위소방대 임무 찾기) */
+        h2, .stSubheader, [data-testid="stSubheader"] h2 { 
+            font-size: 1.4rem !important; 
+            font-weight: 700 !important; 
+        }
         h3 { font-size: 1.2rem !important; }
         p, div, span { font-size: 0.95rem !important; }
 
@@ -473,7 +478,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
 
     # -------------------------------------------------------------
-    # [본부별 통합 줄글 형태] 각 반별 세부 임무 (접힌 상태로 설정)
+    # [본부별 통합 줄글 형태] 각 반별 세부 임무
     # -------------------------------------------------------------
     with st.expander("📋 **각 본부 및 반별 세부 임무 상세 보기 (클릭하여 펼치기)**", expanded=False):
         st.markdown("""

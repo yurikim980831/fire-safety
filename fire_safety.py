@@ -443,11 +443,30 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     <span class="sub-team">고객지원팀</span>
                 </div>
                 <div class="sub-box">
-                    <span class="sub-title">방호 및 복구반</span>
+                    <span class="sub-title">방호조치 및 복구반</span>
                     <span class="sub-team">네트워크팀</span>
                 </div>
             </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
+
+    # -------------------------------------------------------------
+    # [추가] 이미지 기준 각 반별 세부 임무 내역
+    # -------------------------------------------------------------
+    with st.expander("📋 **각 반별 세부 임무 및 구성팀 상세 보기 (클릭하여 펼치기)**", expanded=True):
+        d_tasks = [
+            {"본부별": "소방지휘본부", "반별": "지휘반", "구성팀": "안전환경팀", "임무": "• 직장반, 차석순으로 부대장의 임무수행 보조\n• 연간 및 월간 소방안전관리계획 수립 및 실시"},
+            {"본부별": "소방지휘본부", "반별": "훈련 및 소화반", "구성팀": "기계팀, 운영팀", "임무": "• 자체소방시설을 활용한 초기화재 진압활동\n• 소방용수의 보존과 급수"},
+            {"본부별": "소방지휘본부", "반별": "피난유도반", "구성팀": "계전팀, 네트워크팀", "임무": "• 재실자 층별대피유도 및 방화문폐쇄, 기타 문개방\n• 재실자 인명검색구조 및 대피경로 안내"},
+            {"본부별": "상황통제본부", "반별": "비상연락반", "구성팀": "조직문화팀", "임무": "• 119신고 및 소내전파, 관계기관에 통보"},
+            {"본부별": "상황통제본부", "반별": "경계반", "구성팀": "기획재무팀, DX혁신팀", "임무": "• 중요물품 반출이동, 반출 물건의 경비, 출입인원의 통제"},
+            {"본부별": "의료구호본부", "반별": "의료반", "구성팀": "ESG추진팀, 대외협력팀", "임무": "• 질식, 중경상자의 응급처치"},
+            {"본부별": "의료구호본부", "반별": "후송반", "구성팀": "고객지원팀", "임무": "• 사망자 안치 및 질식 등, 경상자 지정 병원으로 긴급 후송 치료조치"},
+            {"본부별": "의료구호본부", "반별": "방호조치 및 복구반", "구성팀": "네트워크팀", "임무": "• 관할소방서 유도, 가스 위험물등 소방활동상의 장애물 제거 및 복구"},
+        ]
+        df_tasks = pd.DataFrame(d_tasks)
+        render_centered_table(df_tasks, col_widths={"본부별": "18%", "반별": "18%", "구성팀": "22%", "임무": "42%"})
 
     st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 
@@ -651,7 +670,6 @@ with st.expander("📍 **소방 수신반 및 상수도 위치 도면 보기 (�
             break
             
     if fp_img_path:
-        # 반응형 너비로 설정하여 모바일 및 PC 화면에 맞춤
         img_col1, img_col2, img_col3 = st.columns([1, 4, 1])
         with img_col2:
             st.image(fp_img_path, caption="사업장 내 수신반(주제어동 3층 CCR) 및 상수도(스팀터빈동 주출입구 앞) 배치 도면", use_container_width=True)
@@ -735,7 +753,6 @@ with st.expander("📍 **사내 AED(자동심장충격기) 설치 위치 및 안
             break
             
     if aed_img_path:
-        # 반응형 너비로 설정하여 모바일 및 PC 화면에 맞춤
         aed_col1, aed_col2, aed_col3 = st.columns([1, 4, 1])
         with aed_col2:
             st.image(aed_img_path, caption="사내 AED 설치 장소 (관리동 3층 E/V 앞, 주제어동 CCR 앞) 및 주의사항", use_container_width=True)
@@ -805,7 +822,6 @@ with tab4:
                 found_path = path
                 break
         if found_path:
-            # 반응형 너비로 설정하여 모바일 및 PC 화면에 맞춤
             s_col1, s_col2, s_col3 = st.columns([1, 4, 1])
             with s_col2:
                 st.image(found_path, caption=caption, use_container_width=True)
@@ -920,7 +936,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 하단 안내 멘트
 st.caption("※ 금년도 화재예방안전진단 수검으로 인한 교육·훈련 면제로 12월 합동 교육·훈련이 아닌 자체 실시를 통해 약소화 진행 예정")
 
 st.markdown("---")

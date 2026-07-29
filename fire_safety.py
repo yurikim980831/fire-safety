@@ -31,14 +31,12 @@ st.markdown("""
     
     /* 모바일 전용 반응형 스타일 (화면 너비 768px 이하) */
     @media (max-width: 768px) {
-        /* 전체 여백 조절 */
         .main .block-container {
             padding-left: 0.8rem !important;
             padding-right: 0.8rem !important;
             padding-top: 1rem !important;
         }
         
-        /* 🚨 메인 타이틀(st.title) 모바일 폰트 크기 강력 확대 */
         div[data-testid="stTitle"] h1,
         .stTitle > div > h1,
         h1 { 
@@ -50,18 +48,16 @@ st.markdown("""
             margin-bottom: 0.5rem !important;
         }
 
-        /* 서브 타이틀 및 본문 글자 크기 정돈 */
         h2, .stSubheader, [data-testid="stSubheader"] h2 { font-size: 1.4rem !important; font-weight: 700 !important; }
         h3 { font-size: 1.2rem !important; }
         p, div, span { font-size: 0.95rem !important; }
 
-        /* 타임라인 모바일 세로/줄바꿈 배치 */
         .timeline-container {
             flex-direction: column !important;
             gap: 10px !important;
         }
         .timeline-line {
-            display: none !important; /* 모바일에서는 중앙선 숨김 */
+            display: none !important;
         }
         .timeline-box {
             width: 100% !important;
@@ -69,11 +65,36 @@ st.markdown("""
             padding: 12px !important;
         }
 
-        /* 카드 및 상자 모바일 여백 정돈 */
         .facility-box, .first-aid-box, .dept-card, .night-card {
             padding: 12px !important;
             margin-bottom: 10px !important;
         }
+    }
+
+    /* 본부/반 세부 임무 줄글 카드 스타일 */
+    .task-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .task-card-header {
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid;
+    }
+    .task-item {
+        margin-bottom: 10px;
+        line-height: 1.6;
+        font-size: 14px;
+        color: #1e293b;
+    }
+    .task-item:last-child {
+        margin-bottom: 0;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -101,7 +122,7 @@ def render_centered_table(df, col_widths=None):
     }
     .centered-table {
         width: 100%;
-        min-width: 500px; /* 모바일에서 표 깨짐 방지 */
+        min-width: 500px;
         border-collapse: collapse;
         font-size: 13px;
         background-color: #ffffff;
@@ -452,21 +473,52 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
 
     # -------------------------------------------------------------
-    # [사용자 요청 텍스트 적용] 각 반별 세부 임무 내역
+    # [본부별 통합 줄글 형태] 각 반별 세부 임무
     # -------------------------------------------------------------
-    with st.expander("📋 **각 반별 세부 임무 및 구성팀 상세 보기 (클릭하여 펼치기)**", expanded=True):
-        d_tasks = [
-            {"본부별": "소방지휘본부", "반별": "지휘반", "구성팀": "안전환경팀", "임무": "직장반 차석순으로 부대장의 임무수행보조, 연간 및 월간 소방안전관리계획 수립 및 실시"},
-            {"본부별": "소방지휘본부", "반별": "훈련 및 소화반", "구성팀": "기계팀, 운영팀", "임무": "자체소방시설을 활용한 초기화재 진압활동, 소화용수의 보존과 급수"},
-            {"본부별": "소방지휘본부", "반별": "피난유도반", "구성팀": "계전팀", "임무": "재실자 층별대피유도 및 방화문폐쇄, 재실자 인명검색구조 및 대피경로 안내"},
-            {"본부별": "상황통제본부", "반별": "비상연락반", "구성팀": "조직문화팀", "임무": "119신고 및 소내전파, 관계기관에 통보"},
-            {"본부별": "상황통제본부", "반별": "경계반", "구성팀": "기획재무팀, DX혁신팀", "임무": "중요물품 반출이동, 반출물건의 경비, 출입인원으 통제"},
-            {"본부별": "의료구호본부", "반별": "의료반", "구성팀": "ESG추진팀, 대외협력팀", "임무": "질식, 화상 등 중경상자의 응급처치"},
-            {"본부별": "의료구호본부", "반별": "후송반", "구성팀": "고객지원팀", "임무": "사망자 안치 및 지정병원으로의 긴급 후송 지원"},
-            {"본부별": "의료구호본부", "반별": "방호조치 및 복구반", "구성팀": "네트워크팀", "임무": "관할소방서의 유도, 가스 위험물 등 소방활동상의 장애물 제거 및 복구"},
-        ]
-        df_tasks = pd.DataFrame(d_tasks)
-        render_centered_table(df_tasks, col_widths={"본부별": "18%", "반별": "18%", "구성팀": "22%", "임무": "42%"})
+    with st.expander("📋 **각 본부 및 반별 세부 임무 상세 보기 (클릭하여 펼치기)**", expanded=True):
+        st.markdown("""
+            <div class="task-card">
+                <div class="task-card-header" style="color: #ef4444; border-color: #ef4444;">
+                    🟥 소방지휘본부 (본부대장: 기술본부장)
+                </div>
+                <div class="task-item">
+                    • <b>지휘반 (안전환경팀) :</b> 직장반 차석순으로 부대장의 임무수행보조, 연간 및 월간 소방안전관리계획 수립 및 실시
+                </div>
+                <div class="task-item">
+                    • <b>훈련 및 소화반 (기계팀, 운영팀) :</b> 자체소방시설을 활용한 초기화재 진압활동, 소화용수의 보존과 급수
+                </div>
+                <div class="task-item">
+                    • <b>피난유도반 (계전팀) :</b> 재실자 층별대피유도 및 방화문폐쇄, 재실자 인명검색구조 및 대피경로 안내
+                </div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-card-header" style="color: #3b82f6; border-color: #3b82f6;">
+                    🟦 상황통제본부 (본부대장: 경영기획본부장)
+                </div>
+                <div class="task-item">
+                    • <b>비상연락반 (조직문화팀) :</b> 119신고 및 소내전파, 관계기관에 통보
+                </div>
+                <div class="task-item">
+                    • <b>경계반 (기획재무팀, DX혁신팀) :</b> 중요물품 반출이동, 반출물건의 경비, 출입인원 통제
+                </div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-card-header" style="color: #10b981; border-color: #10b981;">
+                    🟩 의료구호본부 (본부대장: 사업본부장)
+                </div>
+                <div class="task-item">
+                    • <b>의료반 (ESG추진팀, 대외협력팀) :</b> 질식, 화상 등 중경상자의 응급처치
+                </div>
+                <div class="task-item">
+                    • <b>후송반 (고객지원팀) :</b> 사망자 안치 및 지정병원으로의 긴급 후송 지원
+                </div>
+                <div class="task-item">
+                    • <b>방호조치 및 복구반 (네트워크팀) :</b> 관할소방서의 유도, 가스 위험물 등 소방활동상의 장애물 제거 및 복구
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 

@@ -31,11 +31,13 @@ st.markdown("""
         height: auto !important;
     }
     
-    /* 2차 대피소 도면 크기 통일을 위한 스타일 클래스 */
-    .shelter-img-container img {
-        width: 100% !important;
-        max-height: 350px !important;
+    /* 특정 이미지(shelter2_2) 세로 크기 제한 클래스 */
+    .shelter2-custom-img img {
+        max-height: 300px !important;
         object-fit: contain !important;
+        width: auto !important;
+        margin: 0 auto !important;
+        display: block !important;
     }
     
     /* 연간 소방안전관리 일정 박스 동일 크기 및 균등 배치 기본 스타일 */
@@ -724,12 +726,9 @@ with c_shelter2:
         img3_path = os.path.join(BASE_DIR, "shelter2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter2.jpg")) else os.path.join(BASE_DIR, "shelter2.jpg.jpg")
         img4_path = os.path.join(BASE_DIR, "shelter2_2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter2_2.jpg")) else os.path.join(BASE_DIR, "shelter2_2.jpg.jpg")
         
-        if os.path.exists(img3_path):
-            st.markdown('<div class="shelter-img-container">', unsafe_allow_html=True)
-            st.image(img3_path, caption="2차 대피소(셀트리온 정문) 및 피해 예상 반경", use_container_width=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+        if os.path.exists(img3_path): st.image(img3_path, caption="2차 대피소(셀트리온 정문) 및 피해 예상 반경", use_container_width=True)
         if os.path.exists(img4_path):
-            st.markdown('<div class="shelter-img-container">', unsafe_allow_html=True)
+            st.markdown('<div class="shelter2-custom-img">', unsafe_allow_html=True)
             st.image(img4_path, caption="2차 대피소 비상 피난 동선 도면", use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -752,8 +751,8 @@ contact_data = [
     {"구분": "유관기관", "명칭(담당자)": "경찰민원 콜센터", "전화번호": "182", "비고": "-"},
     {"구분": "유관기관", "명칭(담당자)": "송도국제도시 지구대", "전화번호": "032-822-1112", "비고": "-"},
     {"구분": "유관기관", "명칭(담당자)": "한국가스공사 인천지역본부", "전화번호": "주간: 032-453-6637 / 야간: 032-453-6555", "비고": "-"},
-    {"구분": "유관기관", "명칭(담당자)": "한국가스안전공사 인천본부", "전화번호": "032-435-1525", "비고": "-"},
-    {"구분": "유관기관", "명칭(담당자)": "한국전기안전공사 인천본부", "전화번호": "032-290-7000", "비고": "-"},
+    {"구분": "유관기관", "명칭(담당자)": "한국가스안전공단 인천본부", "전화번호": "032-435-1525", "비고": "-"},
+    {"구분": "유관기관", "명칭(담당자)": "한국전기안전공단 인천본부", "전화번호": "032-290-7000", "비고": "-"},
     {"구분": "유관기관", "명칭(담당자)": "한국전력 송도변전소", "전화번호": "031-363-5356", "비고": "-"},
     {"구분": "유관기관", "명칭(담당자)": "삼천리 종합상황실", "전화번호": "080-3002-118", "비고": "-"},
     {"구분": "인근사업장", "명칭(담당자)": "셀트리온", "전화번호": "032-850-5119", "비고": "-"},

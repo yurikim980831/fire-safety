@@ -31,6 +31,13 @@ st.markdown("""
         height: auto !important;
     }
     
+    /* 2차 대피소 도면 크기 통일을 위한 스타일 클래스 */
+    .shelter-img-container img {
+        width: 100% !important;
+        max-height: 350px !important;
+        object-fit: contain !important;
+    }
+    
     /* 연간 소방안전관리 일정 박스 동일 크기 및 균등 배치 기본 스타일 */
     .timeline-wrapper {
         position: relative;
@@ -717,8 +724,14 @@ with c_shelter2:
         img3_path = os.path.join(BASE_DIR, "shelter2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter2.jpg")) else os.path.join(BASE_DIR, "shelter2.jpg.jpg")
         img4_path = os.path.join(BASE_DIR, "shelter2_2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter2_2.jpg")) else os.path.join(BASE_DIR, "shelter2_2.jpg.jpg")
         
-        if os.path.exists(img3_path): st.image(img3_path, caption="2차 대피소(셀트리온 정문) 및 피해 예상 반경", use_container_width=True)
-        if os.path.exists(img4_path): st.image(img4_path, caption="2차 대피소 비상 피난 동선 도면", use_container_width=True)
+        if os.path.exists(img3_path):
+            st.markdown('<div class="shelter-img-container">', unsafe_allow_html=True)
+            st.image(img3_path, caption="2차 대피소(셀트리온 정문) 및 피해 예상 반경", use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+        if os.path.exists(img4_path):
+            st.markdown('<div class="shelter-img-container">', unsafe_allow_html=True)
+            st.image(img4_path, caption="2차 대피소 비상 피난 동선 도면", use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("---")
 

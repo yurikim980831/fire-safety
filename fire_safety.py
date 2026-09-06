@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
 
 # =============================================================
-# [강력 반응형 CSS & Hover 툴팁 스타일 정의]
+# [강력 반응형 CSS & Hover 툴팁 & 모바일 PC형 가로 레이아웃 고정]
 # =============================================================
 st.markdown("""
     <style>
@@ -31,12 +31,12 @@ st.markdown("""
         height: auto !important;
     }
     
-    /* 모바일 전용 스타일 (화면 너비 768px 이하) */
+    /* 모바일 기본 여백 조정 */
     @media (max-width: 768px) {
         .main .block-container,
         div[data-testid="stAppViewBlockContainer"] {
-            padding-left: 0.8rem !important;
-            padding-right: 0.8rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
             padding-top: 1rem !important;
         }
 
@@ -48,24 +48,23 @@ st.markdown("""
         }
 
         h3 { font-size: 1.15rem !important; }
-        p, div, span { font-size: 0.95rem !important; }
+        p, div, span { font-size: 0.9rem !important; }
 
-        .timeline-container {
-            flex-direction: column !important;
-            gap: 10px !important;
-        }
-        .timeline-line {
-            display: none !important;
-        }
-        .timeline-box {
-            width: 100% !important;
-            margin-bottom: 6px !important;
-            padding: 12px !important;
+        .facility-box, .first-aid-box {
+            padding: 10px !important;
+            margin-bottom: 8px !important;
         }
 
-        .facility-box, .first-aid-box, .dept-card, .night-card {
-            padding: 12px !important;
-            margin-bottom: 10px !important;
+        /* Streamlit 기본 칼럼 모바일 세로 정렬 방지 (3열 유지) */
+        div[data-testid="stHorizontalBlock"] {
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            gap: 6px !important;
+            overflow-x: auto !important;
+        }
+        div[data-testid="column"] {
+            min-width: 30% !important;
+            flex: 1 1 0% !important;
         }
     }
 
@@ -77,7 +76,7 @@ st.markdown("""
         padding: 12px;
         text-align: center;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 15px;
         color: #ffffff;
         max-width: 420px;
         margin: 0 auto;
@@ -87,30 +86,32 @@ st.markdown("""
     /* 본부 및 야간 카드 스타일 */
     .dept-card {
         border-radius: 8px;
-        padding: 10px;
+        padding: 8px;
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
         border-top: 3px solid #1e3a8a !important;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         margin-bottom: 12px;
         text-align: center;
+        height: 100%;
     }
     .dept-head {
         font-weight: bold;
-        padding: 8px;
+        padding: 6px 4px;
         border-radius: 4px;
         text-align: center;
         color: #ffffff;
         background-color: #1e3a8a;
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 13px;
+        margin-bottom: 8px;
+        word-break: keep-all;
     }
     .night-card {
         border: 1px solid #cbd5e1;
         border-top: 3px solid #1e3a8a !important;
         background-color: #ffffff;
         border-radius: 8px;
-        padding: 12px;
+        padding: 10px 4px;
         text-align: center;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         height: 100%;
@@ -124,15 +125,16 @@ st.markdown("""
         border: 1px dashed #cbd5e1;
         background-color: #f8fafc;
         color: #1e293b;
-        padding: 10px 8px;
-        margin-top: 8px;
+        padding: 8px 4px;
+        margin-top: 6px;
         border-radius: 6px;
         text-align: center;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
-        font-size: 13.5px;
+        font-size: 12px;
         font-weight: 600;
-        line-height: 1.4;
+        line-height: 1.3;
+        word-break: keep-all;
     }
 
     .hover-team-box:hover {
@@ -145,12 +147,12 @@ st.markdown("""
     .hover-team-box .tooltip-content {
         visibility: hidden;
         opacity: 0;
-        width: 260px;
+        width: 220px;
         background-color: #ffffff;
         color: #0f172a;
         text-align: left;
         border-radius: 8px;
-        padding: 12px 14px;
+        padding: 10px 12px;
         position: absolute;
         z-index: 99;
         bottom: 110%;
@@ -161,12 +163,11 @@ st.markdown("""
         border-top: 3px solid #1e3a8a;
         transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
         pointer-events: none;
-        font-size: 12.5px;
+        font-size: 11.5px;
         font-weight: normal;
-        line-height: 1.5;
+        line-height: 1.4;
     }
 
-    /* 툴팁 화살표 */
     .hover-team-box .tooltip-content::after {
         content: "";
         position: absolute;
@@ -186,10 +187,88 @@ st.markdown("""
     .tooltip-title {
         font-weight: bold;
         color: #1e3a8a;
-        font-size: 13.5px;
-        margin-bottom: 6px;
+        font-size: 12.5px;
+        margin-bottom: 4px;
         border-bottom: 1px solid #f1f5f9;
-        padding-bottom: 4px;
+        padding-bottom: 3px;
+    }
+
+    /* ========================================== */
+    /* [모바일 가로 스크롤형 타임라인 영역]          */
+    /* ========================================== */
+    .timeline-scroll-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px 0;
+    }
+    .timeline-wrapper {
+        position: relative;
+        min-width: 650px; /* PC형 비율을 유지하기 위한 최소 폭 고정 */
+        margin: 10px 0;
+    }
+    .timeline-line {
+        position: absolute;
+        top: 50%;
+        left: 4%;
+        right: 4%;
+        height: 3px;
+        background-color: #dbebe6;
+        z-index: 1;
+        transform: translateY(-50%);
+    }
+    .timeline-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    .timeline-box {
+        background: #ffffff;
+        border: 2px solid #dbe2ea;
+        border-radius: 12px;
+        padding: 14px 8px;
+        width: 18.5%;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .timeline-box.highlight {
+        border-color: #1e3a8a;
+        background-color: #f0f4ff;
+    }
+    .timeline-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: #1a202c;
+        margin-bottom: 4px;
+    }
+    .timeline-box.highlight .timeline-title {
+        color: #1e3a8a;
+    }
+    .timeline-subtitle {
+        font-size: 12.5px;
+        font-weight: bold;
+        color: #4a5568;
+        margin-bottom: 8px;
+        word-break: keep-all;
+    }
+    .timeline-box.highlight .timeline-subtitle {
+        color: #1e3a8a;
+    }
+    .timeline-badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 6px;
+        background-color: #e8f0fe;
+        color: #3b82f6;
+        word-break: keep-all;
+    }
+    .timeline-box.highlight .timeline-badge {
+        background-color: #1e3a8a;
+        color: #ffffff;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -232,9 +311,9 @@ def render_centered_table(df, col_widths=None):
     }
     .centered-table {
         width: 100%;
-        min-width: 500px;
+        min-width: 480px;
         border-collapse: collapse;
-        font-size: 13px;
+        font-size: 12.5px;
         background-color: #ffffff;
     }
     .centered-table th {
@@ -242,7 +321,7 @@ def render_centered_table(df, col_widths=None):
         color: #334155;
         font-weight: bold;
         text-align: center !important;
-        padding: 8px 8px;
+        padding: 8px 6px;
         border-bottom: 2px solid #e2e8f0;
         border-right: 1px solid #f1f5f9;
         white-space: nowrap;
@@ -435,7 +514,7 @@ if search_name.strip():
 st.markdown("---")
 
 # =============================================================
-# [섹션 2] 비상대응 조직표 (Hover 툴팁 간소화 및 색상 통일 적용)
+# [섹션 2] 비상대응 조직표 (모바일 3열 유지 및 스크롤)
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 
@@ -445,7 +524,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         .v-line {
             width: 2px;
             background-color: #cbd5e1;
-            height: 20px;
+            height: 16px;
             margin: 0 auto;
         }
         .h-line {
@@ -462,7 +541,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown('<div class="h-line"></div>', unsafe_allow_html=True)
     st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
 
-    st.caption("💡 각 반 상자에 마우스 커서를 올리면 핵심 임무를 확인할 수 있습니다.")
+    st.caption("💡 각 반 상자에 마우스 커서(터치)를 올리면 핵심 임무를 확인할 수 있습니다. (모바일 가로 스크롤 가능)")
 
     c1, c2, c3 = st.columns(3)
 
@@ -471,10 +550,10 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="dept-card">
                 <div class="dept-head">
-                    소방지휘 본부대장<br><span style="font-size: 12px; font-weight: normal;">(기술본부장)</span>
+                    소방지휘 본부대장<br><span style="font-size: 11px; font-weight: normal;">(기술본부장)</span>
                 </div>
                 <div class="hover-team-box">
-                    지휘반 (안전환경팀)
+                    지휘반<br>(안전환경팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 지휘반 세부 임무</div>
                         • 직장반 차석순으로 부대장의 임무수행보조<br>
@@ -482,7 +561,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    훈련 및 소화반 (기계팀, 운영팀)
+                    훈련 및 소화반<br>(기계팀, 운영팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 훈련 및 소화반 세부 임무</div>
                         • 자체소방시설을 활용한 초기화재 진압활동<br>
@@ -490,7 +569,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    피난유도반 (계전팀)
+                    피난유도반<br>(계전팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 피난유도반 세부 임무</div>
                         • 재실자 층별대피유도 및 방화문폐쇄<br>
@@ -505,10 +584,10 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="dept-card">
                 <div class="dept-head">
-                    상황 통제본부대장<br><span style="font-size: 12px; font-weight: normal;">(경영기획본부장)</span>
+                    상황 통제본부대장<br><span style="font-size: 11px; font-weight: normal;">(경영기획본부장)</span>
                 </div>
                 <div class="hover-team-box">
-                    비상연락반 (조직문화팀)
+                    비상연락반<br>(조직문화팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 비상연락반 세부 임무</div>
                         • 119신고 및 소내전파<br>
@@ -516,7 +595,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    경계반 (기획재무팀, DX혁신팀)
+                    경계반<br>(기획재무팀, DX혁신팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 경계반 세부 임무</div>
                         • 중요물품 반출이동<br>
@@ -531,24 +610,24 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="dept-card">
                 <div class="dept-head">
-                    의료구호 본부대장<br><span style="font-size: 12px; font-weight: normal;">(사업본부장)</span>
+                    의료구호 본부대장<br><span style="font-size: 11px; font-weight: normal;">(사업본부장)</span>
                 </div>
                 <div class="hover-team-box">
-                    의료반 (ESG추진팀, 대외협력팀)
+                    의료반<br>(ESG추진팀, 대외협력팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 의료반 세부 임무</div>
                         • 질식, 화상 등 중경상자의 응급처치
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    후송반 (고객지원팀)
+                    후송반<br>(고객지원팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 후송반 세부 임무</div>
                         • 사망자 안치 및 지정병원으로의 긴급 후송 지원
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    방호조치 및 복구반 (네트워크팀)
+                    방호조치 및 복구반<br>(네트워크팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 방호조치 및 복구반 세부 임무</div>
                         • 관할소방서 유도<br>
@@ -558,14 +637,14 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 
     # --- 야간 및 공휴일 비상대응 조직 ---
     st.markdown("<h5 style='text-align: center; color: #1e3a8a; font-weight: bold;'>🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)</h5>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #64748b; font-size: 13px; margin-bottom: 12px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #64748b; font-size: 12px; margin-bottom: 10px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div style="border: 1px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 10px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <div style="border: 1px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 8px; text-align: center; max-width: 380px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             임시소방대장 : 운영그룹장 (1명)
         </div>
         <div class="v-line"></div>
@@ -575,22 +654,22 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     with n1:
         st.markdown("""
             <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">비상연락반</div>
-                <div style="color: #475569; font-size: 13px;">CCR근무자 (2명)</div>
+                <div style="font-weight: bold; color: #1e3a8a; font-size: 13px; margin-bottom: 2px;">비상연락반</div>
+                <div style="color: #475569; font-size: 12px;">CCR근무자 (2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n2:
         st.markdown("""
             <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소화반</div>
-                <div style="color: #475569; font-size: 13px;">현장근무자 (2명)</div>
+                <div style="font-weight: bold; color: #1e3a8a; font-size: 13px; margin-bottom: 2px;">소화반</div>
+                <div style="color: #475569; font-size: 12px;">현장근무자 (2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n3:
         st.markdown("""
             <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소방대유도반</div>
-                <div style="color: #475569; font-size: 13px;">경비원 (1명)</div>
+                <div style="font-weight: bold; color: #1e3a8a; font-size: 13px; margin-bottom: 2px;">소방대유도반</div>
+                <div style="color: #475569; font-size: 12px;">경비원 (1명)</div>
             </div>
         """, unsafe_allow_html=True)
 
@@ -921,113 +1000,46 @@ with tab4:
 st.markdown("---")
 
 # =============================================================
-# [섹션 8] 연간 소방안전관리 일정
+# [섹션 8] 연간 소방안전관리 일정 (모바일 가로 스크롤 레이아웃 적용)
 # =============================================================
 st.subheader("📅 연간 소방안전관리 일정")
 
 st.markdown("""
-    <style>
-    .timeline-wrapper {
-        position: relative;
-        padding: 10px 0;
-        margin: 20px 0 10px 0;
-    }
-    .timeline-line {
-        position: absolute;
-        top: 50%;
-        left: 4%;
-        right: 4%;
-        height: 3px;
-        background-color: #dbebe6;
-        z-index: 1;
-        transform: translateY(-50%);
-    }
-    .timeline-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        z-index: 2;
-    }
-    .timeline-box {
-        background: #ffffff;
-        border: 2px solid #dbe2ea;
-        border-radius: 12px;
-        padding: 18px 10px;
-        width: 18.5%;
-        text-align: center;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-    .timeline-box.highlight {
-        border-color: #1e3a8a;
-        background-color: #f0f4ff;
-    }
-    .timeline-title {
-        font-size: 16px;
-        font-weight: 800;
-        color: #1a202c;
-        margin-bottom: 6px;
-    }
-    .timeline-box.highlight .timeline-title {
-        color: #1e3a8a;
-    }
-    .timeline-subtitle {
-        font-size: 13.5px;
-        font-weight: bold;
-        color: #4a5568;
-        margin-bottom: 12px;
-    }
-    .timeline-box.highlight .timeline-subtitle {
-        color: #1e3a8a;
-    }
-    .timeline-badge {
-        display: inline-block;
-        font-size: 11.5px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border-radius: 6px;
-        background-color: #e8f0fe;
-        color: #3b82f6;
-    }
-    .timeline-box.highlight .timeline-badge {
-        background-color: #1e3a8a;
-        color: #ffffff;
-    }
-    </style>
-
-    <div class="timeline-wrapper">
-        <div class="timeline-line"></div>
-        <div class="timeline-container">
-            <div class="timeline-box">
-                <div class="timeline-title">1월~4월</div>
-                <div class="timeline-subtitle">상시점검</div>
-                <div class="timeline-badge">소방시설 유지</div>
-            </div>
-            <div class="timeline-box highlight">
-                <div class="timeline-title">5월</div>
-                <div class="timeline-subtitle">작동점검</div>
-                <div class="timeline-badge">소방시설 작동점검</div>
-            </div>
-            <div class="timeline-box">
-                <div class="timeline-title">6월~10월</div>
-                <div class="timeline-subtitle">상시점검</div>
-                <div class="timeline-badge">일상 안전관리</div>
-            </div>
-            <div class="timeline-box highlight">
-                <div class="timeline-title">11월</div>
-                <div class="timeline-subtitle">종합점검</div>
-                <div class="timeline-badge">소방시설 종합점검</div>
-            </div>
-            <div class="timeline-box">
-                <div class="timeline-title">12월</div>
-                <div class="timeline-subtitle">동절기 점검 및 소방계획서 작성</div>
-                <div class="timeline-badge">연간 실적 정리</div>
+    <div class="timeline-scroll-container">
+        <div class="timeline-wrapper">
+            <div class="timeline-line"></div>
+            <div class="timeline-container">
+                <div class="timeline-box">
+                    <div class="timeline-title">1월~4월</div>
+                    <div class="timeline-subtitle">상시점검</div>
+                    <div class="timeline-badge">소방시설 유지</div>
+                </div>
+                <div class="timeline-box highlight">
+                    <div class="timeline-title">5월</div>
+                    <div class="timeline-subtitle">작동점검</div>
+                    <div class="timeline-badge">소방시설 작동점검</div>
+                </div>
+                <div class="timeline-box">
+                    <div class="timeline-title">6월~10월</div>
+                    <div class="timeline-subtitle">상시점검</div>
+                    <div class="timeline-badge">일상 안전관리</div>
+                </div>
+                <div class="timeline-box highlight">
+                    <div class="timeline-title">11월</div>
+                    <div class="timeline-subtitle">종합점검</div>
+                    <div class="timeline-badge">소방시설 종합점검</div>
+                </div>
+                <div class="timeline-box">
+                    <div class="timeline-title">12월</div>
+                    <div class="timeline-subtitle">동절기 점검 및 소방계획서 작성</div>
+                    <div class="timeline-badge">연간 실적 정리</div>
+                </div>
             </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-st.caption("※ 금년도 화재예방안전진단 수검으로 인한 교육·훈련 면제로 12월 합동 교육·훈련이 아닌 자체 실시를 통해 약소화 진행 예정")
+st.caption("※ 금년도 화재예방안전진단 수검으로 인한 교육·훈련 면제로 12월 합동 교육·훈련이 아닌 자체 실시를 통해 약소화 진행 예정 (모바일 화면에서는 좌우로 스크롤하여 일정 전체를 보실 수 있습니다)")
 
 st.markdown("---")
 

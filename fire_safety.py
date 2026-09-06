@@ -159,8 +159,27 @@ st.markdown("""
         }
 
         .facility-box, .first-aid-box, .dept-card, .night-card {
-            padding: 12px !important;
-            margin-bottom: 10px !important;
+            padding: 8px !important;
+            margin-bottom: 8px !important;
+        }
+        
+        /* 모바일에서도 비상대응 조직도를 가로 3열로 유지하고 가로 스크롤 가능하게 처리 */
+        .org-scroll-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            padding-bottom: 10px;
+        }
+        .org-flex-wrapper {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            gap: 12px !important;
+            min-width: 680px !important;
+        }
+        .org-col-item {
+            flex: 0 0 310px !important;
+            width: 310px !important;
         }
     }
 
@@ -189,6 +208,7 @@ st.markdown("""
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         margin-bottom: 12px;
         text-align: center;
+        height: 100%;
     }
     .dept-head {
         font-weight: bold;
@@ -559,99 +579,117 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기", expanded=
 
     st.caption("💡 각 반 상자에 마우스 커서를 올리면 핵심 임무를 확인할 수 있습니다.")
 
-    c1, c2, c3 = st.columns(3)
+    # 모바일에서도 3열 배치가 가로로 유지되도록 감싸는 컨테이너 적용
+    st.markdown("""
+    <div class="org-scroll-container">
+        <div class="org-flex-wrapper" style="display: flex; gap: 16px; width: 100%;">
+            <div class="org-col-item" style="flex: 1; min-width: 0;">
+    """, unsafe_allow_html=True)
 
     # --- 1. 소방지휘본부 ---
-    with c1:
-        st.markdown("""
-            <div class="dept-card">
-                <div class="dept-head">
-                    소방지휘 본부대장<br><span style="font-size: 12px; font-weight: normal;">(기술본부장)</span>
-                </div>
-                <div class="hover-team-box">
-                    지휘반 (안전환경팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 지휘반 세부 임무</div>
-                        • 직장반 차석순으로 부대장의 임무수행보조<br>
-                        • 연간 및 월간 소방안전관리계획 수립 및 실시
-                    </div>
-                </div>
-                <div class="hover-team-box">
-                    훈련 및 소화반 (기계팀, 운영팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 훈련 및 소화반 세부 임무</div>
-                        • 자체소방시설을 활용한 초기화재 진압활동<br>
-                        • 소화용수의 보존과 급수
-                    </div>
-                </div>
-                <div class="hover-team-box">
-                    피난유도반 (계전팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 피난유도반 세부 임무</div>
-                        • 재실자 층별대피유도 및 방화문폐쇄<br>
-                        • 재실자 인명검색구조 및 대피경로 안내
-                    </div>
+    st.markdown("""
+        <div class="dept-card">
+            <div class="dept-head">
+                소방지휘 본부대장<br><span style="font-size: 12px; font-weight: normal;">(기술본부장)</span>
+            </div>
+            <div class="hover-team-box">
+                지휘반 (안전환경팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 지휘반 세부 임무</div>
+                    • 직장반 차석순으로 부대장의 임무수행보조<br>
+                    • 연간 및 월간 소방안전관리계획 수립 및 실시
                 </div>
             </div>
-        """, unsafe_allow_html=True)
+            <div class="hover-team-box">
+                훈련 및 소화반 (기계팀, 운영팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 훈련 및 소화반 세부 임무</div>
+                    • 자체소방시설을 활용한 초기화재 진압활동<br>
+                    • 소화용수의 보존과 급수
+                </div>
+            </div>
+            <div class="hover-team-box">
+                피난유도반 (계전팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 피난유도반 세부 임무</div>
+                    • 재실자 층별대피유도 및 방화문폐쇄<br>
+                    • 재실자 인명검색구조 및 대피경로 안내
+                </div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+            </div>
+            <div class="org-col-item" style="flex: 1; min-width: 0;">
+    """, unsafe_allow_html=True)
 
     # --- 2. 상황통제본부 ---
-    with c2:
-        st.markdown("""
-            <div class="dept-card">
-                <div class="dept-head">
-                    상황 통제본부대장<br><span style="font-size: 12px; font-weight: normal;">(경영기획본부장)</span>
-                </div>
-                <div class="hover-team-box">
-                    비상연락반 (조직문화팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 비상연락반 세부 임무</div>
-                        • 119신고 및 소내전파<br>
-                        • 관계기관 통보 및 상황 공유
-                    </div>
-                </div>
-                <div class="hover-team-box">
-                    경계반 (기획재무팀, DX혁신팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 경계반 세부 임무</div>
-                        • 중요물품 반출이동<br>
-                        • 반출물건의 경비 및 출입인원 통제
-                    </div>
+    st.markdown("""
+        <div class="dept-card">
+            <div class="dept-head">
+                상황 통제본부대장<br><span style="font-size: 12px; font-weight: normal;">(경영기획본부장)</span>
+            </div>
+            <div class="hover-team-box">
+                비상연락반 (조직문화팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 비상연락반 세부 임무</div>
+                    • 119신고 및 소내전파<br>
+                    • 관계기관 통보 및 상황 공유
                 </div>
             </div>
-        """, unsafe_allow_html=True)
+            <div class="hover-team-box">
+                경계반 (기획재무팀, DX혁신팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 경계반 세부 임무</div>
+                    • 중요물품 반출이동<br>
+                    • 반출물건의 경비 및 출입인원 통제
+                </div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+            </div>
+            <div class="org-col-item" style="flex: 1; min-width: 0;">
+    """, unsafe_allow_html=True)
 
     # --- 3. 의료구호본부 ---
-    with c3:
-        st.markdown("""
-            <div class="dept-card">
-                <div class="dept-head">
-                    의료구호 본부대장<br><span style="font-size: 12px; font-weight: normal;">(사업본부장)</span>
-                </div>
-                <div class="hover-team-box">
-                    의료반 (ESG추진팀, 대외협력팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 의료반 세부 임무</div>
-                        • 질식, 화상 등 중경상자의 응급처치
-                    </div>
-                </div>
-                <div class="hover-team-box">
-                    후송반 (고객지원팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 후송반 세부 임무</div>
-                        • 사망자 안치 및 지정병원으로의 긴급 후송 지원
-                    </div>
-                </div>
-                <div class="hover-team-box">
-                    방호조치 및 복구반 (네트워크팀)
-                    <div class="tooltip-content">
-                        <div class="tooltip-title">📌 방호조치 및 복구반 세부 임무</div>
-                        • 관할소방서 유도<br>
-                        • 가스 위험물 등 소방활동상의 장애물 제거 및 복구
-                    </div>
+    st.markdown("""
+        <div class="dept-card">
+            <div class="dept-head">
+                의료구호 본부대장<br><span style="font-size: 12px; font-weight: normal;">(사업본부장)</span>
+            </div>
+            <div class="hover-team-box">
+                의료반 (ESG추진팀, 대외협력팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 의료반 세부 임무</div>
+                    • 질식, 화상 등 중경상자의 응급처치
                 </div>
             </div>
-        """, unsafe_allow_html=True)
+            <div class="hover-team-box">
+                후송반 (고객지원팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 후송반 세부 임무</div>
+                    • 사망자 안치 및 지정병원으로의 긴급 후송 지원
+                </div>
+            </div>
+            <div class="hover-team-box">
+                방호조치 및 복구반 (네트워크팀)
+                <div class="tooltip-content">
+                    <div class="tooltip-title">📌 방호조치 및 복구반 세부 임무</div>
+                    • 관할소방서 유도<br>
+                    • 가스 위험물 등 소방활동상의 장애물 제거 및 복구
+                </div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
 
@@ -666,28 +704,48 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기", expanded=
         <div class="v-line"></div>
     """, unsafe_allow_html=True)
 
-    n1, n2, n3 = st.columns(3)
-    with n1:
-        st.markdown("""
-            <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">비상연락반</div>
-                <div style="color: #475569; font-size: 13px;">CCR근무자 (2명)</div>
+    st.markdown("""
+    <div class="org-scroll-container">
+        <div class="org-flex-wrapper" style="display: flex; gap: 12px; width: 100%;">
+            <div class="org-col-item" style="flex: 1; min-width: 0;">
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="night-card">
+            <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">비상연락반</div>
+            <div style="color: #475569; font-size: 13px;">CCR근무자 (2명)</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
             </div>
-        """, unsafe_allow_html=True)
-    with n2:
-        st.markdown("""
-            <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소화반</div>
-                <div style="color: #475569; font-size: 13px;">현장근무자 (2명)</div>
+            <div class="org-col-item" style="flex: 1; min-width: 0;">
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="night-card">
+            <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소화반</div>
+            <div style="color: #475569; font-size: 13px;">현장근무자 (2명)</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
             </div>
-        """, unsafe_allow_html=True)
-    with n3:
-        st.markdown("""
-            <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소방대유도반</div>
-                <div style="color: #475569; font-size: 13px;">경비원 (1명)</div>
+            <div class="org-col-item" style="flex: 1; min-width: 0;">
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="night-card">
+            <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소방대유도반</div>
+            <div style="color: #475569; font-size: 13px;">경비원 (1명)</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
             </div>
-        """, unsafe_allow_html=True)
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("---")
 

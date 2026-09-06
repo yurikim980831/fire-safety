@@ -31,6 +31,81 @@ st.markdown("""
         height: auto !important;
     }
     
+    /* 연간 소방안전관리 일정 박스 동일 크기 및 균등 배치 기본 스타일 */
+    .timeline-wrapper {
+        position: relative;
+        padding: 10px 0;
+        margin: 20px 0 10px 0;
+    }
+    .timeline-line {
+        position: absolute;
+        top: 50%;
+        left: 4%;
+        right: 4%;
+        height: 3px;
+        background-color: #dbebe6;
+        z-index: 1;
+        transform: translateY(-50%);
+    }
+    .timeline-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch; /* 높이 균일하게 맞춤 */
+        position: relative;
+        z-index: 2;
+        gap: 8px;
+    }
+    .timeline-box {
+        background: #ffffff;
+        border: 2px solid #dbe2ea;
+        border-radius: 12px;
+        padding: 14px 6px;
+        flex: 1; /* 모두 동일한 너비 점유 */
+        min-width: 0;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .timeline-box.highlight {
+        border-color: #1e3a8a;
+        background-color: #f0f4ff;
+    }
+    .timeline-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: #1a202c;
+        margin-bottom: 4px;
+    }
+    .timeline-box.highlight .timeline-title {
+        color: #1e3a8a;
+    }
+    .timeline-subtitle {
+        font-size: 11.5px;
+        font-weight: bold;
+        color: #4a5568;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    .timeline-box.highlight .timeline-subtitle {
+        color: #1e3a8a;
+    }
+    .timeline-badge {
+        display: inline-block;
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 6px;
+        background-color: #e8f0fe;
+        color: #3b82f6;
+        word-break: keep-all;
+    }
+    .timeline-box.highlight .timeline-badge {
+        background-color: #1e3a8a;
+        color: #ffffff;
+    }
+
     /* 모바일 전용 스타일 (화면 너비 768px 이하) */
     @media (max-width: 768px) {
         .main .block-container,
@@ -50,28 +125,37 @@ st.markdown("""
         h3 { font-size: 1.15rem !important; }
         p, div, span { font-size: 0.95rem !important; }
 
-        /* 연간 소방안전관리 일정을 모바일에서도 가로 스크롤로 한눈에 보이도록 설정 */
-        .timeline-wrapper {
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 10px;
+        /* 익스팬더(탭) 라벨 줄바꿈 허용 (모바일 전용) */
+        div[data-testid="stExpander"] summary p {
+            white-space: normal !important;
+            word-break: keep-all !important;
+            line-height: 1.4 !important;
         }
-        .timeline-container {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            gap: 8px !important;
-            width: max-content !important;
-            min-width: 100% !important;
-        }
+
+        /* 모바일에서 연간 소방안전관리 일정 폰트 축소 및 5개 동일 크기 정렬 유지 */
         .timeline-line {
             display: none !important;
         }
+        .timeline-container {
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            gap: 3px !important;
+        }
         .timeline-box {
-            width: 130px !important;
-            flex: 0 0 auto !important;
-            margin-bottom: 0px !important;
-            padding: 12px 6px !important;
+            padding: 8px 2px !important;
+            border-radius: 6px !important;
+        }
+        .timeline-title {
+            font-size: 11px !important;
+            margin-bottom: 2px !important;
+        }
+        .timeline-subtitle {
+            font-size: 9.5px !important;
+            margin-bottom: 4px !important;
+        }
+        .timeline-badge {
+            font-size: 8.5px !important;
+            padding: 2px 2px !important;
         }
 
         .facility-box, .first-aid-box, .dept-card, .night-card {
@@ -450,7 +534,7 @@ st.markdown("---")
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 
-with st.expander("🔻 자위소방대 비상대응 조직도 보기\n(클릭하여 펼치기)", expanded=True):
+with st.expander("🔻 자위소방대 비상대응 조직도 보기", expanded=True):
     st.markdown("""
         <style>
         .v-line {
@@ -615,7 +699,7 @@ st.subheader("🚨 비상 대피소 안내")
 c_shelter1, c_shelter2 = st.columns(2)
 
 with c_shelter1:
-    with st.expander("🚩 **1차대피소 위치 및 피난동선 확인**\n(클릭하여 펼치기)", expanded=False):
+    with st.expander("🚩 **1차대피소 위치 및 피난동선 확인**", expanded=False):
         st.error("🚩 **1차 대피소 : 관리동 뒤 쪽문**")
         st.markdown("* 건물에서 빠져나와 즉시 집결하여 팀별 인원 파악을 실시하는 장소입니다.")
         
@@ -626,7 +710,7 @@ with c_shelter1:
         if os.path.exists(img2_path): st.image(img2_path, caption="1차 대피소 비상 피난 동선 도면", use_container_width=True)
 
 with c_shelter2:
-    with st.expander("⚠️ **2차대피소 위치 및 피난동선 확인**\n(클릭하여 펼치기)", expanded=False):
+    with st.expander("⚠️ **2차대피소 위치 및 피난동선 확인**", expanded=False):
         st.warning("⚠️ **2차 대피소: 셀트리온 정문**")
         st.markdown("* 화재 및 누출 규모가 커 대내외 확산 우려가 있을 경우 이동하는 장소입니다.")
         
@@ -756,7 +840,7 @@ with col_water:
 
 st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
-with st.expander("📍 **소방 수신반 및 상수도 위치 도면 보기**\n**(클릭하여 펼치기)**", expanded=False):
+with st.expander("📍 **소방 수신반 및 상수도 위치 도면 보기**", expanded=False):
     fp_img_path = None
     fp_candidates = [
         "firepump.jpg", "firepump.png", "firepump.jpeg",
@@ -846,7 +930,7 @@ with aed_col:
 
 st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
-with st.expander("📍 **사내 AED(자동심장충격기) 설치 위치 및 안내문 보기**\n**(클릭하여 펼치기)**", expanded=False):
+with st.expander("📍 **사내 AED 설치 위치 및 안내문 보기**", expanded=False):
     aed_img_path = None
     for aed_fname in ["AED.jpg", "aed.jpg", "AED.PNG", "aed.png"]:
         t_path = os.path.join(BASE_DIR, aed_fname)
@@ -937,75 +1021,6 @@ st.markdown("---")
 st.subheader("📅 연간 소방안전관리 일정")
 
 st.markdown("""
-    <style>
-    .timeline-wrapper {
-        position: relative;
-        padding: 10px 0;
-        margin: 20px 0 10px 0;
-    }
-    .timeline-line {
-        position: absolute;
-        top: 50%;
-        left: 4%;
-        right: 4%;
-        height: 3px;
-        background-color: #dbebe6;
-        z-index: 1;
-        transform: translateY(-50%);
-    }
-    .timeline-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        z-index: 2;
-    }
-    .timeline-box {
-        background: #ffffff;
-        border: 2px solid #dbe2ea;
-        border-radius: 12px;
-        padding: 18px 10px;
-        width: 18.5%;
-        text-align: center;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-    .timeline-box.highlight {
-        border-color: #1e3a8a;
-        background-color: #f0f4ff;
-    }
-    .timeline-title {
-        font-size: 16px;
-        font-weight: 800;
-        color: #1a202c;
-        margin-bottom: 6px;
-    }
-    .timeline-box.highlight .timeline-title {
-        color: #1e3a8a;
-    }
-    .timeline-subtitle {
-        font-size: 13.5px;
-        font-weight: bold;
-        color: #4a5568;
-        margin-bottom: 12px;
-    }
-    .timeline-box.highlight .timeline-subtitle {
-        color: #1e3a8a;
-    }
-    .timeline-badge {
-        display: inline-block;
-        font-size: 11.5px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border-radius: 6px;
-        background-color: #e8f0fe;
-        color: #3b82f6;
-    }
-    .timeline-box.highlight .timeline-badge {
-        background-color: #1e3a8a;
-        color: #ffffff;
-    }
-    </style>
-
     <div class="timeline-wrapper">
         <div class="timeline-line"></div>
         <div class="timeline-container">

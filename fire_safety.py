@@ -436,18 +436,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         /* 야간 및 공휴일 비상대응 조직 네이비 톤 통일 및 여백 확보 */
         .night-section {
             margin-top: 25px;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-        }
-        .night-card {
-            border: 1px solid #cbd5e1;
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 14px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            height: 100%;
-            border-top: 3px solid #1e3a8a !important;
+            margin-bottom: 20px;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -553,41 +542,47 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
 
     st.markdown("<p style='text-align: center; color: #64748b; font-size: 12px; margin-top: 6px;'>※ 각 반(네모 박스)을 마우스로 가리키거나 클릭하시면 세부 임무를 확인하실 수 있습니다.</p>", unsafe_allow_html=True)
 
-    # 야간 및 공휴일 조직도 영역 (네이비 톤 통일 및 하단 여백 추가)
+    # 야간 및 공휴일 비상대응 조직 영역 (수정 반영)
     st.markdown("""
-        <div class="night-section">
-            <h5 style='text-align: center; color: #1e3a8a; font-weight: bold;'>🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)</h5>
-            <p style='text-align: center; color: #64748b; font-size: 13px; margin-bottom: 12px;'>※ 교대근무자 5명 + 경비원 1명</p>
-            
-            <div style="border: 2px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 10px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 15px;">
-                임시소방대장 : 운영그룹장 (1명)
+        <div class="night-section" style="width: 100%; max-width: 800px; margin: 30px auto 0 auto;">
+          <div style="text-align: center; color: #1e3a8a; margin-bottom: 20px;">
+            <h5 style="margin: 0; font-size: 18px; font-weight: bold;">🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)</h5>
+            <p style="margin: 6px 0 0 0; font-size: 13px; color: #64748b;">※ 교대근무자 5명 + 경비원 1명</p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background-color: #1e3a8a; border: 2px solid #1e3a8a; border-radius: 8px; padding: 12px 20px; text-align: center; width: 100%; max-width: 400px; font-weight: bold; font-size: 15px; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+              CSO (임시소방대장) : 운영그룹장 (1명)
             </div>
-            <div class="v-line"></div>
+
+            <div style="width: 2px; height: 20px; background-color: #94a3b8;"></div>
+            <div style="width: 68%; height: 2px; background-color: #94a3b8;"></div>
+
+            <div style="display: flex; justify-content: space-between; width: 100%; gap: 12px;">
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 2px; height: 20px; background-color: #94a3b8;"></div>
+                <div style="background-color: #3b82f6; border: 2px solid #3b82f6; border-radius: 8px; padding: 12px 8px; text-align: center; width: 100%; font-size: 14px; font-weight: bold; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+                  대장 1
+                </div>
+              </div>
+
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 2px; height: 20px; background-color: #94a3b8;"></div>
+                <div style="background-color: #3b82f6; border: 2px solid #3b82f6; border-radius: 8px; padding: 12px 8px; text-align: center; width: 100%; font-size: 14px; font-weight: bold; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+                  대장 2
+                </div>
+              </div>
+
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 2px; height: 20px; background-color: #94a3b8;"></div>
+                <div style="background-color: #3b82f6; border: 2px solid #3b82f6; border-radius: 8px; padding: 12px 8px; text-align: center; width: 100%; font-size: 14px; font-weight: bold; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+                  대장 3
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
     """, unsafe_allow_html=True)
-
-    n1, n2, n3 = st.columns(3)
-    with n1:
-        st.markdown("""
-            <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">비상연락반</div>
-                <div style="color: #475569; font-size: 13.5px;">CCR근무자 (2명)</div>
-            </div>
-        """, unsafe_allow_html=True)
-    with n2:
-        st.markdown("""
-            <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">소화반</div>
-                <div style="color: #475569; font-size: 13.5px;">현장근무자 (2명)</div>
-            </div>
-        """, unsafe_allow_html=True)
-    with n3:
-        st.markdown("""
-            <div class="night-card">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">소방대유도반</div>
-                <div style="color: #475569; font-size: 13.5px;">경비원 (1명)</div>
-            </div>
-        """, unsafe_allow_html=True)
 
     # 하단 여백 추가
     st.markdown("<div style='height: 35px;'></div>", unsafe_allow_html=True)

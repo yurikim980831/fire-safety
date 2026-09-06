@@ -47,11 +47,11 @@ st.markdown("""
 
     /* 메인 헤더 배너 */
     .dashboard-header {
-        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         padding: 2.2rem 2rem;
         border-radius: 16px;
         color: #ffffff;
-        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
         margin-bottom: 2rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -67,20 +67,20 @@ st.markdown("""
     }
     .dashboard-meta {
         font-size: 0.9rem;
-        color: #dbeafe;
+        color: #94a3b8;
         display: flex;
         align-items: center;
         gap: 12px;
         font-weight: 500;
     }
     .dashboard-badge {
-        background: rgba(255, 255, 255, 0.2);
-        color: #ffffff;
+        background: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
         padding: 3px 10px;
         border-radius: 20px;
         font-size: 0.8rem;
         font-weight: 600;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
     /* 서브헤더 디자인 */
@@ -167,47 +167,6 @@ st.markdown("""
     }
     .task-item:last-child {
         margin-bottom: 0;
-    }
-
-    /* 심폐소생술/응급처치 카드 스타일 */
-    .first-aid-box {
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 18px;
-        background-color: #ffffff;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-        height: 100%;
-    }
-    .first-aid-title {
-        font-weight: 700;
-        font-size: 1.05rem;
-        color: #1e293b;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    /* 뉴스 항목 카드 */
-    .news-card {
-        border-bottom: 1px solid #f1f5f9;
-        padding: 10px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .news-card:last-child {
-        border-bottom: none;
-    }
-    .news-title {
-        font-size: 0.93rem;
-        color: #334155;
-        text-decoration: none;
-        font-weight: 500;
-    }
-    .news-title:hover {
-        color: #2563eb;
-        text-decoration: underline;
     }
 
     /* 모바일 반응형 대응 */
@@ -467,8 +426,8 @@ if search_name.strip():
             for _, row in result.iterrows():
                 with st.container():
                     st.markdown(f"""
-                        <div style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 12px; padding: 18px; margin-bottom: 12px;">
-                            <div style="font-size: 1.1rem; font-weight: 700; color: #1e3a8a; margin-bottom: 10px;">
+                        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px; margin-bottom: 12px;">
+                            <div style="font-size: 1.1rem; font-weight: 700; color: #166534; margin-bottom: 10px;">
                                 🎯 <b>{row['이름']}</b>님의 자위소방대 정보
                             </div>
                         </div>
@@ -488,7 +447,7 @@ if search_name.strip():
 st.markdown("---")
 
 # =============================================================
-# [섹션 2] 비상대응 조직표 (색상 밝게 리뉴얼 적용)
+# [섹션 2] 비상대응 조직표
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 
@@ -496,8 +455,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown("""
         <style>
         .tree-top {
-            border: 2px solid #2563eb;
-            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            border: 2px solid #0f172a;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border-radius: 10px;
             padding: 14px;
             text-align: center;
@@ -506,7 +465,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             color: #ffffff;
             max-width: 440px;
             margin: 0 auto;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
         .v-line {
             width: 2px;
@@ -540,7 +499,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             color: #ffffff;
             font-size: 14px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .sub-box {
             background-color: #f8fafc;
@@ -582,8 +541,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
 
     with c1:
         st.markdown("""
-            <div class="dept-card" style="border-top: 4px solid #2563eb;">
-                <div class="dept-head" style="background-color: #2563eb;">
+            <div class="dept-card" style="border-top: 4px solid #ef4444;">
+                <div class="dept-head" style="background-color: #ef4444;">
                     소방지휘 본부대장<br><span style="font-size: 12px; font-weight: normal; opacity: 0.9;">(기술본부장)</span>
                 </div>
                 <div class="sub-box">
@@ -603,8 +562,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
 
     with c2:
         st.markdown("""
-            <div class="dept-card" style="border-top: 4px solid #0284c7;">
-                <div class="dept-head" style="background-color: #0284c7;">
+            <div class="dept-card" style="border-top: 4px solid #3b82f6;">
+                <div class="dept-head" style="background-color: #3b82f6;">
                     상황 통제본부대장<br><span style="font-size: 12px; font-weight: normal; opacity: 0.9;">(경영기획본부장)</span>
                 </div>
                 <div class="sub-box">
@@ -620,8 +579,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
 
     with c3:
         st.markdown("""
-            <div class="dept-card" style="border-top: 4px solid #475569;">
-                <div class="dept-head" style="background-color: #475569;">
+            <div class="dept-card" style="border-top: 4px solid #10b981;">
+                <div class="dept-head" style="background-color: #10b981;">
                     의료구호 본부대장<br><span style="font-size: 12px; font-weight: normal; opacity: 0.9;">(사업본부장)</span>
                 </div>
                 <div class="sub-box">
@@ -647,8 +606,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     with st.expander("📋 **각 본부 및 반별 세부 임무 상세 보기 (클릭하여 펼치기)**", expanded=False):
         st.markdown("""
             <div class="task-card">
-                <div class="task-card-header" style="color: #2563eb; border-color: #2563eb;">
-                    🏛️ 소방지휘본부 (본부대장: 기술본부장)
+                <div class="task-card-header" style="color: #ef4444; border-color: #ef4444;">
+                    🟥 소방지휘본부 (본부대장: 기술본부장)
                 </div>
                 <div class="task-item">
                     • <b>지휘반 (안전환경팀) :</b> 직장반 차석순으로 부대장의 임무수행보조, 연간 및 월간 소방안전관리계획 수립 및 실시
@@ -662,8 +621,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             </div>
 
             <div class="task-card">
-                <div class="task-card-header" style="color: #0284c7; border-color: #0284c7;">
-                    🏢 상황통제본부 (본부대장: 경영기획본부장)
+                <div class="task-card-header" style="color: #3b82f6; border-color: #3b82f6;">
+                    🟦 상황통제본부 (본부대장: 경영기획본부장)
                 </div>
                 <div class="task-item">
                     • <b>비상연락반 (조직문화팀) :</b> 119신고 및 소내전파, 관계기관에 통보
@@ -674,8 +633,8 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             </div>
 
             <div class="task-card">
-                <div class="task-card-header" style="color: #475569; border-color: #475569;">
-                    🏥 의료구호본부 (본부대장: 사업본부장)
+                <div class="task-card-header" style="color: #10b981; border-color: #10b981;">
+                    🟩 의료구호본부 (본부대장: 사업본부장)
                 </div>
                 <div class="task-item">
                     • <b>의료반 (ESG추진팀, 대외협력팀) :</b> 질식, 화상 등 중경상자의 응급처치
@@ -695,7 +654,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown("<p style='text-align: center; color: #64748b; font-size: 13px; margin-bottom: 14px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div style="border: 2px solid #2563eb; background: #2563eb; border-radius: 10px; padding: 12px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: 700; color: #ffffff; font-size: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="border: 2px solid #334155; background: #1e293b; border-radius: 10px; padding: 12px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: 700; color: #ffffff; font-size: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
             임시소방대장 : 운영그룹장 (1명)
         </div>
         <div class="v-line"></div>
@@ -704,22 +663,22 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     n1, n2, n3 = st.columns(3)
     with n1:
         st.markdown("""
-            <div class="night-card" style="border-top: 3px solid #0284c7;">
-                <div style="font-weight: 700; color: #0284c7; font-size: 14px; margin-bottom: 4px;">비상연락반</div>
+            <div class="night-card" style="border-top: 3px solid #3b82f6;">
+                <div style="font-weight: 700; color: #1d4ed8; font-size: 14px; margin-bottom: 4px;">비상연락반</div>
                 <div style="color: #475569; font-size: 13px;">CCR근무자 (2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n2:
         st.markdown("""
-            <div class="night-card" style="border-top: 3px solid #0284c7;">
-                <div style="font-weight: 700; color: #0284c7; font-size: 14px; margin-bottom: 4px;">소화반</div>
+            <div class="night-card" style="border-top: 3px solid #f59e0b;">
+                <div style="font-weight: 700; color: #b45309; font-size: 14px; margin-bottom: 4px;">소화반</div>
                 <div style="color: #475569; font-size: 13px;">현장근무자 (2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n3:
         st.markdown("""
-            <div class="night-card" style="border-top: 3px solid #475569;">
-                <div style="font-weight: 700; color: #475569; font-size: 14px; margin-bottom: 4px;">소방대유도반</div>
+            <div class="night-card" style="border-top: 3px solid #10b981;">
+                <div style="font-weight: 700; color: #047857; font-size: 14px; margin-bottom: 4px;">소방대유도반</div>
                 <div style="color: #475569; font-size: 13px;">경비원 (1명)</div>
             </div>
         """, unsafe_allow_html=True)
@@ -818,8 +777,8 @@ st.markdown("""
     .facility-box:hover {
         transform: translateY(-2px);
     }
-    .facility-title-blue {
-        color: #2563eb;
+    .facility-title-red {
+        color: #dc2626;
         font-weight: 700;
         font-size: 1.05rem;
         margin-bottom: 14px;
@@ -827,8 +786,8 @@ st.markdown("""
         align-items: center;
         gap: 6px;
     }
-    .facility-title-sky {
-        color: #0284c7;
+    .facility-title-blue {
+        color: #2563eb;
         font-weight: 700;
         font-size: 1.05rem;
         margin-bottom: 14px;
@@ -854,9 +813,9 @@ st.markdown("""
 with col_rec:
     st.markdown("""
     <div class="facility-box">
-        <div class="facility-title-blue">🟦 소방 수신반 (수신기) 위치</div>
+        <div class="facility-title-red">🟥 소방 수신반 (수신기) 위치</div>
         <div class="facility-content">
-            <div>• <b>설치 장소:</b> <span style="background-color: #eff6ff; color: #1d4ed8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">주제어동 3층 CCR</span></div>
+            <div>• <b>설치 장소:</b> <span style="background-color: #fef2f2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-weight: 700;">주제어동 3층 CCR</span></div>
             <div class="facility-role-section">• <b>주요 역할:</b>
                 <ul>
                     <li>사업장 내 화재 감지기/발신기 작동 구역 즉시 확인</li>
@@ -870,9 +829,9 @@ with col_rec:
 with col_water:
     st.markdown("""
     <div class="facility-box">
-        <div class="facility-title-sky">🟦 상수도 (소화용수) 위치</div>
+        <div class="facility-title-blue">🟦 상수도 (소화용수) 위치</div>
         <div class="facility-content">
-            <div>• <b>설치 장소:</b> <span style="background-color: #f0f9ff; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: 700;">스팀터빈동 주출입구 앞</span></div>
+            <div>• <b>설치 장소:</b> <span style="background-color: #eff6ff; color: #1e40af; padding: 2px 6px; border-radius: 4px; font-weight: 700;">스팀터빈동 주출입구 앞</span></div>
             <div class="facility-role-section">• <b>주요 역할:</b>
                 <ul>
                     <li>화재 발생 시 소방차 급수 지원 및 소화용수 보충</li>
@@ -910,61 +869,373 @@ with st.expander("📍 **소방 수신반 및 상수도 위치 도면 보기 (�
 st.markdown("---")
 
 # =============================================================
-# [섹션 6] 응급처치 및 심폐소생술 (CPR) 가이드
+# [섹션 6] 응급처치 가이드 (CPR 및 AED)
 # =============================================================
-st.subheader("🏥 응급처치 및 심폐소생술 (CPR) 가이드")
+st.subheader("💚 응급처치 가이드 (CPR 및 AED 사용법)")
 
-c_cpr, c_aed = st.columns(2)
+st.markdown("""
+    <style>
+    .first-aid-box {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-with c_cpr:
+cpr_col, aed_col = st.columns(2)
+
+with cpr_col:
     st.markdown("""
-        <div class="first-aid-box">
-            <div class="first-aid-title">🫀 심폐소생술 (CPR) 순서</div>
-            <ol style="margin-left: -15px; margin-bottom: 0; line-height: 1.7; font-size: 0.92rem; color: #334155;">
-                <li><b>의식 확인:</b> 어깨를 가볍게 두드리며 반응을 확인합니다.</li>
-                <li><b>119 신고 & AED 요청:</b> 주변 사람을 지목하여 119 신고와 자동심장충격기(AED)를 요청합니다.</li>
-                <li><b>가슴압박 30회:</b> 깍지 낀 손으로 가슴 중앙(양 젖꼭지 중간)을 분당 100~120회 속도로 5cm 깊이로 강하게 압박합니다.</li>
-                <li><b>인공호흡 2회:</b> 기도를 확보한 후 코를 막고 1초간 숨을 불어넣습니다. (미숙 시 가슴압박 지속)</li>
-            </ol>
+    <div class="first-aid-box">
+        <h5 style="font-weight: 700; margin-bottom: 14px; color: #0f172a; font-size: 1.05rem;">🫀 심폐소생술(CPR) 방법</h5>
+        <div style="font-size: 0.93rem; line-height: 1.65; color: #334155; flex-grow: 1;">
+        <ol style="padding-left: 18px; margin: 0;">
+            <li style="margin-bottom: 10px;"><b>의식 및 호흡 확인:</b> 어깨를 가볍게 두드리며 반응 및 정상 호흡 여부를 확인합니다.</li>
+            <li style="margin-bottom: 10px;"><b>119 신고 및 AED 요청:</b> 주변 사람을 특정하여 119 신고와 AED를 가져오도록 지시합니다.</li>
+            <li style="margin-bottom: 10px;"><b>가슴압박 30회 실시:</b>
+                <ul style="padding-left: 16px; margin-top: 4px;">
+                    <li>깍지 낀 두 손으로 가슴 중앙(양 젖꼭지 연결선 한가운데)을 누릅니다.</li>
+                    <li><b>압박 깊이:</b> 약 5cm / <b>속도:</b> 분당 100~120회</li>
+                </ul>
+            </li>
+            <li style="margin-bottom: 10px;"><b>인공호흡 2회 실시:</b> 기도를 확보한 후 환자의 코를 막고 가슴이 부풀어 오르도록 2회 숨을 넣습니다.</li>
+            <li><b>무한 반복:</b> 119 구급대 도착 시까지 <b>가슴압박 30회 + 인공호흡 2회</b>를 반복합니다.</li>
+        </ol>
         </div>
+    </div>
     """, unsafe_allow_html=True)
 
-with c_aed:
+with aed_col:
     st.markdown("""
-        <div class="first-aid-box">
-            <div class="first-aid-title">⚡ 자동심장충격기 (AED) 사용법</div>
-            <ol style="margin-left: -15px; margin-bottom: 0; line-height: 1.7; font-size: 0.92rem; color: #334155;">
-                <li><b>전원 켜기:</b> AED 장비의 전원 버튼을 누릅니다.</li>
-                <li><b>패드 부착:</b> 두 패드를 오른쪽 빗장뼈 아래와 왼쪽 젖꼭지 아래 옆구리에 붙입니다.</li>
-                <li><b>심장질환 분석:</b> "분석 중" 음성이 나오면 환자에게서 떨어집니다.</li>
-                <li><b>제세동 실시:</b> "제세동 필요" 안내 시 깜빡이는 버튼을 누르고, 즉시 CPR을 재개합니다.</li>
-            </ol>
+    <div class="first-aid-box">
+        <h5 style="font-weight: 700; margin-bottom: 14px; color: #0f172a; font-size: 1.05rem;">⚡ 자동심장충격기(AED) 사용법</h5>
+        <div style="font-size: 0.93rem; line-height: 1.65; color: #334155; flex-grow: 1;">
+        <ol style="padding-left: 18px; margin: 0;">
+            <li style="margin-bottom: 10px;"><b>전원 켜기:</b> AED를 환자 옆에 두고 전원 버튼을 누릅니다. (음성 지시 시작)</li>
+            <li style="margin-bottom: 10px;"><b>패드 부착:</b> 
+                <ul style="padding-left: 16px; margin-top: 4px;">
+                    <li><b>패드 1:</b> 오른쪽 빗장뼈(쇄골) 아래</li>
+                    <li><b>패드 2:</b> 왼쪽 젖꼭지 아래 겨드랑이선</li>
+                </ul>
+            </li>
+            <li style="margin-bottom: 10px;"><b>심장리듬 분석:</b> "분석 중..." 음성이 나오면 <b>환자에게서 물러납니다.</b></li>
+            <li style="margin-bottom: 10px;"><b>제세동(전기충격):</b> 충전 후 버튼이 깜빡이면 <b>모두 물러선 것을 확인 후 눌러줍니다.</b></li>
+            <li><b>즉시 CPR 재개:</b> 전기충격 직후 즉시 가슴압박을 다시 시작합니다.</li>
+        </ol>
         </div>
+    </div>
     """, unsafe_allow_html=True)
+
+st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+
+with st.expander("📍 **사내 AED(자동심장충격기) 설치 위치 및 안내문 보기 (클릭하여 펼치기)**", expanded=False):
+    aed_img_path = None
+    for aed_fname in ["AED.jpg", "aed.jpg", "AED.PNG", "aed.png"]:
+        t_path = os.path.join(BASE_DIR, aed_fname)
+        if os.path.exists(t_path):
+            aed_img_path = t_path
+            break
+            
+    if aed_img_path:
+        aed_col1, aed_col2, aed_col3 = st.columns([1, 4, 1])
+        with aed_col2:
+            st.image(aed_img_path, caption="사내 AED 설치 장소 (관리동 3층 E/V 앞, 주제어동 CCR 앞) 및 주의사항", use_container_width=True)
+    else:
+        st.warning("⚠️ AED 비치 위치 이미지(AED.jpg)가 폴더에 없습니다. 이미지 파일명을 확인해 주세요.")
 
 st.markdown("---")
 
 # =============================================================
-# [섹션 7] 소방 관련 최신 뉴스
+# [섹션 7] 25년 소방훈련 세부 시나리오
 # =============================================================
-st.subheader("📰 소방 관련 최신 뉴스")
+st.subheader("📋 25년 소방훈련 세부 시나리오")
+st.caption("🚨 **상황:** 정문 주차장 급속충전 중인 전기차량('코나') 화재 발생")
 
-tab1, tab2 = st.tabs(["🏛️ 소방청 보도자료", "🌐 실시간 소방/화재 뉴스"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "1단계: 화재발생 & 신고", 
+    "2단계: 초기소화 & 대피", 
+    "3단계: 소방차 유도 & 강평",
+    "🖼️ 참고: 이미지로 확인하기"
+])
+
+scenario_widths = {"시간": "15%", "담당자": "20%", "조치내용": "45%", "비고": "20%"}
 
 with tab1:
-    safety_news = fetch_safety_news()
-    for news in safety_news:
+    st.markdown("##### 📢 상황 인지 및 소내 전파 (14:00 ~ 14:04)")
+    scenario_data_1 = [
+        {"시간": "14:00~14:02", "담당자": "로컬근무자 ➡ CCR", "조치내용": "급속충전 중인 전기차 화재 목격 및 CCR 상황전파 (\"불이야! 불이야!\")", "비고": "연막탄 6EA 세팅, 사이렌 송출"},
+        {"시간": "14:02", "담당자": "운영리더", "조치내용": "화재발생 상황 소내 전파 및 CO에게 소방서 신고 지시", "비고": "-"},
+        {"시간": "14:02", "담당자": "운전원 (CO)", "조치내용": "119 소방서 화재 신고 (인천종합에너지 정문 주차장 전기차 화재)", "비고": "-"},
+        {"시간": "14:04", "담당자": "비상연락반 (경영지원팀)", "조치내용": "페이지폰 소내 대피 방송 실시 (2회)", "비고": "-"},
+    ]
+    render_centered_table(pd.DataFrame(scenario_data_1), scenario_widths)
+
+with tab2:
+    st.markdown("##### 🧯 초기소화 및 전직원 대피 (14:02 ~ 14:10)")
+    scenario_data_2 = [
+        {"시간": "14:02~14:05", "담당자": "훈련 및 소화반 (운영/기계)", "조치내용": "옥외소화전함 개방, 호스 전개/연결 및 방수 위치 확보 후 방수 실시", "비고": "약 1분간 방사"},
+        {"시간": "14:05", "담당자": "피난유도반 (계전팀)", "조치내용": "각 층 비상계단 대피 유도 및 잔류자 확인 후 최종 퇴실", "비고": "층별 담당자 지정"},
+        {"시간": "14:05~14:10", "담당자": "전직원", "조치내용": "1차 대피소(1층 정문)로 신속 대피, 팀별 인원 체크 후 소방안전관리자 보고", "비고": "대피 완료 후 시연 관람"},
+        {"시간": "14:05~14:10", "담당자": "소화반", "조치내용": "충전기 옆 질식포 보관함에서 질식포 수령 후 화재차량 질식소화 전개", "비고": "화염 추가확산 방지"},
+    ]
+    render_centered_table(pd.DataFrame(scenario_data_2), scenario_widths)
+
+with tab3:
+    st.markdown("##### 🚒 모의소방차 진입 및 훈련 종료 (14:10 ~ 14:15)")
+    scenario_data_3 = [
+        {"시간": "14:10~14:11", "담당자": "방호 및 복구반 (네트워크팀)", "조치내용": "모의소방차 진입 요청 및 정문/주차장 진입 유도 (유도자 2인 배치)", "비고": "진입 완료 시 상황 종료"},
+        {"시간": "14:11~14:15", "담당자": "소방안전관리자 (김유리)", "조치내용": "안전보건총괄책임자에게 대피인원 및 피해상황 보고", "비고": "-"},
+        {"시간": "14:11~14:15", "담당자": "자위소방대장 / 119안전센터", "조치내용": "훈련 실시 완료 보고 및 신송119안전센터 최종 훈련 강평", "비고": "피드백 차후 적용"},
+    ]
+    render_centered_table(pd.DataFrame(scenario_data_3), scenario_widths)
+
+with tab4:
+    st.markdown("##### 📄 원본 세부 시나리오 문서 이미지")
+    images_info = [
+        (["fire drill_1.jpg", "fire_drill_1.jpg"], "1페이지: 화재발생 인지 및 신고 / 소내 전파"),
+        (["fire drill_2.jpg", "fire_drill_2.jpg"], "2페이지: 대피방송, 피난유도 & 현장위치(소화전, 모의차량)"),
+        (["fire drill_3.jpg", "fire_drill_3.jpg"], "3페이지: 비상대피 현장 & 질식소화포 보관함 위치"),
+        (["fire drill_4.jpg", "fire_drill_4.jpg"], "4페이지: 모의 소방차 대기장소 및 유도자 위치"),
+        (["fire drill_5.jpg", "fire_drill_5.jpg"], "5페이지: 훈련 종료 및 강평 문서")
+    ]
+    for file_candidates, caption in images_info:
+        found_path = None
+        for fname in file_candidates:
+            path = os.path.join(BASE_DIR, fname)
+            if os.path.exists(path):
+                found_path = path
+                break
+        if found_path:
+            s_col1, s_col2, s_col3 = st.columns([1, 4, 1])
+            with s_col2:
+                st.image(found_path, caption=caption, use_container_width=True)
+            st.markdown("---")
+
+st.markdown("---")
+
+# =============================================================
+# [섹션 8] 연간 소방안전관리 일정
+# =============================================================
+st.subheader("📅 연간 소방안전관리 일정")
+
+st.markdown("""
+    <style>
+    .timeline-wrapper {
+        position: relative;
+        padding: 10px 0;
+        margin: 20px 0 10px 0;
+    }
+    .timeline-line {
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        right: 5%;
+        height: 4px;
+        background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 50%, #e2e8f0 100%);
+        z-index: 1;
+        transform: translateY(-50%);
+    }
+    .timeline-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    .timeline-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 20px 12px;
+        width: 18.5%;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .timeline-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .timeline-box.highlight {
+        border: 2px solid #ef4444;
+        background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
+    }
+    .timeline-step {
+        font-size: 11px;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+    }
+    .timeline-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 6px;
+    }
+    .timeline-box.highlight .timeline-title {
+        color: #dc2626;
+    }
+    .timeline-subtitle {
+        font-size: 13px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 12px;
+    }
+    .timeline-box.highlight .timeline-subtitle {
+        color: #991b1b;
+    }
+    .timeline-badge {
+        display: inline-block;
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background-color: #f1f5f9;
+        color: #3b82f6;
+    }
+    .timeline-box.highlight .timeline-badge {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+    </style>
+
+    <div class="timeline-wrapper">
+        <div class="timeline-line"></div>
+        <div class="timeline-container">
+            <div class="timeline-box">
+                <div class="timeline-step">STEP 01</div>
+                <div class="timeline-title">1월~4월</div>
+                <div class="timeline-subtitle">상시점검</div>
+                <div class="timeline-badge">소방시설 유지</div>
+            </div>
+            <div class="timeline-box highlight">
+                <div class="timeline-step" style="color: #ef4444;">STEP 02</div>
+                <div class="timeline-title">5월</div>
+                <div class="timeline-subtitle">작동점검</div>
+                <div class="timeline-badge">소방시설 작동점검</div>
+            </div>
+            <div class="timeline-box">
+                <div class="timeline-step">STEP 03</div>
+                <div class="timeline-title">6월~10월</div>
+                <div class="timeline-subtitle">상시점검</div>
+                <div class="timeline-badge">일상 안전관리</div>
+            </div>
+            <div class="timeline-box highlight">
+                <div class="timeline-step" style="color: #ef4444;">STEP 04</div>
+                <div class="timeline-title">11월</div>
+                <div class="timeline-subtitle">종합점검</div>
+                <div class="timeline-badge">소방시설 종합점검</div>
+            </div>
+            <div class="timeline-box">
+                <div class="timeline-step">STEP 05</div>
+                <div class="timeline-title">12월</div>
+                <div class="timeline-subtitle">동절기 점검 및 '27 소방계획서 작성</div>
+                <div class="timeline-badge">연간 실적 정리</div>
+            </div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
+st.caption("※ 금년도 화재예방안전진단 수검으로 인한 교육·훈련 면제로 12월 합동 교육·훈련이 아닌 자체 실시를 통해 약소화 진행 예정")
+
+st.markdown("---")
+
+# =============================================================
+# [섹션 9] 소방 소식 및 실시간 인터넷 뉴스
+# =============================================================
+st.subheader("📰 소방안전 소식 & 실시간 주요 뉴스")
+st.caption("※ 대시보드 접속 시 최신 정보로 자동 갱신됩니다. (10분 주기 자동 캐싱)")
+
+st.markdown("""
+    <style>
+    .news-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        height: 84px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .news-card:hover {
+        transform: translateY(-2px);
+        border-color: #cbd5e1;
+    }
+    .news-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+    .news-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #1e293b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .news-media {
+        font-size: 11px;
+        background-color: #f1f5f9;
+        color: #475569;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .news-link {
+        font-size: 12px;
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .news-link:hover {
+        text-decoration: underline;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+col_official, col_portal = st.columns(2)
+
+# [좌측] 소방청 공식 보도자료
+with col_official:
+    st.markdown("##### 🏛️ 소방청 공식 보도자료")
+    official_releases = fetch_safety_news()
+    for rel in official_releases:
         st.markdown(f"""
             <div class="news-card">
-                <a href="{news['link']}" target="_blank" class="news-title">📌 {news['title']}</a>
+                <div class="news-title" title="{rel['title']}">📌 {rel['title']}</div>
+                <a class="news-link" href="{rel['link']}" target="_blank">🔗 소방청 원문 보기</a>
             </div>
         """, unsafe_allow_html=True)
 
-with tab2:
+# [우측] 인터넷 뉴스 (소방/화재)
+with col_portal:
+    st.markdown("##### 🔥 실시간 소방·화재 인터넷 뉴스")
     internet_news = fetch_internet_news()
     for news in internet_news:
         st.markdown(f"""
             <div class="news-card">
-                <a href="{news['link']}" target="_blank" class="news-title">📰 [{news['media']}] {news['title']}</a>
+                <div class="news-header">
+                    <span class="news-title" title="{news['title']}">🔥 {news['title']}</span>
+                    <span class="news-media">{news['media']}</span>
+                </div>
+                <a class="news-link" href="{news['link']}" target="_blank">🔗 기사 원문 보기</a>
             </div>
         """, unsafe_allow_html=True)

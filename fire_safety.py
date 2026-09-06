@@ -35,31 +35,31 @@ st.markdown("""
     @media (max-width: 768px) {
         .main .block-container,
         div[data-testid="stAppViewBlockContainer"] {
-            padding-left: 0.25rem !important;
-            padding-right: 0.25rem !important;
-            padding-top: 0.75rem !important;
+            padding-left: 0.15rem !important;
+            padding-right: 0.15rem !important;
+            padding-top: 0.5rem !important;
         }
 
         div[data-testid="stHeading"] h2,
         div[data-testid="stSubheader"] h2,
         h2 { 
-            font-size: 1.15rem !important; 
+            font-size: 1.1rem !important; 
             font-weight: 700 !important; 
         }
 
-        h3 { font-size: 1.0rem !important; }
-        p, div, span { font-size: 0.8rem !important; }
+        h3 { font-size: 0.95rem !important; }
+        p, div, span { font-size: 0.75rem !important; }
 
         .facility-box, .first-aid-box {
-            padding: 8px !important;
+            padding: 6px !important;
             margin-bottom: 6px !important;
         }
 
-        /* Streamlit 기본 칼럼 모바일 3열 강제 유지 및 스크롤 방지 */
+        /* Streamlit 기본 칼럼 모바일 3열 강제 유지 및 여백 완전 최소화 */
         div[data-testid="stHorizontalBlock"] {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 3px !important;
+            gap: 2px !important;
             overflow-x: hidden !important;
         }
         div[data-testid="column"] {
@@ -68,24 +68,27 @@ st.markdown("""
             padding: 0 1px !important;
         }
         
-        /* 모바일용 조직도 카드 폰트 및 여백 미세 축소 */
+        /* 모바일용 조직도 카드 폰트 및 여백 압축 */
         .dept-card {
-            padding: 4px 2px !important;
+            padding: 3px 1px !important;
         }
         .dept-head {
-            font-size: 10px !important;
-            padding: 4px 1px !important;
-        }
-        .hover-team-box {
-            font-size: 9.5px !important;
-            padding: 5px 1px !important;
+            font-size: 9px !important;
+            padding: 3px 1px !important;
             line-height: 1.1 !important;
         }
+        .hover-team-box {
+            font-size: 8px !important;
+            padding: 4px 1px !important;
+            line-height: 1.1 !important;
+            letter-spacing: -0.5px !important;
+        }
         .night-card {
-            padding: 6px 2px !important;
+            padding: 4px 1px !important;
         }
         .night-card div {
-            font-size: 10px !important;
+            font-size: 8.5px !important;
+            line-height: 1.1 !important;
         }
 
         /* 모바일용 타임라인 한눈에 맞춤 */
@@ -93,19 +96,19 @@ st.markdown("""
             min-width: 100% !important;
         }
         .timeline-box {
-            padding: 6px 2px !important;
-            border-radius: 6px !important;
+            padding: 6px 1px !important;
+            border-radius: 4px !important;
         }
         .timeline-title {
-            font-size: 11px !important;
+            font-size: 10px !important;
         }
         .timeline-subtitle {
-            font-size: 9.5px !important;
-            margin-bottom: 4px !important;
+            font-size: 8.5px !important;
+            margin-bottom: 2px !important;
         }
         .timeline-badge {
-            font-size: 8.5px !important;
-            padding: 1px 3px !important;
+            font-size: 7.5px !important;
+            padding: 1px 2px !important;
         }
     }
 
@@ -114,45 +117,45 @@ st.markdown("""
         border: 1px solid #1e3a8a;
         background-color: #1e3a8a;
         border-radius: 8px;
-        padding: 10px;
+        padding: 8px;
         text-align: center;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 13px;
         color: #ffffff;
-        max-width: 420px;
+        max-width: 360px;
         margin: 0 auto;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     /* 본부 및 야간 카드 스타일 */
     .dept-card {
-        border-radius: 8px;
-        padding: 8px;
+        border-radius: 6px;
+        padding: 6px 3px;
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
         border-top: 3px solid #1e3a8a !important;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         text-align: center;
         height: 100%;
     }
     .dept-head {
         font-weight: bold;
-        padding: 6px 4px;
+        padding: 5px 2px;
         border-radius: 4px;
         text-align: center;
         color: #ffffff;
         background-color: #1e3a8a;
-        font-size: 13px;
-        margin-bottom: 6px;
+        font-size: 11.5px;
+        margin-bottom: 4px;
         word-break: keep-all;
     }
     .night-card {
         border: 1px solid #cbd5e1;
         border-top: 3px solid #1e3a8a !important;
         background-color: #ffffff;
-        border-radius: 8px;
-        padding: 8px 4px;
+        border-radius: 6px;
+        padding: 6px 2px;
         text-align: center;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         height: 100%;
@@ -166,15 +169,15 @@ st.markdown("""
         border: 1px dashed #cbd5e1;
         background-color: #f8fafc;
         color: #1e293b;
-        padding: 6px 3px;
-        margin-top: 4px;
-        border-radius: 6px;
+        padding: 5px 2px;
+        margin-top: 3px;
+        border-radius: 4px;
         text-align: center;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
-        font-size: 11.5px;
+        font-size: 10.5px;
         font-weight: 600;
-        line-height: 1.25;
+        line-height: 1.2;
         word-break: keep-all;
     }
 
@@ -188,12 +191,12 @@ st.markdown("""
     .hover-team-box .tooltip-content {
         visibility: hidden;
         opacity: 0;
-        width: 200px;
+        width: 180px;
         background-color: #ffffff;
         color: #0f172a;
         text-align: left;
-        border-radius: 8px;
-        padding: 8px 10px;
+        border-radius: 6px;
+        padding: 8px;
         position: absolute;
         z-index: 99;
         bottom: 110%;
@@ -204,9 +207,9 @@ st.markdown("""
         border-top: 3px solid #1e3a8a;
         transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
         pointer-events: none;
-        font-size: 11px;
+        font-size: 10.5px;
         font-weight: normal;
-        line-height: 1.35;
+        line-height: 1.3;
     }
 
     .hover-team-box .tooltip-content::after {
@@ -214,8 +217,8 @@ st.markdown("""
         position: absolute;
         top: 100%;
         left: 50%;
-        margin-left: -6px;
-        border-width: 6px;
+        margin-left: -5px;
+        border-width: 5px;
         border-style: solid;
         border-color: #ffffff transparent transparent transparent;
     }
@@ -228,8 +231,8 @@ st.markdown("""
     .tooltip-title {
         font-weight: bold;
         color: #1e3a8a;
-        font-size: 12px;
-        margin-bottom: 4px;
+        font-size: 11px;
+        margin-bottom: 3px;
         border-bottom: 1px solid #f1f5f9;
         padding-bottom: 2px;
     }
@@ -240,12 +243,12 @@ st.markdown("""
     .timeline-scroll-container {
         width: 100%;
         overflow-x: hidden;
-        padding: 6px 0;
+        padding: 4px 0;
     }
     .timeline-wrapper {
         position: relative;
         width: 100%;
-        margin: 6px 0;
+        margin: 4px 0;
     }
     .timeline-line {
         position: absolute;
@@ -268,8 +271,8 @@ st.markdown("""
     .timeline-box {
         background: #ffffff;
         border: 1.5px solid #dbe2ea;
-        border-radius: 8px;
-        padding: 10px 4px;
+        border-radius: 6px;
+        padding: 8px 2px;
         flex: 1 1 0%;
         min-width: 0;
         text-align: center;
@@ -280,7 +283,7 @@ st.markdown("""
         background-color: #f0f4ff;
     }
     .timeline-title {
-        font-size: 13.5px;
+        font-size: 12px;
         font-weight: 800;
         color: #1a202c;
         margin-bottom: 2px;
@@ -289,10 +292,10 @@ st.markdown("""
         color: #1e3a8a;
     }
     .timeline-subtitle {
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
         color: #4a5568;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
         word-break: keep-all;
     }
     .timeline-box.highlight .timeline-subtitle {
@@ -300,10 +303,10 @@ st.markdown("""
     }
     .timeline-badge {
         display: inline-block;
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 600;
-        padding: 2px 4px;
-        border-radius: 4px;
+        padding: 1px 3px;
+        border-radius: 3px;
         background-color: #e8f0fe;
         color: #3b82f6;
         word-break: keep-all;
@@ -320,12 +323,12 @@ st.markdown("""
 # =============================================================
 st.markdown("""
     <h1 style='
-        font-size: clamp(1.6rem, 5vw, 2.5rem) !important; 
+        font-size: clamp(1.4rem, 4.5vw, 2.2rem) !important; 
         font-weight: 900 !important; 
-        line-height: 1.25 !important; 
+        line-height: 1.2 !important; 
         color: #0f172a !important; 
         margin-top: 0px !important;
-        margin-bottom: 0.3rem !important;
+        margin-bottom: 0.2rem !important;
         word-break: keep-all !important;
     '>
         🚒 사내 소방안전관리 정보 Dashboard
@@ -353,9 +356,9 @@ def render_centered_table(df, col_widths=None):
     }
     .centered-table {
         width: 100%;
-        min-width: 360px;
+        min-width: 320px;
         border-collapse: collapse;
-        font-size: 12px;
+        font-size: 11.5px;
         background-color: #ffffff;
     }
     .centered-table th {
@@ -363,14 +366,14 @@ def render_centered_table(df, col_widths=None):
         color: #334155;
         font-weight: bold;
         text-align: center !important;
-        padding: 6px 4px;
+        padding: 6px 3px;
         border-bottom: 2px solid #e2e8f0;
         border-right: 1px solid #f1f5f9;
         white-space: nowrap;
     }
     .centered-table td {
         text-align: center !important;
-        padding: 6px 4px;
+        padding: 5px 3px;
         border-bottom: 1px solid #f1f5f9;
         border-right: 1px solid #f1f5f9;
         color: #1e293b;
@@ -566,12 +569,12 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         .v-line {
             width: 2px;
             background-color: #cbd5e1;
-            height: 14px;
+            height: 12px;
             margin: 0 auto;
         }
         .h-line {
             border-top: 2px solid #cbd5e1;
-            width: 70%;
+            width: 75%;
             margin: 0 auto;
         }
         </style>
@@ -592,7 +595,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="dept-card">
                 <div class="dept-head">
-                    소방지휘 본부대장<br><span style="font-size: 10px; font-weight: normal;">(기술본부장)</span>
+                    소방지휘 본부대장<br><span style="font-weight: normal; opacity: 0.9;">(기술본부장)</span>
                 </div>
                 <div class="hover-team-box">
                     지휘반<br>(안전환경팀)
@@ -626,7 +629,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="dept-card">
                 <div class="dept-head">
-                    상황 통제본부대장<br><span style="font-size: 10px; font-weight: normal;">(경영기획본부장)</span>
+                    상황 통제본부대장<br><span style="font-weight: normal; opacity: 0.9;">(경영기획본부장)</span>
                 </div>
                 <div class="hover-team-box">
                     비상연락반<br>(조직문화팀)
@@ -637,7 +640,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    경계반<br>(기획재무팀, DX혁신팀)
+                    경계반<br>(기획재무, DX혁신)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 경계반 세부 임무</div>
                         • 중요물품 반출이동<br>
@@ -652,10 +655,10 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="dept-card">
                 <div class="dept-head">
-                    의료구호 본부대장<br><span style="font-size: 10px; font-weight: normal;">(사업본부장)</span>
+                    의료구호 본부대장<br><span style="font-weight: normal; opacity: 0.9;">(사업본부장)</span>
                 </div>
                 <div class="hover-team-box">
-                    의료반<br>(ESG추진팀, 대외협력팀)
+                    의료반<br>(ESG, 대외협력)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 의료반 세부 임무</div>
                         • 질식, 화상 등 중경상자의 응급처치
@@ -669,7 +672,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     </div>
                 </div>
                 <div class="hover-team-box">
-                    방호조치 및 복구반<br>(네트워크팀)
+                    방호/복구반<br>(네트워크팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 방호조치 및 복구반 세부 임무</div>
                         • 관할소방서 유도<br>
@@ -679,14 +682,14 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
     # --- 야간 및 공휴일 비상대응 조직 ---
-    st.markdown("<h5 style='text-align: center; color: #1e3a8a; font-weight: bold; font-size: 14px;'>🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)</h5>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #64748b; font-size: 11px; margin-bottom: 8px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
+    st.markdown("<h5 style='text-align: center; color: #1e3a8a; font-weight: bold; font-size: 13px;'>🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)</h5>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #64748b; font-size: 10.5px; margin-bottom: 6px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div style="border: 1px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 6px; text-align: center; max-width: 360px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <div style="border: 1px solid #1e3a8a; background-color: #1e3a8a; border-radius: 6px; padding: 5px; text-align: center; max-width: 320px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             임시소방대장 : 운영그룹장 (1명)
         </div>
         <div class="v-line"></div>
@@ -697,21 +700,21 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         st.markdown("""
             <div class="night-card">
                 <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 2px;">비상연락반</div>
-                <div style="color: #475569;">CCR근무자(2명)</div>
+                <div style="color: #475569;">CCR근무자<br>(2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n2:
         st.markdown("""
             <div class="night-card">
                 <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 2px;">소화반</div>
-                <div style="color: #475569;">현장근무자(2명)</div>
+                <div style="color: #475569;">현장근무자<br>(2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n3:
         st.markdown("""
             <div class="night-card">
                 <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 2px;">소방대유도반</div>
-                <div style="color: #475569;">경비원(1명)</div>
+                <div style="color: #475569;">경비원<br>(1명)</div>
             </div>
         """, unsafe_allow_html=True)
 
@@ -800,7 +803,7 @@ st.markdown("""
     .facility-box {
         border: 1px solid #e2e8f0;
         border-radius: 8px;
-        padding: 14px;
+        padding: 12px;
         background-color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         height: 100%;
@@ -808,25 +811,25 @@ st.markdown("""
     .facility-title-red {
         color: #dc2626;
         font-weight: bold;
-        font-size: 15px;
-        margin-bottom: 10px;
+        font-size: 14px;
+        margin-bottom: 8px;
     }
     .facility-title-blue {
         color: #2563eb;
         font-weight: bold;
-        font-size: 15px;
-        margin-bottom: 10px;
+        font-size: 14px;
+        margin-bottom: 8px;
     }
     .facility-content {
-        font-size: 13px;
-        line-height: 1.5;
+        font-size: 12px;
+        line-height: 1.45;
         color: #334155;
     }
     .facility-role-section {
-        margin-top: 10px;
+        margin-top: 8px;
     }
     .facility-content ul {
-        padding-left: 16px;
+        padding-left: 14px;
         margin: 4px 0 0 0;
     }
     </style>
@@ -900,7 +903,7 @@ st.markdown("""
     .first-aid-box {
         border: 1px solid #e2e8f0;
         border-radius: 8px;
-        padding: 14px;
+        padding: 12px;
         background-color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         height: 100%;
@@ -915,18 +918,18 @@ cpr_col, aed_col = st.columns(2)
 with cpr_col:
     st.markdown("""
     <div class="first-aid-box">
-        <h5 style="font-weight: bold; margin-bottom: 10px; color: #1e293b; font-size: 15px;">🫀 심폐소생술(CPR) 방법</h5>
-        <div style="font-size: 13px; line-height: 1.5; color: #1e293b; flex-grow: 1;">
-        <ol style="padding-left: 16px; margin: 0;">
-            <li style="margin-bottom: 6px;"><b>의식 및 호흡 확인:</b> 어깨를 가볍게 두드리며 반응 및 정상 호흡 여부를 확인합니다.</li>
-            <li style="margin-bottom: 6px;"><b>119 신고 및 AED 요청:</b> 주변 사람을 특정하여 119 신고와 AED를 가져오도록 지시합니다.</li>
-            <li style="margin-bottom: 6px;"><b>가슴압박 30회 실시:</b>
-                <ul style="padding-left: 14px; margin-top: 2px;">
+        <h5 style="font-weight: bold; margin-bottom: 8px; color: #1e293b; font-size: 14px;">🫀 심폐소생술(CPR) 방법</h5>
+        <div style="font-size: 12px; line-height: 1.45; color: #1e293b; flex-grow: 1;">
+        <ol style="padding-left: 14px; margin: 0;">
+            <li style="margin-bottom: 4px;"><b>의식 및 호흡 확인:</b> 어깨를 가볍게 두드리며 반응 및 정상 호흡 여부를 확인합니다.</li>
+            <li style="margin-bottom: 4px;"><b>119 신고 및 AED 요청:</b> 주변 사람을 특정하여 119 신고와 AED를 가져오도록 지시합니다.</li>
+            <li style="margin-bottom: 4px;"><b>가슴압박 30회 실시:</b>
+                <ul style="padding-left: 12px; margin-top: 2px;">
                     <li>깍지 낀 두 손으로 가슴 중앙(양 젖꼭지 연결선 한가운데)을 누릅니다.</li>
                     <li><b>압박 깊이:</b> 약 5cm / <b>속도:</b> 분당 100~120회</li>
                 </ul>
             </li>
-            <li style="margin-bottom: 6px;"><b>인공호흡 2회 실시:</b> 기도를 확보한 후 환자의 코를 막고 가슴이 부풀어 오르도록 2회 숨을 넣습니다.</li>
+            <li style="margin-bottom: 4px;"><b>인공호흡 2회 실시:</b> 기도를 확보한 후 환자의 코를 막고 가슴이 부풀어 오르도록 2회 숨을 넣습니다.</li>
             <li><b>무한 반복:</b> 119 구급대 도착 시까지 <b>가슴압박 30회 + 인공호흡 2회</b>를 반복합니다.</li>
         </ol>
         </div>
@@ -936,18 +939,18 @@ with cpr_col:
 with aed_col:
     st.markdown("""
     <div class="first-aid-box">
-        <h5 style="font-weight: bold; margin-bottom: 10px; color: #1e293b; font-size: 15px;">⚡ 자동심장충격기(AED) 사용법</h5>
-        <div style="font-size: 13px; line-height: 1.5; color: #1e293b; flex-grow: 1;">
-        <ol style="padding-left: 16px; margin: 0;">
-            <li style="margin-bottom: 6px;"><b>전원 켜기:</b> AED를 환자 옆에 두고 전원 버튼을 누릅니다. (음성 지시 시작)</li>
-            <li style="margin-bottom: 6px;"><b>패드 부착:</b> 
-                <ul style="padding-left: 14px; margin-top: 2px;">
+        <h5 style="font-weight: bold; margin-bottom: 8px; color: #1e293b; font-size: 14px;">⚡ 자동심장충격기(AED) 사용법</h5>
+        <div style="font-size: 12px; line-height: 1.45; color: #1e293b; flex-grow: 1;">
+        <ol style="padding-left: 14px; margin: 0;">
+            <li style="margin-bottom: 4px;"><b>전원 켜기:</b> AED를 환자 옆에 두고 전원 버튼을 누릅니다. (음성 지시 시작)</li>
+            <li style="margin-bottom: 4px;"><b>패드 부착:</b> 
+                <ul style="padding-left: 12px; margin-top: 2px;">
                     <li><b>패드 1:</b> 오른쪽 빗장뼈(쇄골) 아래</li>
                     <li><b>패드 2:</b> 왼쪽 젖꼭지 아래 겨드랑이선</li>
                 </ul>
             </li>
-            <li style="margin-bottom: 6px;"><b>심장리듬 분석:</b> "분석 중..." 음성이 나오면 <b>환자에게서 물러납니다.</b></li>
-            <li style="margin-bottom: 6px;"><b>제세동(전기충격):</b> 충전 후 버튼이 깜빡이면 <b>모두 물러선 것을 확인 후 눌러줍니다.</b></li>
+            <li style="margin-bottom: 4px;"><b>심장리듬 분석:</b> "분석 중..." 음성이 나오면 <b>환자에게서 물러납니다.</b></li>
+            <li style="margin-bottom: 4px;"><b>제세동(전기충격):</b> 충전 후 버튼이 깜빡이면 <b>모두 물러선 것을 확인 후 눌러줍니다.</b></li>
             <li><b>즉시 CPR 재개:</b> 전기충격 직후 즉시 가슴압박을 다시 시작합니다.</li>
         </ol>
         </div>
@@ -1086,7 +1089,7 @@ st.caption("※ 금년도 화재예방안전진단 수검으로 인한 교육·�
 st.markdown("---")
 
 # =============================================================
-# [섹션 9] 소방 소식 및 실시간 인터넷 뉴스
+# [섹션 9] 소방 소식 및 실시간 인터넷 뉴스 (세로 정렬로 수정됨)
 # =============================================================
 st.subheader("📰 소방안전 소식 & 실시간 주요 뉴스")
 st.caption("※ 대시보드 접속 시 최신 정보로 자동 갱신됩니다. (10분 주기 자동 캐싱)")
@@ -1100,7 +1103,6 @@ st.markdown("""
         margin-bottom: 8px;
         background-color: #ffffff;
         box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-        height: 78px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -1110,17 +1112,16 @@ st.markdown("""
         justify-content: space-between;
         align-items: center;
         gap: 6px;
+        margin-bottom: 4px;
     }
     .news-title {
-        font-size: 12.5px;
+        font-size: 12px;
         font-weight: bold;
         color: #1e293b;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        word-break: keep-all;
     }
     .news-media {
-        font-size: 10.5px;
+        font-size: 10px;
         background-color: #f1f5f9;
         color: #475569;
         padding: 2px 4px;
@@ -1129,7 +1130,7 @@ st.markdown("""
         white-space: nowrap;
     }
     .news-link {
-        font-size: 11.5px;
+        font-size: 11px;
         color: #2563eb;
         text-decoration: none;
     }
@@ -1139,31 +1140,29 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-col_official, col_portal = st.columns(2)
+# 1. 상단: 소방청 공식 보도자료 (세로 정렬)
+st.markdown("##### 🏛️ 소방청 공식 보도자료")
+official_releases = fetch_safety_news()
+for rel in official_releases:
+    st.markdown(f"""
+        <div class="news-card">
+            <div class="news-title">📌 {rel['title']}</div>
+            <div style="margin-top: 4px;"><a class="news-link" href="{rel['link']}" target="_blank">🔗 소방청 원문 보기</a></div>
+        </div>
+    """, unsafe_allow_html=True)
 
-# [좌측] 소방청 공식 보도자료
-with col_official:
-    st.markdown("##### 🏛️ 소방청 공식 보도자료")
-    official_releases = fetch_safety_news()
-    for rel in official_releases:
-        st.markdown(f"""
-            <div class="news-card">
-                <div class="news-title" title="{rel['title']}">📌 {rel['title']}</div>
-                <a class="news-link" href="{rel['link']}" target="_blank">🔗 소방청 원문 보기</a>
-            </div>
-        """, unsafe_allow_html=True)
+st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
-# [우측] 인터넷 뉴스 (소방/화재)
-with col_portal:
-    st.markdown("##### 🔥 실시간 소방·화재 인터넷 뉴스")
-    internet_news = fetch_internet_news()
-    for news in internet_news:
-        st.markdown(f"""
-            <div class="news-card">
-                <div class="news-header">
-                    <span class="news-title" title="{news['title']}">🔥 {news['title']}</span>
-                    <span class="news-media">{news['media']}</span>
-                </div>
-                <a class="news-link" href="{news['link']}" target="_blank">🔗 기사 원문 보기</a>
+# 2. 하단: 실시간 인터넷 뉴스 (세로 정렬)
+st.markdown("##### 🔥 실시간 소방·화재 인터넷 뉴스")
+internet_news = fetch_internet_news()
+for news in internet_news:
+    st.markdown(f"""
+        <div class="news-card">
+            <div class="news-header">
+                <span class="news-title">🔥 {news['title']}</span>
+                <span class="news-media">{news['media']}</span>
             </div>
-        """, unsafe_allow_html=True)
+            <div><a class="news-link" href="{news['link']}" target="_blank">🔗 기사 원문 보기</a></div>
+        </div>
+    """, unsafe_allow_html=True)

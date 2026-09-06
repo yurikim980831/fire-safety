@@ -69,6 +69,21 @@ st.markdown("""
         }
     }
 
+    /* 대장 (최상단) 카드 스타일 - 네이비 통일 */
+    .tree-top {
+        border: 1px solid #1e3a8a;
+        background-color: #1e3a8a;
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+        color: #ffffff;
+        max-width: 420px;
+        margin: 0 auto;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
     /* 본부 및 야간 카드 스타일 */
     .dept-card {
         border-radius: 8px;
@@ -148,6 +163,7 @@ st.markdown("""
         pointer-events: none;
         font-size: 12.5px;
         font-weight: normal;
+        line-height: 1.5;
     }
 
     /* 툴팁 화살표 */
@@ -419,25 +435,13 @@ if search_name.strip():
 st.markdown("---")
 
 # =============================================================
-# [섹션 2] 비상대응 조직표 (Hover 툴팁 적용)
+# [섹션 2] 비상대응 조직표 (Hover 툴팁 간소화 및 색상 통일 적용)
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 
 with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=True):
     st.markdown("""
         <style>
-        .tree-top {
-            border: 2px solid #1e3a8a;
-            background-color: #f8fafc;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            color: #0f172a;
-            max-width: 420px;
-            margin: 0 auto;
-        }
         .v-line {
             width: 2px;
             background-color: #cbd5e1;
@@ -452,12 +456,13 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         </style>
     """, unsafe_allow_html=True)
 
+    # 대장 상자 (네이비색 통일)
     st.markdown('<div class="tree-top">대장 : CSO (안전보건총괄책임자)</div>', unsafe_allow_html=True)
     st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
     st.markdown('<div class="h-line"></div>', unsafe_allow_html=True)
     st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
 
-    st.caption("💡 각 반 상자에 마우스 커서를 올리면 세부 임무를 확인할 수 있습니다.")
+    st.caption("💡 각 반 상자에 마우스 커서를 올리면 핵심 임무를 확인할 수 있습니다.")
 
     c1, c2, c3 = st.columns(3)
 
@@ -472,24 +477,24 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     지휘반 (안전환경팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 지휘반 세부 임무</div>
-                        • <b>소속:</b> 안전환경팀<br>
-                        • <b>임무:</b> 직장반 차석순으로 부대장의 임무수행보조, 연간 및 월간 소방안전관리계획 수립 및 실시
+                        • 직장반 차석순으로 부대장의 임무수행보조<br>
+                        • 연간 및 월간 소방안전관리계획 수립 및 실시
                     </div>
                 </div>
                 <div class="hover-team-box">
                     훈련 및 소화반 (기계팀, 운영팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 훈련 및 소화반 세부 임무</div>
-                        • <b>소속:</b> 기계팀, 운영팀<br>
-                        • <b>임무:</b> 자체소방시설을 활용한 초기화재 진압활동, 소화용수의 보존과 급수
+                        • 자체소방시설을 활용한 초기화재 진압활동<br>
+                        • 소화용수의 보존과 급수
                     </div>
                 </div>
                 <div class="hover-team-box">
                     피난유도반 (계전팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 피난유도반 세부 임무</div>
-                        • <b>소속:</b> 계전팀<br>
-                        • <b>임무:</b> 재실자 층별대피유도 및 방화문폐쇄, 재실자 인명검색구조 및 대피경로 안내
+                        • 재실자 층별대피유도 및 방화문폐쇄<br>
+                        • 재실자 인명검색구조 및 대피경로 안내
                     </div>
                 </div>
             </div>
@@ -506,16 +511,16 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     비상연락반 (조직문화팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 비상연락반 세부 임무</div>
-                        • <b>소속:</b> 조직문화팀<br>
-                        • <b>임무:</b> 119신고 및 소내전파, 관계기관에 통보
+                        • 119신고 및 소내전파<br>
+                        • 관계기관 통보 및 상황 공유
                     </div>
                 </div>
                 <div class="hover-team-box">
                     경계반 (기획재무팀, DX혁신팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 경계반 세부 임무</div>
-                        • <b>소속:</b> 기획재무팀, DX혁신팀<br>
-                        • <b>임무:</b> 중요물품 반출이동, 반출물건의 경비, 출입인원 통제
+                        • 중요물품 반출이동<br>
+                        • 반출물건의 경비 및 출입인원 통제
                     </div>
                 </div>
             </div>
@@ -532,24 +537,22 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
                     의료반 (ESG추진팀, 대외협력팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 의료반 세부 임무</div>
-                        • <b>소속:</b> ESG추진팀, 대외협력팀<br>
-                        • <b>임무:</b> 질식, 화상 등 중경상자의 응급처치
+                        • 질식, 화상 등 중경상자의 응급처치
                     </div>
                 </div>
                 <div class="hover-team-box">
                     후송반 (고객지원팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 후송반 세부 임무</div>
-                        • <b>소속:</b> 고객지원팀<br>
-                        • <b>임무:</b> 사망자 안치 및 지정병원으로의 긴급 후송 지원
+                        • 사망자 안치 및 지정병원으로의 긴급 후송 지원
                     </div>
                 </div>
                 <div class="hover-team-box">
                     방호조치 및 복구반 (네트워크팀)
                     <div class="tooltip-content">
                         <div class="tooltip-title">📌 방호조치 및 복구반 세부 임무</div>
-                        • <b>소속:</b> 네트워크팀<br>
-                        • <b>임무:</b> 관할소방서의 유도, 가스 위험물 등 소방활동상의 장애물 제거 및 복구
+                        • 관할소방서 유도<br>
+                        • 가스 위험물 등 소방활동상의 장애물 제거 및 복구
                     </div>
                 </div>
             </div>
@@ -562,7 +565,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     st.markdown("<p style='text-align: center; color: #64748b; font-size: 13px; margin-bottom: 12px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div style="border: 2px solid #1e3a8a; background-color: #f8fafc; border-radius: 8px; padding: 10px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: bold; color: #0f172a; font-size: 15px;">
+        <div style="border: 1px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 10px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             임시소방대장 : 운영그룹장 (1명)
         </div>
         <div class="v-line"></div>

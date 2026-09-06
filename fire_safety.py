@@ -318,7 +318,7 @@ st.markdown("---")
 st.subheader("🏢 비상대응 조직표")
 
 with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=True):
-    # 네이비 톤 컬러 통일 및 각 반 클릭/호버 팝업(Tooltips) CSS 추가
+    # CSS 설정
     st.markdown("""
         <style>
         .tree-top {
@@ -366,7 +366,6 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             margin-bottom: 10px;
         }
 
-        /* 팝업(Tooltip) 박스 스타일 - 클릭 및 마우스 호버 대응 */
         .sub-box {
             position: relative;
             background-color: #f8fafc;
@@ -395,7 +394,6 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             margin-top: 2px;
         }
 
-        /* 클릭/호버 팝업 창 커스텀 */
         .sub-box .tooltip-text {
             visibility: hidden;
             width: 240px;
@@ -433,7 +431,6 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
             opacity: 1;
         }
 
-        /* 야간 및 공휴일 비상대응 조직 네이비 톤 통일 및 여백 확보 */
         .night-section {
             margin-top: 25px;
             margin-bottom: 20px;
@@ -441,7 +438,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         </style>
     """, unsafe_allow_html=True)
 
-    # 대장 조직도 상단
+    # 주간 조직도
     st.markdown('<div class="tree-top">대장 : CSO (안전보건총괄책임자)</div>', unsafe_allow_html=True)
     st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
     st.markdown('<div class="h-line"></div>', unsafe_allow_html=True)
@@ -542,7 +539,7 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
 
     st.markdown("<p style='text-align: center; color: #64748b; font-size: 12px; margin-top: 6px;'>※ 각 반(네모 박스)을 마우스로 가리키거나 클릭하시면 세부 임무를 확인하실 수 있습니다.</p>", unsafe_allow_html=True)
 
-    # 야간 및 공휴일 비상대응 조직 영역 (수정 반영)
+    # 수정 반영된 야간 및 공휴일 비상대응 조직 (구조 오류 수정 완료)
     st.markdown("""
         <div class="night-section" style="width: 100%; max-width: 800px; margin: 30px auto 0 auto;">
           <div style="text-align: center; color: #1e3a8a; margin-bottom: 20px;">
@@ -584,7 +581,6 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
         </div>
     """, unsafe_allow_html=True)
 
-    # 하단 여백 추가
     st.markdown("<div style='height: 35px;'></div>", unsafe_allow_html=True)
 
 st.markdown("---")
@@ -1080,7 +1076,6 @@ st.markdown("""
 
 col_official, col_portal = st.columns(2)
 
-# [좌측] 소방청 공식 보도자료
 with col_official:
     st.markdown("##### 🏛️ 소방청 공식 보도자료")
     official_releases = fetch_safety_news()
@@ -1092,7 +1087,6 @@ with col_official:
             </div>
         """, unsafe_allow_html=True)
 
-# [우측] 인터넷 뉴스 (소방/화재)
 with col_portal:
     st.markdown("##### 🔥 실시간 소방·화재 인터넷 뉴스")
     internet_news = fetch_internet_news()

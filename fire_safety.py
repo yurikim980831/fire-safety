@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
 
 # =============================================================
-# [강력 반응형 CSS] st.title 우회 및 최신 Streamlit DOM 타겟팅 (가운데 정렬 반영)
+# [정밀 CSS] UI 찌그러짐 방지 및 정렬 CSS
 # =============================================================
 st.markdown("""
     <style>
@@ -31,7 +31,7 @@ st.markdown("""
         height: auto !important;
     }
     
-    /* 조직도 영역 가운데 정렬 및 스타일 지정 */
+    /* 조직도 선 및 상단 대장 박스 */
     .tree-top {
         border: 2px solid #1e3a8a;
         background-color: #1e3a8a;
@@ -55,69 +55,66 @@ st.markdown("""
         width: 70%;
         margin: 0 auto;
     }
+
+    /* 본부대장 카드 */
     .dept-card-navy {
         border-radius: 8px;
-        padding: 10px;
+        padding: 12px;
         background-color: #ffffff;
         border: 1px solid #cbd5e1;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         text-align: center;
-        border-top: 3px solid #3b82f6;
+        border-top: 4px solid #3b82f6;
     }
     .dept-head-navy {
         font-weight: bold;
-        padding: 6px;
+        padding: 8px;
         border-radius: 4px;
         text-align: center;
         color: #ffffff;
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 15px;
         background-color: #3b82f6;
     }
+
+    /* 각 반 카드 (가운데 정렬 + 대시선 테두리) */
+    .team-card {
+        background-color: #ffffff;
+        border: 1.5px dashed #94a3b8;
+        border-radius: 8px;
+        padding: 12px 10px;
+        margin: 0 auto 12px auto;
+        text-align: center;
+        font-size: 14px;
+        color: #1e293b;
+        font-weight: 500;
+        line-height: 1.4;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        max-width: 320px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.2s;
+    }
+    .team-card:hover {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+        color: #1e3a8a;
+    }
+
+    /* 야간 비상대응 조직 카드 */
     .night-card-navy {
         border: 1px solid #cbd5e1;
         background-color: #ffffff;
         border-radius: 8px;
-        padding: 12px;
+        padding: 14px;
         text-align: center;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        height: 100%;
         border-top: 3px solid #3b82f6;
+        max-width: 320px;
+        margin: 0 auto;
     }
-    /* 조직도 컬럼 내 스태킹 버튼 가운데 정렬 */
-    div[data-testid="stColumn"] {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    /* 스트림릿 버튼 커스텀 (가운데 정렬 및 텍스트 래핑) */
-    div.stButton {
-        width: 100% !important;
-        display: flex !important;
-        justify-content: center !important;
-    }
-    div.stButton > button {
-        width: 100% !important;
-        max-width: 320px !important;
-        background-color: #f8fafc !important;
-        border: 1px dashed #94a3b8 !important;
-        color: #1e293b !important;
-        font-size: 13.5px !important;
-        padding: 8px 6px !important;
-        margin-bottom: 8px !important;
-        border-radius: 6px !important;
-        text-align: center !important;
-        white-space: pre-line !important;
-        transition: all 0.2s ease;
-    }
-    div.stButton > button:hover {
-        background-color: #eff6ff !important;
-        border-color: #3b82f6 !important;
-        color: #1e3a8a !important;
-    }
-    
-    /* 모바일 전용 스타일 (화면 너비 768px 이하) */
+
+    /* 모바일 반응형 */
     @media (max-width: 768px) {
         .main .block-container,
         div[data-testid="stAppViewBlockContainer"] {
@@ -125,34 +122,7 @@ st.markdown("""
             padding-right: 0.8rem !important;
             padding-top: 1rem !important;
         }
-
-        div[data-testid="stHeading"] h2,
-        div[data-testid="stSubheader"] h2,
-        h2 { 
-            font-size: 1.35rem !important; 
-            font-weight: 700 !important; 
-        }
-
-        h3 { font-size: 1.15rem !important; }
-        p, div, span { font-size: 0.95rem !important; }
-
-        .timeline-container {
-            flex-direction: column !important;
-            gap: 10px !important;
-        }
-        .timeline-line {
-            display: none !important;
-        }
-        .timeline-box {
-            width: 100% !important;
-            margin-bottom: 6px !important;
-            padding: 12px !important;
-        }
-
-        .facility-box, .first-aid-box, .dept-card, .night-card {
-            padding: 12px !important;
-            margin-bottom: 10px !important;
-        }
+        .h-line { width: 90%; }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -180,7 +150,7 @@ st.markdown("---")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else "."
 
 # -------------------------------------------------------------
-# 커스텀 표 생성 함수 (반응형 모바일 터치 스크롤 지원)
+# 커스텀 표 생성 함수
 # -------------------------------------------------------------
 def render_centered_table(df, col_widths=None):
     html = """
@@ -271,7 +241,7 @@ def get_roster_data():
         return pd.DataFrame()
 
 # -------------------------------------------------------------
-# 소방청 보도자료 수집 함수 (실시간 크롤링)
+# 소방청 보도자료 수집 함수
 # -------------------------------------------------------------
 @st.cache_data(ttl=600)
 def fetch_safety_news():
@@ -398,77 +368,63 @@ if search_name.strip():
 st.markdown("---")
 
 # =============================================================
-# [섹션 2] 비상대응 조직표 (네이비 톤 통일 및 가운데 정렬)
+# [섹션 2] 비상대응 조직표 (완벽 수평/수직 정렬 구조)
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 
-# 팝업 대화상자 함수 정의
-@st.dialog("📋 반별 세부 임무 상세 안내")
-def show_task_dialog(team_name, role_desc):
-    st.markdown(f"### **{team_name}**")
-    st.write(role_desc)
-
-with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=False):
-    # 1. 최상단 대장 네모 (진한 네이비)
+with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하여 펼치기)", expanded=True):
+    # 1. 최상단 대장 네모
     st.markdown('<div class="tree-top">대장 : CSO (안전보건총괄책임자)</div>', unsafe_allow_html=True)
     st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
     st.markdown('<div class="h-line"></div>', unsafe_allow_html=True)
     st.markdown('<div class="v-line"></div>', unsafe_allow_html=True)
 
-    # 2. 본부장 및 반 (가운데 정렬)
-    c1, c2, c3 = st.columns(3)
+    # 2. 본부장 및 각 반 수평 3열 정렬
+    col_a, col_b, col_c = st.columns(3)
 
-    with c1:
+    with col_a:
         st.markdown("""
-            <div class="dept-card-navy" style="width: 100%; max-width: 320px;">
+            <div class="dept-card-navy">
                 <div class="dept-head-navy">
                     소방지휘 본부대장<br><span style="font-size: 12px; font-weight: normal;">(기술본부장)</span>
                 </div>
             </div>
+            <div class="team-card">지휘반 (안전환경팀)</div>
+            <div class="team-card">훈련 및 소화반<br>(기계팀, 운영팀)</div>
+            <div class="team-card">피난유도반 (계전팀)</div>
         """, unsafe_allow_html=True)
-        if st.button("지휘반\n(안전환경팀)", key="btn_jiwhi"):
-            show_task_dialog("지휘반 (안전환경팀)", "직장반 차석순으로 부대장의 임무수행보조, 연간 및 월간 소방안전관리계획 수립 및 실시")
-        if st.button("훈련 및 소화반\n(기계팀, 운영팀)", key="btn_sohwa"):
-            show_task_dialog("훈련 및 소화반 (기계팀, 운영팀)", "자체소방시설을 활용한 초기화재 진압활동, 소화용수의 보존과 급수")
-        if st.button("피난유도반\n(계전팀)", key="btn_pinan"):
-            show_task_dialog("피난유도반 (계전팀)", "재실자 층별대피유도 및 방화문폐쇄, 재실자 인명검색구조 및 대피경로 안내")
 
-    with c2:
+    with col_b:
         st.markdown("""
-            <div class="dept-card-navy" style="width: 100%; max-width: 320px;">
+            <div class="dept-card-navy">
                 <div class="dept-head-navy">
                     상황 통제본부대장<br><span style="font-size: 12px; font-weight: normal;">(경영기획본부장)</span>
                 </div>
             </div>
+            <div class="team-card">비상연락반 (조직문화팀)</div>
+            <div class="team-card">경계반<br>(기획재무팀, DX혁신팀)</div>
         """, unsafe_allow_html=True)
-        if st.button("비상연락반\n(조직문화팀)", key="btn_contact"):
-            show_task_dialog("비상연락반 (조직문화팀)", "119신고 및 소내전파, 관계기관에 통보")
-        if st.button("경계반\n(기획재무팀, DX혁신팀)", key="btn_경계"):
-            show_task_dialog("경계반 (기획재무팀, DX혁신팀)", "중요물품 반출이동, 반출물건의 경비, 출입인원 통제")
 
-    with c3:
+    with col_c:
         st.markdown("""
-            <div class="dept-card-navy" style="width: 100%; max-width: 320px;">
+            <div class="dept-card-navy">
                 <div class="dept-head-navy">
                     의료구호 본부대장<br><span style="font-size: 12px; font-weight: normal;">(사업본부장)</span>
                 </div>
             </div>
+            <div class="team-card">의료반<br>(ESG추진팀, 대외협력팀)</div>
+            <div class="team-card">후송반 (고객지원팀)</div>
+            <div class="team-card">방호조치 및 복구반<br>(네트워크팀)</div>
         """, unsafe_allow_html=True)
-        if st.button("의료반\n(ESG추진팀, 대외협력팀)", key="btn_medical"):
-            show_task_dialog("의료반 (ESG추진팀, 대외협력팀)", "질식, 화상 등 중경상자의 응급처치")
-        if st.button("후송반\n(고객지원팀)", key="btn_husong"):
-            show_task_dialog("후송반 (고객지원팀)", "사망자 안치 및 지정병원으로의 긴급 후송 지원")
-        if st.button("방호조치 및 복구반\n(네트워크팀)", key="btn_recovery"):
-            show_task_dialog("방호조치 및 복구반 (네트워크팀)", "관할소방서의 유도, 가스 위험물 등 소방활동상의 장애물 제거 및 복구")
 
-    st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
 
-    # 3. 야간 및 공휴일 비상대응 조직 (네이비 톤 통일)
+    # 3. 야간 및 공휴일 비상대응 조직 (완벽 정렬)
     st.markdown("<h5 style='text-align: center; color: #0f172a;'>🌙 야간 및 공휴일 비상대응 조직 (총원: 6명)</h5>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: #64748b; font-size: 13px; margin-bottom: 12px;'>※ 교대근무자 5명 + 경비원 1명</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div style="border: 2px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 10px; text-align: center; max-width: 400px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 15px;">
+        <div style="border: 2px solid #1e3a8a; background-color: #1e3a8a; border-radius: 8px; padding: 10px; text-align: center; max-width: 420px; margin: 0 auto; font-weight: bold; color: #ffffff; font-size: 15px;">
             임시소방대장 : 운영그룹장 (1명)
         </div>
         <div class="v-line"></div>
@@ -477,23 +433,23 @@ with st.expander("🔻 자위소방대 비상대응 조직도 보기 (클릭하�
     n1, n2, n3 = st.columns(3)
     with n1:
         st.markdown("""
-            <div class="night-card-navy" style="width: 100%; max-width: 320px;">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">비상연락반</div>
-                <div style="color: #475569; font-size: 13px;">CCR근무자 (2명)</div>
+            <div class="night-card-navy">
+                <div style="font-weight: bold; color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">비상연락반</div>
+                <div style="color: #475569; font-size: 13.5px;">CCR근무자 (2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n2:
         st.markdown("""
-            <div class="night-card-navy" style="width: 100%; max-width: 320px;">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소화반</div>
-                <div style="color: #475569; font-size: 13px;">현장근무자 (2명)</div>
+            <div class="night-card-navy">
+                <div style="font-weight: bold; color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">소화반</div>
+                <div style="color: #475569; font-size: 13.5px;">현장근무자 (2명)</div>
             </div>
         """, unsafe_allow_html=True)
     with n3:
         st.markdown("""
-            <div class="night-card-navy" style="width: 100%; max-width: 320px;">
-                <div style="font-weight: bold; color: #1e3a8a; font-size: 14px; margin-bottom: 4px;">소방대유도반</div>
-                <div style="color: #475569; font-size: 13px;">경비원 (1명)</div>
+            <div class="night-card-navy">
+                <div style="font-weight: bold; color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">소방대유도반</div>
+                <div style="color: #475569; font-size: 13.5px;">경비원 (1명)</div>
             </div>
         """, unsafe_allow_html=True)
 

@@ -67,6 +67,17 @@ st.markdown("""
             padding: 12px !important;
             margin-bottom: 10px !important;
         }
+
+        /* 모바일 화면에서 모든 컬럼(조직도, 대피소, 수신반/상수도, CPR/AED 등) 세로 정렬(스택) 처리 */
+        div[data-testid="stHorizontalBlock"] {
+            flex-direction: column !important;
+        }
+        div[data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            min-width: unset !important;
+            margin-bottom: 10px !important;
+        }
     }
 
     /* 대장 (최상단) 카드 스타일 - 네이비 통일 */
@@ -435,7 +446,7 @@ if search_name.strip():
 st.markdown("---")
 
 # =============================================================
-# [섹션 2] 비상대응 조직표 (Hover 툴팁 간소화 및 색상 통일 적용)
+# [섹션 2] 비상대응 조직표 (모바일 세로 정렬 대응)
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 

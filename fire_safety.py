@@ -715,7 +715,10 @@ with c_shelter2:
         st.markdown("* 화재 및 누출 규모가 커 대내외 확산 우려가 있을 경우 이동하는 장소입니다.")
         
         img3_path = os.path.join(BASE_DIR, "shelter2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter2.jpg")) else os.path.join(BASE_DIR, "shelter2.jpg.jpg")
+        img4_path = os.path.join(BASE_DIR, "shelter2_2.jpg") if os.path.exists(os.path.join(BASE_DIR, "shelter2_2.jpg")) else os.path.join(BASE_DIR, "shelter2_2.jpg.jpg")
+        
         if os.path.exists(img3_path): st.image(img3_path, caption="2차 대피소(셀트리온 정문) 및 피해 예상 반경", use_container_width=True)
+        if os.path.exists(img4_path): st.image(img4_path, caption="2차 대피소 비상 피난 동선 도면", use_container_width=True)
 
 st.markdown("---")
 
@@ -1092,7 +1095,7 @@ st.markdown("""
         text-overflow: ellipsis;
     }
     .news-media {
-        font-size: 11px;
+        font-size: 11.5px;
         background-color: #f1f5f9;
         color: #475569;
         padding: 2px 6px;

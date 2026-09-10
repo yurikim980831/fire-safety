@@ -311,7 +311,7 @@ st.markdown("""
         margin-bottom: 0.4rem !important;
         word-break: keep-all !important;
     '>
-        🚒 사내 소방안전관리 정보 Dashboard
+        🚒 사내 소방안전관리 정보
     </h1>
 """, unsafe_allow_html=True)
 

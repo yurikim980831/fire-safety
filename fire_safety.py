@@ -543,7 +543,7 @@ st.markdown("---")
 # =============================================================
 st.subheader("🏢 비상대응 조직표")
 
-with st.expander("🔻 자위소방대 비상대응 조직도 보기", expanded=True):
+with st.expander("🔻 자위소방대 비상대응 조직도 보기", expanded=False):
     st.markdown("""
         <style>
         .v-line {

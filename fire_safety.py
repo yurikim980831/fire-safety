@@ -12,7 +12,7 @@ from datetime import datetime
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # 페이지 기본 설정
-st.set_page_config(page_title="사내 소방안전관리 정보 Dashboard", layout="wide", page_icon="🚒")
+st.set_page_config(page_title="사내 소방안전관리 정보", layout="wide", page_icon="🚒")
 
 # =============================================================
 # [강력 반응형 CSS & Hover 툴팁 스타일 정의]
